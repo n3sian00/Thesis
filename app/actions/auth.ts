@@ -78,7 +78,6 @@ export async function registerAction(
   })
 
   if (authError) {
-    console.log('Supabase virhe:', JSON.stringify(authError))
     if (authError.message.includes('already registered')) {
       return 'Tällä sähköpostiosoitteella on jo tili. Kirjaudu sisään.'
     }
@@ -86,7 +85,6 @@ export async function registerAction(
   }
 
   if (!authData.user) {
-    console.log('Supabase virhe:', JSON.stringify(authData))
     return 'Tilin luominen epäonnistui. Yritä uudelleen.'
   }
 

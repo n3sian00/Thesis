@@ -1,11 +1,11 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Alustetaan response, jota päivitetään tarvittaessa
   let supabaseResponse = NextResponse.next({ request })
 
-  // Luodaan Supabase-client middlewarelle
+  // Luodaan Supabase-client proxylle
   // Tärkeää: setAll kirjoittaa päivitetyn session sekä requestiin että responseen
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -9,7 +9,6 @@ interface SelectedSlot {
 
 interface Props {
   businessId: string
-  serviceId: string
   serviceName: string
   duration: number  // minuuteissa
   onSlotSelected: (slot: SelectedSlot) => void
@@ -32,7 +31,6 @@ function getNextDays(n: number): Date[] {
   return days
 }
 
-// Muotoilee päivämäärän lyhyeksi suomalaiseksi muodoksi
 function formatDay(date: Date) {
   return date.toLocaleDateString('fi-FI', {
     weekday: 'short',
@@ -41,7 +39,6 @@ function formatDay(date: Date) {
   })
 }
 
-// Muotoilee ISO-aikaleiman kellonaikana
 function formatTime(iso: string) {
   return new Date(iso).toLocaleTimeString('fi-FI', {
     hour: '2-digit',
@@ -51,7 +48,6 @@ function formatTime(iso: string) {
 
 export default function TimeSlotPicker({
   businessId,
-  serviceId,
   serviceName,
   duration,
   onSlotSelected,
@@ -62,38 +58,28 @@ export default function TimeSlotPicker({
   const [isLoading, setIsLoading] = useState(false)
   const [virhe, setVirhe] = useState<string | null>(null)
 
-  // Haetaan vapaat slotit kun valittu päivä muuttuu
   useEffect(() => {
     let cancelled = false
     setIsLoading(true)
     setVirhe(null)
     setSlots([])
 
-    const dateStr = selectedDay.toISOString().split('T')[0] // YYYY-MM-DD
+    const dateStr = selectedDay.toISOString().split('T')[0]
 
     fetch(
-      `/api/bookings?business_id=${businessId}&service_id=${serviceId}&date=${dateStr}`
+      `/api/bookings?business_id=${businessId}&date=${dateStr}&duration=${duration}`
     )
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return
-        if (data.error) {
-          setVirhe(data.error)
-        } else {
-          setSlots(data.slots ?? [])
-        }
+        if (data.error) setVirhe(data.error)
+        else setSlots(data.slots ?? [])
       })
-      .catch(() => {
-        if (!cancelled) setVirhe('Aikojen haku epäonnistui.')
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false)
-      })
+      .catch(() => { if (!cancelled) setVirhe('Aikojen haku epäonnistui.') })
+      .finally(() => { if (!cancelled) setIsLoading(false) })
 
-    return () => {
-      cancelled = true
-    }
-  }, [selectedDay, businessId, serviceId])
+    return () => { cancelled = true }
+  }, [selectedDay, businessId, duration])
 
   function handleSlotClick(slotIso: string) {
     const start = new Date(slotIso)
@@ -107,11 +93,9 @@ export default function TimeSlotPicker({
         Valitse aika — {serviceName} ({duration} min)
       </p>
 
-      {/* Päivänvalitsin */}
       <div className="flex gap-1.5 flex-wrap mb-4">
         {days.map((day) => {
-          const isSelected =
-            day.toDateString() === selectedDay.toDateString()
+          const isSelected = day.toDateString() === selectedDay.toDateString()
           return (
             <button
               key={day.toISOString()}
@@ -128,11 +112,8 @@ export default function TimeSlotPicker({
         })}
       </div>
 
-      {/* Aikaslotit */}
       {isLoading ? (
-        <p className="text-xs text-gray-400 text-center py-3">
-          Haetaan vapaita aikoja...
-        </p>
+        <p className="text-xs text-gray-400 text-center py-3">Haetaan vapaita aikoja...</p>
       ) : virhe ? (
         <p className="text-xs text-red-500 text-center py-3">{virhe}</p>
       ) : slots.length === 0 ? (
