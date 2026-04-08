@@ -1,5 +1,6 @@
 import { createAdminClient, createSupabaseServerClient } from '@/lib/supabase/server'
 import { sendBookingConfirmationToCustomer, sendBookingNotificationToOwner } from '@/lib/email'
+import { helsinkiToUTC } from '@/lib/dates'
 
 // Vapaiden aikaslottien väli minuuteissa
 const SLOT_INTERVAL = 30
@@ -60,9 +61,10 @@ export async function GET(request: Request) {
 
   // Käydään läpi jokainen aikaikkuna ja generoidaan varattavissa olevat slotit
   for (const window of windows) {
-    // Rakennetaan UTC-aikaleimat ikkunan alusta ja lopusta
-    const windowStart = new Date(`${dateStr}T${window.start_time}Z`)
-    const windowEnd = new Date(`${dateStr}T${window.end_time}Z`)
+    // Muunnetaan ikkunan alku ja loppu Helsingin ajasta UTC:ksi.
+    // Aiempi `Z`-suffiksi pakotti ajat UTC:ksi, jolloin esim. 09:00 → 12:00 Suomen ajassa.
+    const windowStart = helsinkiToUTC(dateStr, (window.start_time as string).slice(0, 5))
+    const windowEnd = helsinkiToUTC(dateStr, (window.end_time as string).slice(0, 5))
     let current = new Date(windowStart)
 
     while (current.getTime() + durationMs <= windowEnd.getTime()) {
@@ -188,7 +190,7 @@ export async function POST(request: Request) {
     hour: '2-digit', minute: '2-digit', timeZone: 'UTC',
   })
   const serviceName = service.name as string
-  const businessName = (business?.name as string | undefined) ?? ''
+  const businessName = (business?.name as string | undefined)?.trim() || 'Palveluntarjoaja'
 
   // Haetaan yrittäjän sähköposti auth.users:sta (admin client)
   let ownerEmail: string | null = null
@@ -199,29 +201,33 @@ export async function POST(request: Request) {
     ownerEmail = ownerUser?.user?.email ?? null
   }
 
-  // Lähetetään sähköpostit rinnakkain ennen vastausta
-  await Promise.all([
+  // Lähetetään sähköpostit fire-and-forget — HTTP-vastaus palautuu heti
+  // eikä sähköpostivirhe vaikuta asiakkaan kokemukseen.
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  Promise.all([
     sendBookingConfirmationToCustomer({
-      customerName: customer_name.trim(),
-      customerEmail: customer_email.toLowerCase().trim(),
-      serviceName,
-      date: dateLabel,
-      time: timeLabel,
-      businessName,
-    }),
-    ...(ownerEmail
-      ? [
-          sendBookingNotificationToOwner({
-            customerName: customer_name.trim(),
-            customerPhone: customer_phone?.trim() || null,
-            serviceName,
-            date: dateLabel,
-            time: timeLabel,
-            ownerEmail,
-          }),
-        ]
-      : []),
-  ])
+        customerName: customer_name.trim(),
+        customerEmail: customer_email.toLowerCase().trim(),
+        serviceName,
+        date: dateLabel,
+        time: timeLabel,
+        businessName,
+      }),
+      ...(ownerEmail
+        ? [
+            sendBookingNotificationToOwner({
+              customerName: customer_name.trim(),
+              customerPhone: customer_phone?.trim() || null,
+              serviceName,
+              date: dateLabel,
+              time: timeLabel,
+              ownerEmail,
+            }),
+          ]
+        : []),
+  ]).catch((emailError) => {
+    console.error('Sähköpostilähetys epäonnistui (varaus tallennettu):', emailError)
+  })
 
   return Response.json({ booking }, { status: 201 })
 }

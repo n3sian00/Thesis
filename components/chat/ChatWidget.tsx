@@ -97,29 +97,40 @@ export default function ChatWidget({ business, services }: Props) {
 
       setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
 
+      // AbortController mahdollistaa streamin keskeyttämisen (unmount / uusi viesti)
+      const abortController = new AbortController()
+
       try {
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ messages: newMessages, businessId: business.id }),
+          signal: abortController.signal,
         })
 
-        if (!res.ok || !res.body) throw new Error('Virhe AI-vastauksessa')
+        if (!res.ok || !res.body) {
+          throw new Error(`HTTP ${res.status}: AI-vastaus epäonnistui`)
+        }
 
         const reader = res.body.getReader()
         const decoder = new TextDecoder()
         let fullResponse = ''
 
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-          fullResponse += decoder.decode(value, { stream: true })
-          setMessages((prev) => [
-            ...prev.slice(0, -1),
-            { role: 'assistant', content: fullResponse },
-          ])
+        try {
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            fullResponse += decoder.decode(value, { stream: true })
+            setMessages((prev) => [
+              ...prev.slice(0, -1),
+              { role: 'assistant', content: fullResponse },
+            ])
+          }
+        } finally {
+          reader.releaseLock()
         }
 
+        // Tarkistetaan [VARAUS:{...}] -triggeri valmiin vastauksen lopusta
         const match = fullResponse.match(BOOKING_TRIGGER_REGEX)
         if (match) {
           try {
@@ -130,10 +141,15 @@ export default function ChatWidget({ business, services }: Props) {
             const service = services.find((s) => s.id === triggerData.service_id)
             if (service) setBookingTrigger(triggerData)
           } catch {
-            // JSON-parsinta epäonnistui
+            // JSON-parsinta epäonnistui — ei haittaa, chat jatkuu normaalisti
           }
         }
-      } catch {
+      } catch (err) {
+        // Ei näytetä virhettä jos käyttäjä itse keskeytti (navigointi, unmount)
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return
+        }
+        console.error('[ChatWidget] Streaming error:', err)
         setMessages((prev) => [
           ...prev.slice(0, -1),
           { role: 'assistant', content: 'Pahoittelen, jokin meni pieleen. Yritä uudelleen.' },
@@ -142,6 +158,8 @@ export default function ChatWidget({ business, services }: Props) {
         setIsStreaming(false)
         textareaRef.current?.focus()
       }
+
+      return () => abortController.abort()
     },
     [messages, isStreaming, business.id, services]
   )

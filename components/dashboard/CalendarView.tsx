@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useTransition } from 'react'
 import { addSlotAction, deleteSlotAction } from '@/app/actions/slots'
+import { toDateStrHelsinki, todayHelsinki, formatTimeHelsinki } from '@/lib/dates'
 
 // --- Tyypit ---
 
@@ -39,8 +40,9 @@ function getMonthGrid(year: number, month: number): (Date | null)[] {
   return grid
 }
 
+// Muunnetaan ruudukko-Date Helsingin päivämääräksi (ei enää UTC-leikkaus)
 function toDateStr(date: Date): string {
-  return date.toISOString().split('T')[0]
+  return toDateStrHelsinki(date)
 }
 
 function toMonthStr(year: number, month: number): string {
@@ -54,11 +56,8 @@ function formatDayHeading(dateStr: string): string {
   })
 }
 
-function formatBookingTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString('fi-FI', {
-    hour: '2-digit', minute: '2-digit', timeZone: 'UTC',
-  })
-}
+// Varausten kellonajat näytetään aina Suomen ajassa (ei selaimen paikallisessa ajassa)
+const formatBookingTime = formatTimeHelsinki
 
 const MONTH_NAMES = [
   'Tammikuu','Helmikuu','Maaliskuu','Huhtikuu','Toukokuu','Kesäkuu',
@@ -73,9 +72,11 @@ interface Props {
 }
 
 export default function CalendarView({ businessId: _businessId }: Props) {
-  const today = new Date()
-  const [year, setYear] = useState(today.getFullYear())
-  const [month, setMonth] = useState(today.getMonth())
+  // Käytetään Helsingin aikaa — new Date() + toISOString() antaisi UTC-päivän
+  const todayStr = todayHelsinki()
+  const todayDate = new Date(todayStr + 'T12:00:00Z') // puolipäivä UTC ankkurina
+  const [year, setYear] = useState(todayDate.getUTCFullYear())
+  const [month, setMonth] = useState(todayDate.getUTCMonth())
   const [slotDates, setSlotDates] = useState<Set<string>>(new Set())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [dayDetail, setDayDetail] = useState<DayDetail | null>(null)
@@ -166,7 +167,6 @@ export default function CalendarView({ businessId: _businessId }: Props) {
     })
   }
 
-  const todayStr = toDateStr(today)
   const grid = getMonthGrid(year, month)
 
   return (
@@ -218,7 +218,9 @@ export default function CalendarView({ businessId: _businessId }: Props) {
             const isToday = dateStr === todayStr
             const isSelected = dateStr === selectedDate
             const hasSlots = slotDates.has(dateStr)
-            const isPast = day < today && !isToday
+            // Vertaillaan päivämäärämerkkijonoja (YYYY-MM-DD) — toimii oikein
+            // eikä vaadi Date-objektien vertailua jossa UTC vs. paikallinen aika sekoittuu
+            const isPast = dateStr < todayStr
 
             return (
               <button

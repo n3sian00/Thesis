@@ -1,16 +1,6 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-
-// Muotoilee päivämäärän suomalaiseen muotoon
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('fi-FI', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
+import { formatDateTimeHelsinki } from '@/lib/dates'
 
 export default async function DashboardPage() {
   const supabase = await createSupabaseServerClient()
@@ -143,7 +133,7 @@ export default async function DashboardPage() {
                     </p>
                   </div>
                   <p className="text-sm text-gray-500 tabular-nums">
-                    {formatDate(booking.starts_at)}
+                    {formatDateTimeHelsinki(booking.starts_at)}
                   </p>
                 </div>
               )

@@ -46,37 +46,48 @@ export async function POST(request: Request) {
     .filter((m) => m.content.trim().length > 0)
     .slice(-20) // Pidetään max 20 viestiä kontekstissa
 
-  // Streaming ReadableStream — enkoodataan teksti pala kerrallaan
   const encoder = new TextEncoder()
 
-  const stream = new ReadableStream({
-    async start(controller) {
-      try {
-        const anthropicStream = anthropic.messages.stream({
-          model: CLAUDE_MODEL,
-          max_tokens: 1024,
-          system: systemPrompt,
-          messages: claudeMessages,
-        })
+  // Async generaattori tuottaa tekstipalat Anthropic-streamista.
+  // pull()-pohjainen ReadableStream (Next.js 16 -suositus) vetää chunkit
+  // vain kun asiakas on valmis vastaanottamaan — ei puskuroida muistiin.
+  async function* textChunks() {
+    const anthropicStream = anthropic.messages.stream({
+      model: CLAUDE_MODEL,
+      max_tokens: 1024,
+      system: systemPrompt,
+      messages: claudeMessages,
+    })
 
-        for await (const event of anthropicStream) {
-          if (
-            event.type === 'content_block_delta' &&
-            event.delta.type === 'text_delta'
-          ) {
-            controller.enqueue(encoder.encode(event.delta.text))
-          }
-        }
-      } catch (err) {
-        // Virheen sattuessa lähetetään virheilmoitus streamissa
-        controller.enqueue(
-          encoder.encode('Pahoittelen, jokin meni pieleen. Yritä uudelleen.')
-        )
-      } finally {
-        controller.close()
+    for await (const event of anthropicStream) {
+      if (
+        event.type === 'content_block_delta' &&
+        event.delta.type === 'text_delta'
+      ) {
+        yield encoder.encode(event.delta.text)
       }
-    },
-  })
+    }
+  }
+
+  function iteratorToStream(iterator: AsyncGenerator<Uint8Array>) {
+    return new ReadableStream<Uint8Array>({
+      async pull(controller) {
+        try {
+          const { value, done } = await iterator.next()
+          if (done) {
+            controller.close()
+          } else {
+            controller.enqueue(value)
+          }
+        } catch (err) {
+          // Suljetaan stream virheellä jotta asiakas voi käsitellä sen oikein
+          controller.error(err)
+        }
+      },
+    })
+  }
+
+  const stream = iteratorToStream(textChunks())
 
   return new Response(stream, {
     headers: {

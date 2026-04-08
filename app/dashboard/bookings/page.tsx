@@ -1,15 +1,6 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('fi-FI', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
+import { formatDateTimeHelsinki } from '@/lib/dates'
 
 // Värikoodi varauksen tilalle
 const STATUS_STYLES: Record<string, string> = {
@@ -154,7 +145,7 @@ function BookingSection({
                     </p>
                   </div>
                   <p className="text-sm text-gray-500 tabular-nums whitespace-nowrap shrink-0">
-                    {formatDate(booking.starts_at)}
+                    {formatDateTimeHelsinki(booking.starts_at, 'long')}
                   </p>
                 </div>
               </div>

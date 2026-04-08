@@ -26,6 +26,7 @@ export type Database = {
           id: string
           business_id: string
           name: string
+          description: string | null
           duration_minutes: number
           price: number
           active: boolean
