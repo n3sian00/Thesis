@@ -4,6 +4,10 @@ import Anthropic from '@anthropic-ai/sdk'
 export const CLAUDE_MODEL = 'claude-sonnet-4-6'
 
 // Singleton-client — alustetaan kerran, käytetään kaikissa Route Handlereissa
+if (!process.env.ANTHROPIC_API_KEY) {
+  throw new Error('Ympäristömuuttuja ANTHROPIC_API_KEY puuttuu.')
+}
+
 export const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })

@@ -1,11 +1,11 @@
 import { createAdminClient } from '@/lib/supabase/server'
 import { sendBookingReminderToCustomer } from '@/lib/email'
 
-// POST /api/send-reminder
+// GET /api/send-reminder  ← Vercel Cron käyttää GET-pyyntöä
+// POST /api/send-reminder ← yhteensopivuus manuaalikutsuille
 // Lähettää 24h muistutussähköpostit tulevista varauksista.
-// Kutsutaan cron-jobilla (esim. kerran tunnissa).
-// Suojattu CRON_SECRET-tokenilla.
-export async function POST(request: Request) {
+// Suojattu CRON_SECRET-tokenilla (Vercel asettaa Authorization-headerin automaattisesti).
+async function handleReminder(request: Request): Promise<Response> {
   // --- Autentikointi ---
   const authHeader = request.headers.get('Authorization')
   const cronSecret = process.env.CRON_SECRET
@@ -59,10 +59,10 @@ export async function POST(request: Request) {
   for (const booking of bookings) {
     const startsAt = new Date(booking.starts_at)
     const dateLabel = startsAt.toLocaleDateString('fi-FI', {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Helsinki',
     })
     const timeLabel = startsAt.toLocaleTimeString('fi-FI', {
-      hour: '2-digit', minute: '2-digit', timeZone: 'UTC',
+      hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Helsinki',
     })
 
     // Supabase palauttaa join-datan arrayna tai objektina
@@ -84,7 +84,6 @@ export async function POST(request: Request) {
     })
 
     if (ok) {
-      // Merkitään muistutus lähetetyksi — virhe ei ole kriittinen
       const { error: updateError } = await supabase
         .from('bookings')
         .update({ reminder_sent: true })
@@ -103,3 +102,6 @@ export async function POST(request: Request) {
 
   return Response.json({ sent, failed, errors })
 }
+
+export const GET  = handleReminder
+export const POST = handleReminder

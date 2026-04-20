@@ -8,29 +8,42 @@ type Message = {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json()
-  const { messages, businessId } = body as {
-    messages: Message[]
-    businessId: string
+  console.log('[chat] POST alkaa')
+
+  let body: { messages: Message[]; businessId: string }
+  try {
+    body = await request.json()
+  } catch (err) {
+    console.error('[chat] request.json() epäonnistui:', err)
+    return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
   }
 
+  const { messages, businessId } = body
+
   if (!messages?.length || !businessId) {
+    console.error('[chat] Puutteelliset parametrit', { messages: messages?.length, businessId })
     return Response.json({ error: 'Puutteelliset parametrit.' }, { status: 400 })
   }
 
-  // Haetaan yrityksen tiedot ja palvelut palvelinpuolella (admin client ohittaa RLS)
-  // Näin client ei voi manipuloida system promptia
-  const supabase = createAdminClient()
+  console.log('[chat] ANTHROPIC_API_KEY asetettu:', !!process.env.ANTHROPIC_API_KEY)
 
-  const { data: business } = await supabase
+  // Haetaan yrityksen tiedot ja palvelut palvelinpuolella (admin client ohittaa RLS)
+  const supabase = createAdminClient()
+  console.log('[chat] Supabase admin client luotu')
+
+  const { data: business, error: bizError } = await supabase
     .from('businesses')
     .select('id, name')
     .eq('id', businessId)
     .single()
 
+  if (bizError) console.error('[chat] Yrityksen haku epäonnistui:', bizError)
+
   if (!business) {
     return Response.json({ error: 'Yritystä ei löydy.' }, { status: 404 })
   }
+
+  console.log('[chat] Yritys löytyi:', business.name)
 
   const { data: services } = await supabase
     .from('services')
@@ -39,33 +52,42 @@ export async function POST(request: Request) {
     .eq('active', true)
     .order('name')
 
+  console.log('[chat] Palveluita löytyi:', services?.length ?? 0)
+
   const systemPrompt = buildSystemPrompt(business.name, services ?? [])
 
   // Puhdistetaan viestihistoria: poistetaan tyhjät viestit ja rajoitetaan pituus
   const claudeMessages = messages
     .filter((m) => m.content.trim().length > 0)
-    .slice(-20) // Pidetään max 20 viestiä kontekstissa
+    .slice(-20)
+
+  console.log('[chat] Lähetetään Claudelle', claudeMessages.length, 'viestiä, malli:', CLAUDE_MODEL)
 
   const encoder = new TextEncoder()
 
   // Async generaattori tuottaa tekstipalat Anthropic-streamista.
-  // pull()-pohjainen ReadableStream (Next.js 16 -suositus) vetää chunkit
-  // vain kun asiakas on valmis vastaanottamaan — ei puskuroida muistiin.
   async function* textChunks() {
-    const anthropicStream = anthropic.messages.stream({
-      model: CLAUDE_MODEL,
-      max_tokens: 1024,
-      system: systemPrompt,
-      messages: claudeMessages,
-    })
+    console.log('[chat] textChunks: aloitetaan Anthropic-stream')
+    try {
+      const anthropicStream = anthropic.messages.stream({
+        model: CLAUDE_MODEL,
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: claudeMessages,
+      })
 
-    for await (const event of anthropicStream) {
-      if (
-        event.type === 'content_block_delta' &&
-        event.delta.type === 'text_delta'
-      ) {
-        yield encoder.encode(event.delta.text)
+      for await (const event of anthropicStream) {
+        if (
+          event.type === 'content_block_delta' &&
+          event.delta.type === 'text_delta'
+        ) {
+          yield encoder.encode(event.delta.text)
+        }
       }
+      console.log('[chat] textChunks: stream valmis')
+    } catch (err) {
+      console.error('[chat] textChunks: Anthropic-virhe:', err)
+      throw err
     }
   }
 
@@ -80,12 +102,14 @@ export async function POST(request: Request) {
             controller.enqueue(value)
           }
         } catch (err) {
-          // Suljetaan stream virheellä jotta asiakas voi käsitellä sen oikein
+          console.error('[chat] iteratorToStream pull-virhe:', err)
           controller.error(err)
         }
       },
     })
   }
+
+  console.log('[chat] Palautetaan streaming-vastaus')
 
   const stream = iteratorToStream(textChunks())
 
@@ -93,7 +117,7 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'no-cache, no-transform',
-      'X-Accel-Buffering': 'no', // Nginx: ei puskuroida streamingia
+      'X-Accel-Buffering': 'no',
     },
   })
 }

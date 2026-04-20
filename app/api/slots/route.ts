@@ -44,17 +44,27 @@ export async function GET(request: Request) {
     // Kuukauden viimeinen päivä
     const lastDay = new Date(year, mon, 0).toISOString().split('T')[0]
 
-    const { data: slots } = await supabase
-      .from('available_slots')
-      .select('date')
-      .eq('business_id', business.id)
-      .gte('date', firstDay)
-      .lte('date', lastDay)
+    const [{ data: slots }, { data: blocked }] = await Promise.all([
+      supabase
+        .from('available_slots')
+        .select('date')
+        .eq('business_id', business.id)
+        .gte('date', firstDay)
+        .lte('date', lastDay),
 
-    // Palautetaan uniikki lista päivistä
+      supabase
+        .from('blocked_slots')
+        .select('date')
+        .eq('business_id', business.id)
+        .gte('date', firstDay)
+        .lte('date', lastDay),
+    ])
+
+    // Palautetaan uniikit listat päivistä
     const dates = [...new Set((slots ?? []).map((s) => s.date as string))].sort()
+    const blockedDates = [...new Set((blocked ?? []).map((b) => b.date as string))].sort()
 
-    return Response.json({ dates })
+    return Response.json({ dates, blockedDates })
   }
 
   // --- Päiväkohtainen haku: ikkunat + varaukset ---
@@ -63,8 +73,8 @@ export async function GET(request: Request) {
       return Response.json({ error: 'Virheellinen päivämäärä.' }, { status: 400 })
     }
 
-    // Haetaan aikaikkunat ja varaukset rinnakkain
-    const [{ data: rawWindows }, { data: rawBookings }] = await Promise.all([
+    // Haetaan aikaikkunat, varaukset ja blokatut ajat rinnakkain
+    const [{ data: rawWindows }, { data: rawBookings }, { data: rawBlocked }] = await Promise.all([
       supabase
         .from('available_slots')
         .select('id, start_time, end_time')
@@ -80,6 +90,13 @@ export async function GET(request: Request) {
         .gte('starts_at', `${date}T00:00:00.000Z`)
         .lte('starts_at', `${date}T23:59:59.999Z`)
         .order('starts_at', { ascending: true }),
+
+      supabase
+        .from('blocked_slots')
+        .select('id, slot_time')
+        .eq('business_id', business.id)
+        .eq('date', date)
+        .order('slot_time', { ascending: true }),
     ])
 
     // Merkitään onko ikkunalla varauksia (estää poiston)
@@ -107,7 +124,12 @@ export async function GET(request: Request) {
         : (b.services as { name: string } | null)?.name ?? 'Palvelu',
     }))
 
-    return Response.json({ windows, bookings })
+    const blocked = (rawBlocked ?? []).map((b) => ({
+      id: b.id as string,
+      slot_time: (b.slot_time as string).slice(0, 5), // HH:MM
+    }))
+
+    return Response.json({ windows, bookings, blocked })
   }
 
   return Response.json({ error: 'Puuttuu month tai date -parametri.' }, { status: 400 })

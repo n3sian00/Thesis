@@ -1,4 +1,4 @@
-import { createAdminClient, createSupabaseServerClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import { sendBookingConfirmationToCustomer, sendBookingNotificationToOwner } from '@/lib/email'
 import { helsinkiToUTC } from '@/lib/dates'
 
@@ -47,13 +47,27 @@ export async function GET(request: Request) {
   }
 
   // Haetaan kyseisen päivän vahvistetut varaukset
-  const { data: existingBookings } = await supabase
-    .from('bookings')
-    .select('starts_at, ends_at')
-    .eq('business_id', businessId)
-    .eq('status', 'confirmed')
-    .gte('starts_at', `${dateStr}T00:00:00.000Z`)
-    .lte('starts_at', `${dateStr}T23:59:59.999Z`)
+  // Haetaan kyseisen päivän vahvistetut varaukset ja blokatut ajat rinnakkain
+  const [{ data: existingBookings }, { data: blockedSlots }] = await Promise.all([
+    supabase
+      .from('bookings')
+      .select('starts_at, ends_at')
+      .eq('business_id', businessId)
+      .eq('status', 'confirmed')
+      .gte('starts_at', `${dateStr}T00:00:00.000Z`)
+      .lte('starts_at', `${dateStr}T23:59:59.999Z`),
+
+    supabase
+      .from('blocked_slots')
+      .select('slot_time')
+      .eq('business_id', businessId)
+      .eq('date', dateStr),
+  ])
+
+  // HH:MM-joukko nopeaa hakua varten
+  const blockedTimes = new Set(
+    (blockedSlots ?? []).map((b) => (b.slot_time as string).slice(0, 5))
+  )
 
   const nyt = new Date()
   const durationMs = durationMinutes * 60 * 1000
@@ -72,13 +86,20 @@ export async function GET(request: Request) {
 
       // Ohitetaan jo menneet ajat (30 min puskuri)
       if (current.getTime() > nyt.getTime() + 30 * 60 * 1000) {
+        // Slotti on blokattu jos sen alkuaika (Helsingin HH:MM) on blockedTimes-joukossa.
+        // en-GB palauttaa aina "HH:MM"-muodon kaksoispisteineen (fi-FI käyttää pistettä "10.00").
+        const slotTimeHelsinki = current.toLocaleTimeString('en-GB', {
+          hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Helsinki',
+        })
+        const isBlocked = blockedTimes.has(slotTimeHelsinki)
+
         const hasOverlap = (existingBookings ?? []).some((booking) => {
           const bStart = new Date(booking.starts_at)
           const bEnd = new Date(booking.ends_at)
           return current < bEnd && slotEnd > bStart
         })
 
-        if (!hasOverlap) {
+        if (!isBlocked && !hasOverlap) {
           slots.push(current.toISOString())
         }
       }
@@ -160,9 +181,7 @@ export async function POST(request: Request) {
     )
   }
 
-  const publicSupabase = await createSupabaseServerClient()
-
-  const { data: booking, error } = await publicSupabase
+  const { data: booking, error } = await supabase
     .from('bookings')
     .insert({
       business_id,
@@ -184,10 +203,10 @@ export async function POST(request: Request) {
 
   // Muotoillaan päivä ja kellonaika sähköposteja varten
   const dateLabel = startsAt.toLocaleDateString('fi-FI', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Helsinki',
   })
   const timeLabel = startsAt.toLocaleTimeString('fi-FI', {
-    hour: '2-digit', minute: '2-digit', timeZone: 'UTC',
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Helsinki',
   })
   const serviceName = service.name as string
   const businessName = (business?.name as string | undefined)?.trim() || 'Palveluntarjoaja'

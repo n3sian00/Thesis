@@ -317,6 +317,7 @@ export default function ChatWidget({ business, services }: Props) {
               </div>
               <TimeSlotPicker
                 businessId={business.id}
+                serviceId={directService.id}
                 serviceName={directService.name}
                 duration={directService.duration_minutes}
                 onSlotSelected={(slot) => {
@@ -394,6 +395,7 @@ export default function ChatWidget({ business, services }: Props) {
             {bookingTrigger && !selectedSlot && !bookingComplete && (
               <TimeSlotPicker
                 businessId={business.id}
+                serviceId={bookingTrigger.service_id}
                 serviceName={bookingTrigger.service_name}
                 duration={
                   services.find((s) => s.id === bookingTrigger.service_id)

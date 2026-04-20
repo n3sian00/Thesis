@@ -28,8 +28,8 @@ export default async function CalendarPage() {
       <div>
         <h1 className="text-2xl font-semibold text-gray-900">Kalenteri</h1>
         <p className="text-gray-500 mt-1">
-          Hallitse varattavissa olevia aikaikkunoita. Tauot hoidetaan lisäämällä
-          erilliset ikkunat, esim. 09–12 ja 13–17.
+          Hallitse työpäiviäsi. Lisää aikaikkunat päiville jolloin otat varauksia,
+          ja blokkaa yksittäiset ajat esim. tauoille tai muille menoille.
         </p>
       </div>
       <CalendarView businessId={business.id} />

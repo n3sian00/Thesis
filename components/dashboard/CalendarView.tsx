@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useTransition } from 'react'
-import { addSlotAction, deleteSlotAction } from '@/app/actions/slots'
+import { addSlotAction, deleteSlotAction, blockSlotAction, unblockSlotAction } from '@/app/actions/slots'
 import { toDateStrHelsinki, todayHelsinki, formatTimeHelsinki } from '@/lib/dates'
 
 // --- Tyypit ---
@@ -21,9 +21,15 @@ type DayBooking = {
   service_name: string
 }
 
+type BlockedSlot = {
+  id: string
+  slot_time: string  // HH:MM
+}
+
 type DayDetail = {
   windows: SlotWindow[]
   bookings: DayBooking[]
+  blocked: BlockedSlot[]
 }
 
 // --- Apufunktiot ---
@@ -78,6 +84,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
   const [year, setYear] = useState(todayDate.getUTCFullYear())
   const [month, setMonth] = useState(todayDate.getUTCMonth())
   const [slotDates, setSlotDates] = useState<Set<string>>(new Set())
+  const [blockedDates, setBlockedDates] = useState<Set<string>>(new Set())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [dayDetail, setDayDetail] = useState<DayDetail | null>(null)
   const [isLoadingDay, setIsLoadingDay] = useState(false)
@@ -89,12 +96,18 @@ export default function CalendarView({ businessId: _businessId }: Props) {
   const [deleteError, setDeleteError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
 
-  // Haetaan kuukauden slot-päivät vihreälle pisteelle
+  // Blokkaus-lomakkeen tila
+  const [blockTime, setBlockTime] = useState('09:00')
+  const [blockError, setBlockError] = useState<string | null>(null)
+  const [unblockError, setUnblockError] = useState<string | null>(null)
+
+  // Haetaan kuukauden slot-päivät vihreälle pisteelle ja blokatut päivät oranssille pisteelle
   const fetchMonthData = useCallback(async () => {
     const res = await fetch(`/api/slots?month=${toMonthStr(year, month)}`)
     if (!res.ok) return
     const data = await res.json()
     setSlotDates(new Set(data.dates ?? []))
+    setBlockedDates(new Set(data.blockedDates ?? []))
   }, [year, month])
 
   useEffect(() => { fetchMonthData() }, [fetchMonthData])
@@ -130,6 +143,8 @@ export default function CalendarView({ businessId: _businessId }: Props) {
     setSelectedDate(prev => prev === str ? null : str)
     setAddError(null)
     setDeleteError(null)
+    setBlockError(null)
+    setUnblockError(null)
   }
 
   // Lisää aikaikkuna
@@ -149,6 +164,33 @@ export default function CalendarView({ businessId: _businessId }: Props) {
         setAddEnd('17:00')
         await fetchDayDetail(selectedDate)
         await fetchMonthData()
+      }
+    })
+  }
+
+  // Blokkaa yksittäinen aika
+  function handleBlock() {
+    if (!selectedDate) return
+    setBlockError(null)
+    startTransition(async () => {
+      const err = await blockSlotAction({ date: selectedDate, slot_time: blockTime })
+      if (err) {
+        setBlockError(err)
+      } else {
+        await fetchDayDetail(selectedDate)
+      }
+    })
+  }
+
+  // Poista blokkaus
+  function handleUnblock(slotId: string) {
+    setUnblockError(null)
+    startTransition(async () => {
+      const err = await unblockSlotAction(slotId)
+      if (err) {
+        setUnblockError(err)
+      } else if (selectedDate) {
+        await fetchDayDetail(selectedDate)
       }
     })
   }
@@ -218,6 +260,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
             const isToday = dateStr === todayStr
             const isSelected = dateStr === selectedDate
             const hasSlots = slotDates.has(dateStr)
+            const hasBlocked = blockedDates.has(dateStr)
             // Vertaillaan päivämäärämerkkijonoja (YYYY-MM-DD) — toimii oikein
             // eikä vaadi Date-objektien vertailua jossa UTC vs. paikallinen aika sekoittuu
             const isPast = dateStr < todayStr
@@ -237,13 +280,16 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                 }`}
               >
                 {day.getDate()}
-                {/* Vihreä piste = päivällä on aikaikkunoita */}
-                {hasSlots && (
-                  <span
-                    className={`w-1 h-1 rounded-full mt-0.5 ${
-                      isSelected ? 'bg-pink-200' : 'bg-green-400'
-                    }`}
-                  />
+                {/* Pisteet: vihreä = aikaikkunoita, oranssi = blokattuja aikoja */}
+                {(hasSlots || hasBlocked) && (
+                  <div className="flex gap-0.5 mt-0.5">
+                    {hasSlots && (
+                      <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-pink-200' : 'bg-green-400'}`} />
+                    )}
+                    {hasBlocked && (
+                      <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-pink-200' : 'bg-orange-400'}`} />
+                    )}
+                  </div>
                 )}
               </button>
             )
@@ -251,10 +297,14 @@ export default function CalendarView({ businessId: _businessId }: Props) {
         </div>
 
         {/* Selite */}
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-50">
+        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-50 flex-wrap">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-400" />
             <span className="text-xs text-gray-400">Aikaikkunoita</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-orange-400" />
+            <span className="text-xs text-gray-400">Blokattuja</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-pink-400" />
@@ -360,6 +410,75 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                       ))}
                     </div>
                   )}
+                </div>
+
+                {/* Blokatut ajat */}
+                <div className="px-5 py-4">
+                  <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                    Blokatut ajat
+                  </h3>
+
+                  {unblockError && (
+                    <p className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2 mb-3">
+                      {unblockError}
+                    </p>
+                  )}
+
+                  {dayDetail?.blocked.length ? (
+                    <div className="space-y-2 mb-3">
+                      {dayDetail.blocked.map((b) => (
+                        <div
+                          key={b.id}
+                          className="flex items-center justify-between py-2 px-3 rounded-lg bg-orange-50"
+                        >
+                          <span className="text-sm font-medium text-orange-700 tabular-nums">
+                            {b.slot_time}
+                          </span>
+                          <button
+                            onClick={() => handleUnblock(b.id)}
+                            disabled={isPending}
+                            className="text-xs text-orange-600 hover:text-orange-800 hover:bg-orange-100 px-2 py-0.5 rounded-lg
+                                       transition-colors disabled:opacity-50"
+                          >
+                            Poista blokkaus
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-400 mb-3">Ei blokattuja aikoja.</p>
+                  )}
+
+                  {blockError && (
+                    <p className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2 mb-3">
+                      {blockError}
+                    </p>
+                  )}
+
+                  <div className="flex items-end gap-3 flex-wrap">
+                    <div>
+                      <label className="block text-xs text-gray-500 mb-1">Blokkaa kello</label>
+                      <input
+                        type="time"
+                        value={blockTime}
+                        step={1800}
+                        onChange={(e) => setBlockTime(e.target.value)}
+                        className="px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
+                                   focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent"
+                      />
+                    </div>
+                    <button
+                      onClick={handleBlock}
+                      disabled={isPending}
+                      className="px-4 py-2 text-sm font-medium text-white rounded-lg
+                                 bg-gradient-to-r from-orange-400 to-amber-400
+                                 hover:from-orange-500 hover:to-amber-500
+                                 focus:outline-none focus:ring-2 focus:ring-orange-300
+                                 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+                    >
+                      {isPending ? 'Tallennetaan...' : 'Blokkaa'}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Lisää aikaikkuna */}

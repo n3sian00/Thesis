@@ -1,11 +1,14 @@
 import { Resend } from 'resend'
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('Ympäristömuuttuja RESEND_API_KEY puuttuu.')
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM = process.env.EMAIL_FROM ?? 'noreply@kauneusai.fi'
+
+function getResend(): Resend | null {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('Ympäristömuuttuja RESEND_API_KEY puuttuu — sähköposteja ei lähetetä.')
+    return null
+  }
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 // Lähettää varausvahvistuksen asiakkaalle.
 // Palauttaa true jos lähetys onnistui, false jos epäonnistui.
@@ -17,6 +20,8 @@ export async function sendBookingConfirmationToCustomer(params: {
   time: string   // esim. "14:30"
   businessName: string
 }): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
   const { customerName, customerEmail, serviceName, date, time, businessName } = params
 
   const { error } = await resend.emails.send({
@@ -54,6 +59,8 @@ export async function sendBookingNotificationToOwner(params: {
   time: string
   ownerEmail: string
 }): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
   const { customerName, customerPhone, serviceName, date, time, ownerEmail } = params
 
   const { error } = await resend.emails.send({
@@ -75,6 +82,83 @@ Asiakas: ${customerName}${customerPhone ? `\nPuhelin: ${customerPhone}` : ''}`,
   return true
 }
 
+// Lähettää peruutusilmoituksen asiakkaalle.
+// Palauttaa true jos lähetys onnistui, false jos epäonnistui.
+export async function sendBookingCancellationToCustomer(params: {
+  customerName: string
+  customerEmail: string
+  serviceName: string
+  date: string
+  time: string
+  businessName: string
+}): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
+  const { customerName, customerEmail, serviceName, date, time, businessName } = params
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: customerEmail,
+    subject: `Varaus peruutettu — ${serviceName} @ ${businessName}`,
+    text: `Hei ${customerName},
+
+varauksesi on peruutettu.
+
+Palvelu: ${serviceName}
+Aika: ${date} klo ${time}
+Paikka: ${businessName}
+
+Jos sinulla on kysyttävää, ota yhteyttä suoraan ${businessName}:iin.
+
+Toivottavasti nähdään pian!
+${businessName}`,
+  })
+
+  if (error) {
+    console.error('Peruutusilmoituksen lähetys epäonnistui:', error)
+    return false
+  }
+  return true
+}
+
+// Ilmoittaa jonotuslistalla olevalle asiakkaalle että aika on vapautunut.
+// Palauttaa true jos lähetys onnistui, false jos epäonnistui.
+export async function sendWaitlistNotificationToCustomer(params: {
+  customerName: string
+  customerEmail: string
+  serviceName: string
+  businessName: string
+  bookingUrl: string  // esim. https://kauneusai.fi/slug
+}): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
+  const { customerName, customerEmail, serviceName, businessName, bookingUrl } = params
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: customerEmail,
+    subject: `Aika vapautui — ${serviceName} @ ${businessName}`,
+    text: `Hei ${customerName},
+
+hyvä uutinen! Jonottamasi palvelu on nyt vapautunut.
+
+Palvelu: ${serviceName}
+Tarjoaja: ${businessName}
+
+Varaa aikasi nopeasti ennen kuin se täyttyy uudelleen:
+${bookingUrl}
+
+Terveisin,
+${businessName}`,
+  })
+
+  if (error) {
+    console.error('Jonotuslistailmoituksen lähetys epäonnistui:', error)
+    return false
+  }
+  return true
+}
+
 // Lähettää 24h muistutuksen asiakkaalle ennen varausta.
 // Palauttaa true jos lähetys onnistui, false jos epäonnistui.
 export async function sendBookingReminderToCustomer(params: {
@@ -85,6 +169,8 @@ export async function sendBookingReminderToCustomer(params: {
   time: string   // esim. "14:30"
   businessName: string
 }): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
   const { customerName, customerEmail, serviceName, date, time, businessName } = params
 
   const { error } = await resend.emails.send({
