@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/server'
 import { sendBookingConfirmationToCustomer, sendBookingNotificationToOwner } from '@/lib/email'
 import { helsinkiToUTC } from '@/lib/dates'
+import { generateCancelToken } from '@/lib/tokens'
 
 // Vapaiden aikaslottien väli minuuteissa
 const SLOT_INTERVAL = 30
@@ -152,7 +153,7 @@ export async function POST(request: Request) {
       .single(),
     supabase
       .from('businesses')
-      .select('name, user_id')
+      .select('name, user_id, slug')
       .eq('id', business_id)
       .single(),
   ])
@@ -210,6 +211,7 @@ export async function POST(request: Request) {
   })
   const serviceName = service.name as string
   const businessName = (business?.name as string | undefined)?.trim() || 'Palveluntarjoaja'
+  const businessSlug = business?.slug as string | undefined
 
   // Haetaan yrittäjän sähköposti auth.users:sta (admin client)
   let ownerEmail: string | null = null
@@ -218,6 +220,16 @@ export async function POST(request: Request) {
       business.user_id as string
     )
     ownerEmail = ownerUser?.user?.email ?? null
+  }
+
+  // Generoidaan asiakkaan peruutuslinkki (vaatii BOOKING_CANCEL_SECRET)
+  let cancellationUrl: string | undefined
+  if (businessSlug && booking?.id) {
+    const token = await generateCancelToken(booking.id)
+    if (token) {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? ''
+      cancellationUrl = `${baseUrl}/cancel?id=${booking.id}&token=${token}`
+    }
   }
 
   // Lähetetään sähköpostit fire-and-forget — HTTP-vastaus palautuu heti
@@ -231,6 +243,7 @@ export async function POST(request: Request) {
         date: dateLabel,
         time: timeLabel,
         businessName,
+        cancellationUrl,
       }),
       ...(ownerEmail
         ? [

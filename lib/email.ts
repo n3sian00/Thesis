@@ -19,10 +19,11 @@ export async function sendBookingConfirmationToCustomer(params: {
   date: string   // esim. "tiistai 8. huhtikuuta 2026"
   time: string   // esim. "14:30"
   businessName: string
+  cancellationUrl?: string
 }): Promise<boolean> {
   const resend = getResend()
   if (!resend) return false
-  const { customerName, customerEmail, serviceName, date, time, businessName } = params
+  const { customerName, customerEmail, serviceName, date, time, businessName, cancellationUrl } = params
 
   const { error } = await resend.emails.send({
     from: FROM,
@@ -35,7 +36,7 @@ varauksesi on vahvistettu!
 Palvelu: ${serviceName}
 Aika: ${date} klo ${time}
 Paikka: ${businessName}
-
+${cancellationUrl ? `\nHalutessasi peruuttaa varauksesi:\n${cancellationUrl}\n` : ''}
 Muutoksia tai peruutuksia varten ota yhteyttä suoraan ${businessName}:iin.
 
 Nähdään pian!
