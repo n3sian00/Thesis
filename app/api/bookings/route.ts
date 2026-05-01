@@ -1,3 +1,4 @@
+import { waitUntil } from '@vercel/functions'
 import { createAdminClient } from '@/lib/supabase/server'
 import { sendBookingConfirmationToCustomer, sendBookingNotificationToOwner } from '@/lib/email'
 import { helsinkiToUTC } from '@/lib/dates'
@@ -232,11 +233,9 @@ export async function POST(request: Request) {
     }
   }
 
-  // Lähetetään sähköpostit fire-and-forget — HTTP-vastaus palautuu heti
-  // eikä sähköpostivirhe vaikuta asiakkaan kokemukseen.
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  Promise.all([
-    sendBookingConfirmationToCustomer({
+  waitUntil(
+    Promise.all([
+      sendBookingConfirmationToCustomer({
         customerName: customer_name.trim(),
         customerEmail: customer_email.toLowerCase().trim(),
         serviceName,
@@ -257,9 +256,10 @@ export async function POST(request: Request) {
             }),
           ]
         : []),
-  ]).catch((emailError) => {
-    console.error('Sähköpostilähetys epäonnistui (varaus tallennettu):', emailError)
-  })
+    ]).catch((emailError) => {
+      console.error('Sähköpostilähetys epäonnistui (varaus tallennettu):', emailError)
+    })
+  )
 
   return Response.json({ booking }, { status: 201 })
 }
