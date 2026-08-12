@@ -30,7 +30,7 @@ export default async function BusinessChatPage({
     .order('name', { ascending: true })
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-violet-100 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-warm-white flex items-center justify-center p-4">
       <ChatWidget
         business={{
           id: business.id,

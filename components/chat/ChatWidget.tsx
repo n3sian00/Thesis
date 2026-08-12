@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import ChatMessage from './ChatMessage'
+import BreathingOrb from './BreathingOrb'
 import TimeSlotPicker from '../booking/TimeSlotPicker'
 import BookingForm from '../booking/BookingForm'
 
@@ -217,18 +218,16 @@ export default function ChatWidget({ business, services }: Props) {
   const isWelcomeState = messages.length === 0 && !isStreaming
 
   return (
-    <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl shadow-pink-100/50 flex flex-col h-[620px] overflow-hidden">
+    <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl shadow-rose/20 flex flex-col h-[620px] overflow-hidden">
 
       {/* --- Otsikkoalue --- */}
-      <div className="px-5 py-4 bg-gradient-to-r from-pink-500 to-violet-500 text-white flex-shrink-0">
+      <div className="px-5 py-4 bg-chocolate text-warm-white flex-shrink-0">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold shrink-0">
-              {business.name.charAt(0)}
-            </div>
+            <BreathingOrb className="w-9 h-9 shrink-0" />
             <div className="min-w-0">
-              <h1 className="font-semibold leading-tight truncate">{business.name}</h1>
-              <p className="text-xs text-pink-100 mt-0.5">Tekoälyavustaja — varaa aika helposti</p>
+              <h1 className="font-serif font-semibold leading-tight truncate">{business.name}</h1>
+              <p className="text-xs text-warm-white/70 mt-0.5">Tekoälyavustaja — varaa aika helposti</p>
             </div>
           </div>
 
@@ -264,14 +263,14 @@ export default function ChatWidget({ business, services }: Props) {
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Varaus vahvistettu!</p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="font-semibold text-chocolate">Varaus vahvistettu!</p>
+                <p className="text-sm text-mocha mt-1">
                   Vahvistus on lähetetty sähköpostiisi. Nähdään pian!
                 </p>
               </div>
               <button
                 onClick={() => setDirectMode(false)}
-                className="text-sm text-pink-600 hover:underline"
+                className="text-sm text-rose-deep hover:underline"
               >
                 Palaa chattiin
               </button>
@@ -280,7 +279,7 @@ export default function ChatWidget({ business, services }: Props) {
           ) : directStep === 'services' ? (
             /* Vaihe 1: Palvelulista */
             <>
-              <p className="text-sm font-medium text-gray-700">Valitse palvelu</p>
+              <p className="text-sm font-medium text-chocolate">Valitse palvelu</p>
               <div className="space-y-2">
                 {services.map((s) => (
                   <button
@@ -289,16 +288,16 @@ export default function ChatWidget({ business, services }: Props) {
                       setDirectService(s)
                       setDirectStep('slots')
                     }}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200
-                               hover:border-pink-300 hover:bg-pink-50 transition-colors text-left group"
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-card-border
+                               hover:border-rose hover:bg-cream transition-colors text-left group"
                   >
                     <div>
-                      <p className="text-sm font-medium text-gray-800 group-hover:text-pink-700">
+                      <p className="text-sm font-medium text-chocolate group-hover:text-rose-deep">
                         {s.name}
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">{s.duration_minutes} min</p>
+                      <p className="text-xs text-mocha mt-0.5">{s.duration_minutes} min</p>
                     </div>
-                    <span className="text-sm font-semibold text-pink-600 shrink-0 ml-3">
+                    <span className="text-sm font-semibold text-rose-deep shrink-0 ml-3">
                       {formatPrice(s.price)}
                     </span>
                   </button>
@@ -310,10 +309,10 @@ export default function ChatWidget({ business, services }: Props) {
             /* Vaihe 2: Aikavalinta */
             <>
               <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-gray-700">
+                <p className="text-sm font-medium text-chocolate">
                   {directService.name}
                 </p>
-                <span className="text-xs text-gray-400">{directService.duration_minutes} min · {formatPrice(directService.price)}</span>
+                <span className="text-xs text-mocha">{directService.duration_minutes} min · {formatPrice(directService.price)}</span>
               </div>
               <TimeSlotPicker
                 businessId={business.id}
@@ -360,8 +359,8 @@ export default function ChatWidget({ business, services }: Props) {
                       <button
                         key={service.id}
                         onClick={() => sendMessage(`Haluaisin varata ajan: ${service.name}`)}
-                        className="text-xs px-3 py-1.5 rounded-full border border-pink-200 text-pink-600 bg-pink-50
-                                   hover:bg-pink-100 transition-colors"
+                        className="text-xs px-3 py-1.5 rounded-full border border-rose/40 text-rose-deep bg-baby
+                                   hover:bg-rose/20 transition-colors"
                       >
                         {service.name} — {formatPrice(service.price)}
                       </button>
@@ -384,7 +383,7 @@ export default function ChatWidget({ business, services }: Props) {
                   {[0, 150, 300].map((delay) => (
                     <span
                       key={delay}
-                      className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce"
+                      className="w-1.5 h-1.5 bg-rose-deep rounded-full animate-bounce"
                       style={{ animationDelay: `${delay}ms` }}
                     />
                   ))}
@@ -430,7 +429,7 @@ export default function ChatWidget({ business, services }: Props) {
           </div>
 
           {/* Syötealue */}
-          <div className="px-4 py-3 border-t border-gray-100 flex-shrink-0">
+          <div className="px-4 py-3 border-t border-card-border flex-shrink-0">
             <div className="flex items-end gap-2">
               <textarea
                 ref={textareaRef}
@@ -440,8 +439,8 @@ export default function ChatWidget({ business, services }: Props) {
                 placeholder="Kirjoita viesti..."
                 rows={1}
                 disabled={isStreaming}
-                className="flex-1 resize-none px-3 py-2 text-sm rounded-xl border border-gray-200 text-gray-900
-                           placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300
+                className="flex-1 resize-none px-3 py-2 text-sm rounded-xl border border-card-border text-chocolate
+                           placeholder-mocha/50 focus:outline-none focus:ring-2 focus:ring-rose
                            focus:border-transparent disabled:opacity-60 transition-shadow
                            max-h-28 overflow-y-auto"
               />
@@ -449,9 +448,9 @@ export default function ChatWidget({ business, services }: Props) {
                 onClick={() => sendMessage(input)}
                 disabled={!input.trim() || isStreaming}
                 aria-label="Lähetä viesti"
-                className="flex-shrink-0 p-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-violet-500 text-white
-                           hover:from-pink-600 hover:to-violet-600
-                           focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-1
+                className="flex-shrink-0 p-2.5 rounded-xl bg-chocolate text-warm-white
+                           hover:bg-chocolate/85
+                           focus:outline-none focus:ring-2 focus:ring-rose focus:ring-offset-1
                            disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -459,7 +458,7 @@ export default function ChatWidget({ business, services }: Props) {
                 </svg>
               </button>
             </div>
-            <p className="text-center text-xs text-gray-300 mt-2">
+            <p className="text-center text-xs text-mocha/50 mt-2">
               Enter lähettää · Shift+Enter uusi rivi
             </p>
           </div>

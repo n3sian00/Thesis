@@ -21,13 +21,13 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="miten-toimii" className="py-24 md:py-32 px-6 bg-white">
+    <section id="miten-toimii" className="py-24 md:py-32 px-6 bg-transparent">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink mb-4">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-chocolate mb-4">
             Miten se toimii?
           </h2>
-          <p className="text-dusk max-w-md mx-auto">
+          <p className="text-mocha max-w-md mx-auto">
             Käyttöönotto vie minuutteja, ei päiviä.
           </p>
         </div>
@@ -38,15 +38,15 @@ export default function HowItWorks() {
               key={step.number}
               className="flex flex-col items-center md:items-start text-center md:text-left"
             >
-              <div className="w-14 h-14 rounded-full bg-petal border border-blush/30 flex items-center justify-center mb-6 shrink-0">
-                <span className="font-serif text-base font-semibold text-blush">
+              <div className="w-14 h-14 rounded-full bg-baby border border-rose-deep/30 flex items-center justify-center mb-6 shrink-0">
+                <span className="font-serif text-base font-semibold text-rose-deep">
                   {step.number}
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-semibold text-ink mb-3">
+              <h3 className="font-serif text-xl font-semibold text-chocolate mb-3">
                 {step.title}
               </h3>
-              <p className="text-sm text-dusk leading-relaxed">{step.description}</p>
+              <p className="text-sm text-mocha leading-relaxed">{step.description}</p>
             </div>
           ))}
         </div>

@@ -21,8 +21,8 @@ export default function ChatMessage({ role, content }: Props) {
       <div
         className={`w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-medium ${
           isUser
-            ? 'bg-violet-100 text-violet-600'
-            : 'bg-pink-100 text-pink-600'
+            ? 'bg-baby text-chocolate'
+            : 'bg-cream text-chocolate'
         }`}
       >
         {isUser ? 'S' : 'AI'}
@@ -32,8 +32,8 @@ export default function ChatMessage({ role, content }: Props) {
       <div
         className={`max-w-[75%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
           isUser
-            ? 'bg-gradient-to-br from-pink-500 to-violet-500 text-white rounded-br-sm'
-            : 'bg-gray-100 text-gray-800 rounded-bl-sm'
+            ? 'bg-baby text-chocolate rounded-br-sm'
+            : 'bg-cream text-chocolate rounded-bl-sm'
         }`}
       >
         {cleanContent}

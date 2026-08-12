@@ -57,8 +57,8 @@ export default function ServiceRow({ service }: { service: Service }) {
     >
       {/* Palvelun tiedot */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-800 truncate">{service.name}</p>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-sm font-medium text-chocolate truncate">{service.name}</p>
+        <p className="text-xs text-mocha mt-0.5">
           {formatDuration(service.duration_minutes)} &middot;{' '}
           {formatPrice(Number(service.price))}
         </p>
@@ -72,7 +72,7 @@ export default function ServiceRow({ service }: { service: Service }) {
           onClick={() => setEditOpen(true)}
           disabled={isPending}
           title="Muokkaa palvelua"
-          className="p-1.5 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 rounded-lg text-mocha hover:text-rose-deep hover:bg-baby transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -87,7 +87,7 @@ export default function ServiceRow({ service }: { service: Service }) {
           className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
             service.active
               ? 'bg-green-50 text-green-700 hover:bg-green-100'
-              : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+              : 'bg-cream text-mocha hover:bg-baby'
           }`}
         >
           {togglePending
@@ -102,7 +102,7 @@ export default function ServiceRow({ service }: { service: Service }) {
           onClick={handleDelete}
           disabled={isPending}
           title="Poista palvelu"
-          className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 rounded-lg text-mocha hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {deletePending ? (
             <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">

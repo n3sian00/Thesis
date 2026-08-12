@@ -17,15 +17,15 @@ export default async function CancelPage({
 
   if (cancelled === '1') {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-md w-full text-center">
+      <main className="min-h-screen bg-warm-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl border border-card-border shadow-sm p-8 max-w-md w-full text-center">
           <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <p className="text-lg font-semibold text-gray-800 mb-2">Varaus peruutettu</p>
-          <p className="text-sm text-gray-500">Saat vahvistuksen sähköpostiisi.</p>
+          <p className="text-lg font-semibold text-chocolate mb-2">Varaus peruutettu</p>
+          <p className="text-sm text-mocha">Saat vahvistuksen sähköpostiisi.</p>
         </div>
       </main>
     )
@@ -70,25 +70,25 @@ export default async function CancelPage({
 
   if (booking.status === 'cancelled') {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-md w-full text-center">
-          <p className="text-lg font-semibold text-gray-800 mb-2">Varaus on jo peruutettu</p>
-          <p className="text-sm text-gray-500">Tämä varaus on aiemmin peruutettu.</p>
+      <main className="min-h-screen bg-warm-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl border border-card-border shadow-sm p-8 max-w-md w-full text-center">
+          <p className="text-lg font-semibold text-chocolate mb-2">Varaus on jo peruutettu</p>
+          <p className="text-sm text-mocha">Tämä varaus on aiemmin peruutettu.</p>
         </div>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-md w-full">
-        <h1 className="text-xl font-semibold text-gray-900 mb-1">Peru varaus</h1>
-        <p className="text-sm text-gray-500 mb-6">{businessName}</p>
+    <main className="min-h-screen bg-warm-white flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl border border-card-border shadow-sm p-8 max-w-md w-full">
+        <h1 className="font-serif text-xl font-semibold text-chocolate mb-1">Peru varaus</h1>
+        <p className="text-sm text-mocha mb-6">{businessName}</p>
 
-        <div className="bg-gray-50 rounded-xl p-4 mb-6 space-y-1">
-          <p className="text-sm font-medium text-gray-800">{serviceName}</p>
-          <p className="text-sm text-gray-500">{dateLabel} klo {timeLabel}</p>
-          <p className="text-xs text-gray-400">{booking.customer_name}</p>
+        <div className="bg-cream rounded-xl p-4 mb-6 space-y-1">
+          <p className="text-sm font-medium text-chocolate">{serviceName}</p>
+          <p className="text-sm text-mocha">{dateLabel} klo {timeLabel}</p>
+          <p className="text-xs text-mocha/70">{booking.customer_name}</p>
         </div>
 
         {canCancel ? (
@@ -105,14 +105,14 @@ export default async function CancelPage({
                 Peru varaus
               </button>
             </form>
-            <p className="text-xs text-gray-400 text-center mt-3">
+            <p className="text-xs text-mocha/70 text-center mt-3">
               Peruuttaminen on mahdollista {cancellationHours}h ennen varausta.
             </p>
           </>
         ) : (
           <div className="text-center space-y-1">
-            <p className="text-sm text-gray-700">Varausta ei voi enää peruuttaa.</p>
-            <p className="text-xs text-gray-400">
+            <p className="text-sm text-chocolate">Varausta ei voi enää peruuttaa.</p>
+            <p className="text-xs text-mocha/70">
               Peruutus onnistuu viimeistään {cancellationHours}h ennen varausta.
               Ota yhteyttä suoraan {businessName}:iin.
             </p>

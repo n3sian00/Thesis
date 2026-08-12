@@ -42,10 +42,10 @@ export default function EditServiceModal({ service, onClose }: Props) {
 
         {/* Otsikkorivi */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-semibold text-gray-900">Muokkaa palvelua</h2>
+          <h2 className="font-serif text-base font-semibold text-chocolate">Muokkaa palvelua</h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="p-1.5 rounded-lg text-mocha hover:text-chocolate hover:bg-cream transition-colors"
             aria-label="Sulje"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -60,7 +60,7 @@ export default function EditServiceModal({ service, onClose }: Props) {
 
           {/* Nimi */}
           <div>
-            <label htmlFor="edit-name" className="block text-xs font-medium text-gray-600 mb-1">
+            <label htmlFor="edit-name" className="block text-xs font-medium text-mocha mb-1">
               Nimi
             </label>
             <input
@@ -69,15 +69,15 @@ export default function EditServiceModal({ service, onClose }: Props) {
               type="text"
               required
               defaultValue={service.name}
-              className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
-                         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+              className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate
+                         focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
             />
           </div>
 
           {/* Kuvaus */}
           <div>
-            <label htmlFor="edit-description" className="block text-xs font-medium text-gray-600 mb-1">
-              Kuvaus <span className="text-gray-400 font-normal">(valinnainen)</span>
+            <label htmlFor="edit-description" className="block text-xs font-medium text-mocha mb-1">
+              Kuvaus <span className="text-mocha/60 font-normal">(valinnainen)</span>
             </label>
             <textarea
               id="edit-description"
@@ -85,15 +85,15 @@ export default function EditServiceModal({ service, onClose }: Props) {
               rows={2}
               defaultValue={service.description ?? ''}
               placeholder="Lyhyt kuvaus palvelusta asiakkaalle…"
-              className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900 placeholder-gray-400 resize-none
-                         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+              className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate placeholder-mocha/50 resize-none
+                         focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
             />
           </div>
 
           {/* Kesto ja hinta rinnakkain */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="edit-duration" className="block text-xs font-medium text-gray-600 mb-1">
+              <label htmlFor="edit-duration" className="block text-xs font-medium text-mocha mb-1">
                 Kesto (min)
               </label>
               <input
@@ -104,12 +104,12 @@ export default function EditServiceModal({ service, onClose }: Props) {
                 min={5}
                 step={5}
                 defaultValue={service.duration_minutes}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
-                           focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate
+                           focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
               />
             </div>
             <div>
-              <label htmlFor="edit-price" className="block text-xs font-medium text-gray-600 mb-1">
+              <label htmlFor="edit-price" className="block text-xs font-medium text-mocha mb-1">
                 Hinta (€)
               </label>
               <input
@@ -120,8 +120,8 @@ export default function EditServiceModal({ service, onClose }: Props) {
                 min={0}
                 step={0.5}
                 defaultValue={Number(service.price)}
-                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
-                           focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+                className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate
+                           focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
               />
             </div>
           </div>
@@ -139,18 +139,17 @@ export default function EditServiceModal({ service, onClose }: Props) {
               type="button"
               onClick={onClose}
               disabled={lataa}
-              className="flex-1 px-4 py-2 text-sm font-medium text-gray-600 rounded-lg border border-gray-200
-                         hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 text-sm font-medium text-mocha rounded-lg border border-card-border
+                         hover:bg-cream transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Peruuta
             </button>
             <button
               type="submit"
               disabled={lataa}
-              className="flex-1 px-4 py-2 text-sm font-medium text-white rounded-lg
-                         bg-gradient-to-r from-pink-500 to-violet-500
-                         hover:from-pink-600 hover:to-violet-600
-                         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2
+              className="flex-1 px-4 py-2 text-sm font-medium text-warm-white rounded-lg
+                         bg-chocolate hover:bg-chocolate/85
+                         focus:outline-none focus:ring-2 focus:ring-rose focus:ring-offset-2
                          disabled:opacity-60 disabled:cursor-not-allowed transition-all"
             >
               {lataa ? 'Tallennetaan...' : 'Tallenna'}

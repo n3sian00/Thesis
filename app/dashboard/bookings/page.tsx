@@ -10,7 +10,7 @@ import { Suspense } from 'react'
 const STATUS_STYLES: Record<string, string> = {
   confirmed: 'bg-green-50 text-green-700',
   cancelled: 'bg-red-50 text-red-600',
-  completed: 'bg-gray-100 text-gray-500',
+  completed: 'bg-cream text-mocha',
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -41,7 +41,7 @@ export default async function BookingsPage({
     .eq('user_id', user.id)
     .single()
 
-  if (!business) return <p className="text-gray-500">Yritystietoja ei löydy.</p>
+  if (!business) return <p className="text-mocha">Yritystietoja ei löydy.</p>
 
   // Rakennetaan kysely suodattimien perusteella
   let query = supabase
@@ -87,8 +87,8 @@ export default async function BookingsPage({
     <div className="space-y-6">
 
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Varaukset</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="font-serif text-2xl font-semibold text-chocolate">Varaukset</h1>
+        <p className="text-mocha mt-1">
           {isFiltered
             ? `${bookings?.length ?? 0} tulosta`
             : tulevat.length > 0
@@ -150,16 +150,16 @@ type WaitlistEntry = {
 function WaitlistSection({ waitlist }: { waitlist: WaitlistEntry[] }) {
   return (
     <div>
-      <h2 className="text-sm font-medium text-gray-600 mb-2">
+      <h2 className="text-sm font-medium text-mocha mb-2">
         Jonotuslista{waitlist.length > 0 ? ` (${waitlist.length})` : ''}
       </h2>
 
       {waitlist.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-6 text-center shadow-sm">
-          <p className="text-gray-400 text-sm">Ei jonottajia.</p>
+        <div className="bg-white rounded-xl border border-card-border p-6 text-center shadow-sm">
+          <p className="text-mocha text-sm">Ei jonottajia.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+        <div className="bg-white rounded-xl border border-card-border shadow-sm divide-y divide-card-border/60">
           {waitlist.map((entry) => {
             const serviceName = Array.isArray(entry.services)
               ? entry.services[0]?.name
@@ -169,13 +169,13 @@ function WaitlistSection({ waitlist }: { waitlist: WaitlistEntry[] }) {
               <div key={entry.id} className="px-5 py-4">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-800">{entry.customer_name}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-sm font-medium text-chocolate">{entry.customer_name}</p>
+                    <p className="text-xs text-mocha mt-0.5">
                       {serviceName ?? 'Palvelu'} &middot; {entry.customer_email}
                     </p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
-                    <p className="text-xs text-gray-400 tabular-nums whitespace-nowrap">
+                    <p className="text-xs text-mocha tabular-nums whitespace-nowrap">
                       {new Date(entry.created_at).toLocaleDateString('fi-FI', {
                         day: 'numeric', month: 'numeric', year: 'numeric',
                         timeZone: 'Europe/Helsinki',
@@ -184,8 +184,8 @@ function WaitlistSection({ waitlist }: { waitlist: WaitlistEntry[] }) {
                     <form action={async () => { await removeWaitlistAction(entry.id) }}>
                       <button
                         type="submit"
-                        className="text-xs text-gray-400 hover:text-red-600 hover:bg-red-50
-                                   px-2.5 py-1 rounded-lg transition-colors border border-gray-200
+                        className="text-xs text-mocha hover:text-red-600 hover:bg-red-50
+                                   px-2.5 py-1 rounded-lg transition-colors border border-card-border
                                    hover:border-red-200 whitespace-nowrap"
                       >
                         Poista
@@ -228,22 +228,22 @@ function BookingSection({
 }) {
   return (
     <div>
-      <h2 className={`text-sm font-medium mb-2 ${dim ? 'text-gray-400' : 'text-gray-600'}`}>
+      <h2 className={`text-sm font-medium mb-2 ${dim ? 'text-mocha/60' : 'text-mocha'}`}>
         {otsikko}
       </h2>
 
       {bookings.length === 0 ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-6 text-center shadow-sm">
-          <p className="text-gray-400 text-sm">{tyhjaViesti}</p>
+        <div className="bg-white rounded-xl border border-card-border p-6 text-center shadow-sm">
+          <p className="text-mocha text-sm">{tyhjaViesti}</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+        <div className="bg-white rounded-xl border border-card-border shadow-sm divide-y divide-card-border/60">
           {bookings.map((booking) => {
             const serviceName = Array.isArray(booking.services)
               ? booking.services[0]?.name
               : (booking.services as { name: string } | null)?.name
 
-            const statusStyle = STATUS_STYLES[booking.status] ?? 'bg-gray-100 text-gray-500'
+            const statusStyle = STATUS_STYLES[booking.status] ?? 'bg-cream text-mocha'
             const statusLabel = STATUS_LABELS[booking.status] ?? booking.status
 
             return (
@@ -254,21 +254,21 @@ function BookingSection({
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-medium text-gray-800">
+                      <p className="text-sm font-medium text-chocolate">
                         {booking.customer_name}
                       </p>
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusStyle}`}>
                         {statusLabel}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-xs text-mocha mt-0.5">
                       {serviceName ?? 'Palvelu'} &middot; {booking.customer_email}
                       {booking.customer_phone && ` · ${booking.customer_phone}`}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0">
-                    <p className="text-sm text-gray-500 tabular-nums whitespace-nowrap">
+                    <p className="text-sm text-mocha tabular-nums whitespace-nowrap">
                       {formatDateTimeHelsinki(booking.starts_at, 'long')}
                     </p>
 

@@ -68,15 +68,15 @@ export default function SidebarNav({ business }: Props) {
   const pathname = usePathname()
 
   return (
-    <aside className="w-64 min-h-screen bg-white border-r border-gray-100 flex flex-col shrink-0">
+    <aside className="w-64 min-h-screen bg-white border-r border-card-border flex flex-col shrink-0">
 
       {/* Logo + salongin nimi */}
-      <div className="px-6 py-5 border-b border-gray-100">
-        <span className="text-lg font-bold bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-          KauneusAI
+      <div className="px-6 py-5 border-b border-card-border">
+        <span className="font-serif text-lg font-semibold text-chocolate">
+          Veloure
         </span>
         {business && (
-          <p className="text-sm text-gray-500 mt-0.5 truncate">{business.name}</p>
+          <p className="text-sm text-mocha mt-0.5 truncate">{business.name}</p>
         )}
       </div>
 
@@ -91,11 +91,11 @@ export default function SidebarNav({ business }: Props) {
               href={href}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-pink-50 text-pink-600'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                  ? 'bg-baby text-rose-deep'
+                  : 'text-mocha hover:bg-cream hover:text-chocolate'
               }`}
             >
-              <span className={isActive ? 'text-pink-500' : 'text-gray-400'}>
+              <span className={isActive ? 'text-rose-deep' : 'text-mocha/60'}>
                 {icon}
               </span>
               {label}
@@ -107,13 +107,13 @@ export default function SidebarNav({ business }: Props) {
       {/* Asiakaslinkin esikatselu + uloskirjautuminen */}
       <div className="px-3 pb-4 space-y-2">
         {business && (
-          <div className="px-3 py-2.5 bg-pink-50 rounded-lg">
-            <p className="text-xs text-gray-400 mb-0.5">Asiakaslinkkisi</p>
+          <div className="px-3 py-2.5 bg-baby rounded-lg">
+            <p className="text-xs text-mocha mb-0.5">Asiakaslinkkisi</p>
             <a
               href={`/${business.slug}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-pink-600 font-medium hover:underline truncate block"
+              className="text-xs text-rose-deep font-medium hover:underline truncate block"
             >
               /{business.slug}
             </a>
@@ -123,9 +123,9 @@ export default function SidebarNav({ business }: Props) {
         <form action={logoutAction}>
           <button
             type="submit"
-            className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
+            className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-mocha hover:bg-cream hover:text-chocolate transition-colors"
           >
-            <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 text-mocha/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             Kirjaudu ulos

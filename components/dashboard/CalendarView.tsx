@@ -215,25 +215,25 @@ export default function CalendarView({ businessId: _businessId }: Props) {
     <div className="flex flex-col lg:flex-row gap-6">
 
       {/* --- Kuukausikalenteri --- */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 lg:w-80 shrink-0">
+      <div className="bg-white rounded-xl border border-card-border shadow-sm p-5 lg:w-80 shrink-0">
 
         {/* Kuukauden otsikko + navigaatio */}
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={prevMonth}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-500"
+            className="p-1.5 rounded-lg hover:bg-cream transition-colors text-mocha"
             aria-label="Edellinen kuukausi"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="text-sm font-semibold text-gray-800">
+          <span className="text-sm font-semibold text-chocolate">
             {MONTH_NAMES[month]} {year}
           </span>
           <button
             onClick={nextMonth}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-500"
+            className="p-1.5 rounded-lg hover:bg-cream transition-colors text-mocha"
             aria-label="Seuraava kuukausi"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -245,7 +245,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
         {/* Viikonpäivien otsikkorivi */}
         <div className="grid grid-cols-7 mb-1">
           {DAY_NAMES.map(d => (
-            <div key={d} className="text-center text-xs font-medium text-gray-400 py-1">
+            <div key={d} className="text-center text-xs font-medium text-mocha/60 py-1">
               {d}
             </div>
           ))}
@@ -271,12 +271,12 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                 onClick={() => handleDayClick(day)}
                 className={`relative flex flex-col items-center justify-center rounded-lg py-1.5 text-xs font-medium transition-colors ${
                   isSelected
-                    ? 'bg-pink-500 text-white'
+                    ? 'bg-rose-deep text-warm-white'
                     : isToday
-                    ? 'bg-pink-50 text-pink-600 ring-1 ring-pink-300'
+                    ? 'bg-baby text-rose-deep ring-1 ring-rose'
                     : isPast
-                    ? 'text-gray-300 hover:bg-gray-50'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-mocha/40 hover:bg-cream'
+                    : 'text-chocolate hover:bg-cream'
                 }`}
               >
                 {day.getDate()}
@@ -284,10 +284,10 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                 {(hasSlots || hasBlocked) && (
                   <div className="flex gap-0.5 mt-0.5">
                     {hasSlots && (
-                      <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-pink-200' : 'bg-green-400'}`} />
+                      <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-baby' : 'bg-green-400'}`} />
                     )}
                     {hasBlocked && (
-                      <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-pink-200' : 'bg-orange-400'}`} />
+                      <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-baby' : 'bg-orange-400'}`} />
                     )}
                   </div>
                 )}
@@ -297,18 +297,18 @@ export default function CalendarView({ businessId: _businessId }: Props) {
         </div>
 
         {/* Selite */}
-        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-gray-50 flex-wrap">
+        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-card-border/60 flex-wrap">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-400" />
-            <span className="text-xs text-gray-400">Aikaikkunoita</span>
+            <span className="text-xs text-mocha/70">Aikaikkunoita</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-orange-400" />
-            <span className="text-xs text-gray-400">Blokattuja</span>
+            <span className="text-xs text-mocha/70">Blokattuja</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-pink-400" />
-            <span className="text-xs text-gray-400">Valittu</span>
+            <span className="w-2 h-2 rounded-full bg-rose-deep" />
+            <span className="text-xs text-mocha/70">Valittu</span>
           </div>
         </div>
       </div>
@@ -316,28 +316,28 @@ export default function CalendarView({ businessId: _businessId }: Props) {
       {/* --- Päivänäkymä --- */}
       <div className="flex-1 min-w-0">
         {!selectedDate ? (
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
-            <p className="text-gray-400 text-sm">Valitse päivä kalenterista</p>
+          <div className="bg-white rounded-xl border border-card-border shadow-sm p-8 text-center">
+            <p className="text-mocha text-sm">Valitse päivä kalenterista</p>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+          <div className="bg-white rounded-xl border border-card-border shadow-sm divide-y divide-card-border/60">
 
             {/* Päivän otsikko */}
             <div className="px-5 py-4">
-              <h2 className="text-base font-semibold text-gray-900 capitalize">
+              <h2 className="text-base font-semibold text-chocolate capitalize">
                 {formatDayHeading(selectedDate)}
               </h2>
             </div>
 
             {isLoadingDay ? (
-              <div className="px-5 py-8 text-center text-sm text-gray-400">
+              <div className="px-5 py-8 text-center text-sm text-mocha">
                 Ladataan...
               </div>
             ) : (
               <>
                 {/* Aikaikkunat */}
                 <div className="px-5 py-4">
-                  <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                  <h3 className="text-xs font-medium text-mocha uppercase tracking-wide mb-3">
                     Aikaikkunat
                   </h3>
 
@@ -348,7 +348,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                   )}
 
                   {!dayDetail?.windows.length ? (
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-mocha">
                       Ei aikaikkunoita — lisää alla.
                     </p>
                   ) : (
@@ -356,9 +356,9 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                       {dayDetail.windows.map((w) => (
                         <div
                           key={w.id}
-                          className="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50"
+                          className="flex items-center justify-between py-2 px-3 rounded-lg bg-cream"
                         >
-                          <span className="text-sm font-medium text-gray-800 tabular-nums">
+                          <span className="text-sm font-medium text-chocolate tabular-nums">
                             {w.start_time} – {w.end_time}
                           </span>
                           {w.has_bookings ? (
@@ -383,11 +383,11 @@ export default function CalendarView({ businessId: _businessId }: Props) {
 
                 {/* Varaukset */}
                 <div className="px-5 py-4">
-                  <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                  <h3 className="text-xs font-medium text-mocha uppercase tracking-wide mb-3">
                     Varaukset
                   </h3>
                   {!dayDetail?.bookings.length ? (
-                    <p className="text-sm text-gray-400">Ei varauksia.</p>
+                    <p className="text-sm text-mocha">Ei varauksia.</p>
                   ) : (
                     <div className="space-y-2">
                       {dayDetail.bookings.map((b) => (
@@ -395,14 +395,14 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                           key={b.id}
                           className="flex items-center gap-3 py-2 px-3 rounded-lg bg-green-50"
                         >
-                          <span className="text-sm font-semibold text-gray-700 tabular-nums w-10 shrink-0">
+                          <span className="text-sm font-semibold text-chocolate tabular-nums w-10 shrink-0">
                             {formatBookingTime(b.starts_at)}
                           </span>
                           <div className="min-w-0">
-                            <p className="text-sm font-medium text-gray-800 truncate">
+                            <p className="text-sm font-medium text-chocolate truncate">
                               {b.service_name}
                             </p>
-                            <p className="text-xs text-gray-500 truncate">
+                            <p className="text-xs text-mocha truncate">
                               {b.customer_name}
                             </p>
                           </div>
@@ -414,7 +414,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
 
                 {/* Blokatut ajat */}
                 <div className="px-5 py-4">
-                  <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                  <h3 className="text-xs font-medium text-mocha uppercase tracking-wide mb-3">
                     Blokatut ajat
                   </h3>
 
@@ -446,7 +446,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-400 mb-3">Ei blokattuja aikoja.</p>
+                    <p className="text-sm text-mocha mb-3">Ei blokattuja aikoja.</p>
                   )}
 
                   {blockError && (
@@ -457,13 +457,13 @@ export default function CalendarView({ businessId: _businessId }: Props) {
 
                   <div className="flex items-end gap-3 flex-wrap">
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Blokkaa kello</label>
+                      <label className="block text-xs text-mocha mb-1">Blokkaa kello</label>
                       <input
                         type="time"
                         value={blockTime}
                         step={1800}
                         onChange={(e) => setBlockTime(e.target.value)}
-                        className="px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
+                        className="px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate
                                    focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent"
                       />
                     </div>
@@ -483,7 +483,7 @@ export default function CalendarView({ businessId: _businessId }: Props) {
 
                 {/* Lisää aikaikkuna */}
                 <div className="px-5 py-4">
-                  <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+                  <h3 className="text-xs font-medium text-mocha uppercase tracking-wide mb-3">
                     Lisää aikaikkuna
                   </h3>
 
@@ -495,32 +495,31 @@ export default function CalendarView({ businessId: _businessId }: Props) {
 
                   <div className="flex items-end gap-3 flex-wrap">
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Alku</label>
+                      <label className="block text-xs text-mocha mb-1">Alku</label>
                       <input
                         type="time"
                         value={addStart}
                         onChange={(e) => setAddStart(e.target.value)}
-                        className="px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
-                                   focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent"
+                        className="px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate
+                                   focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Loppu</label>
+                      <label className="block text-xs text-mocha mb-1">Loppu</label>
                       <input
                         type="time"
                         value={addEnd}
                         onChange={(e) => setAddEnd(e.target.value)}
-                        className="px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900
-                                   focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent"
+                        className="px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate
+                                   focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent"
                       />
                     </div>
                     <button
                       onClick={handleAdd}
                       disabled={isPending}
-                      className="px-4 py-2 text-sm font-medium text-white rounded-lg
-                                 bg-gradient-to-r from-pink-500 to-violet-500
-                                 hover:from-pink-600 hover:to-violet-600
-                                 focus:outline-none focus:ring-2 focus:ring-pink-300
+                      className="px-4 py-2 text-sm font-medium text-warm-white rounded-lg
+                                 bg-chocolate hover:bg-chocolate/85
+                                 focus:outline-none focus:ring-2 focus:ring-rose
                                  disabled:opacity-60 disabled:cursor-not-allowed transition-all"
                     >
                       {isPending ? 'Lisätään...' : 'Lisää'}

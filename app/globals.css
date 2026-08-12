@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FDF6F0;
-  --foreground: #1C1412;
+  --background: #FDF8F5;
+  --foreground: #33241E;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-cream: #FDF6F0;
-  --color-ink: #1C1412;
-  --color-blush: #B8737F;
-  --color-petal: #F2E4E4;
-  --color-gold: #C9A97B;
-  --color-dusk: #8C7B74;
-  --color-card-border: #EDE0D8;
-  --font-sans: var(--font-geist-sans);
+  --color-card-border: #EAD3CE;
+
+  /* Veloure-tokenit */
+  --color-warm-white: #FDF8F5;
+  --color-baby: #F7D9DF;
+  --color-rose: #E7A6B0;
+  --color-rose-deep: #D67E8E;
+  --color-peach: #F3C5A6;
+  --color-cream: #FBEEE6;
+  --color-chocolate: #33241E;
+  --color-mocha: #8A6A5C;
+
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+@theme {
+  --animate-breathing-orb: breathing-orb 3.8s ease-in-out infinite;
+}
+
+@keyframes breathing-orb {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(231, 166, 176, 0);
+  }
+  50% {
+    transform: scale(1.07);
+    box-shadow: 0 0 18px 6px rgba(231, 166, 176, 0.45);
+  }
 }

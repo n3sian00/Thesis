@@ -25,7 +25,7 @@ export default async function DashboardLayout({
     .single()
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-warm-white">
       <SidebarNav business={business} />
 
       {/* Pääsisältöalue */}

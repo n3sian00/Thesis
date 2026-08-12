@@ -18,15 +18,15 @@ export default function AddServiceForm() {
     <form
       ref={formRef}
       action={toiminto}
-      className="bg-white rounded-xl border border-gray-100 shadow-sm p-5"
+      className="bg-white rounded-xl border border-card-border shadow-sm p-5"
     >
-      <h3 className="text-sm font-medium text-gray-900 mb-4">Lisää palvelu</h3>
+      <h3 className="text-sm font-medium text-chocolate mb-4">Lisää palvelu</h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
 
         {/* Palvelun nimi */}
         <div className="sm:col-span-1">
-          <label htmlFor="name" className="block text-xs font-medium text-gray-600 mb-1">
+          <label htmlFor="name" className="block text-xs font-medium text-mocha mb-1">
             Nimi
           </label>
           <input
@@ -35,14 +35,14 @@ export default function AddServiceForm() {
             type="text"
             required
             placeholder="esim. Hiustenleikkaus"
-            className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900 placeholder-gray-400
-                       focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+            className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate placeholder-mocha/50
+                       focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
           />
         </div>
 
         {/* Kesto */}
         <div>
-          <label htmlFor="duration_minutes" className="block text-xs font-medium text-gray-600 mb-1">
+          <label htmlFor="duration_minutes" className="block text-xs font-medium text-mocha mb-1">
             Kesto (min)
           </label>
           <input
@@ -53,14 +53,14 @@ export default function AddServiceForm() {
             min={5}
             step={5}
             placeholder="60"
-            className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900 placeholder-gray-400
-                       focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+            className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate placeholder-mocha/50
+                       focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
           />
         </div>
 
         {/* Hinta */}
         <div>
-          <label htmlFor="price" className="block text-xs font-medium text-gray-600 mb-1">
+          <label htmlFor="price" className="block text-xs font-medium text-mocha mb-1">
             Hinta (€)
           </label>
           <input
@@ -71,8 +71,8 @@ export default function AddServiceForm() {
             min={0}
             step={0.5}
             placeholder="45"
-            className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 text-gray-900 placeholder-gray-400
-                       focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-shadow"
+            className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate placeholder-mocha/50
+                       focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
           />
         </div>
       </div>
@@ -87,10 +87,9 @@ export default function AddServiceForm() {
       <button
         type="submit"
         disabled={lataa}
-        className="mt-4 px-4 py-2 text-sm font-medium text-white rounded-lg
-                   bg-gradient-to-r from-pink-500 to-violet-500
-                   hover:from-pink-600 hover:to-violet-600
-                   focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2
+        className="mt-4 px-4 py-2 text-sm font-medium text-warm-white rounded-lg
+                   bg-chocolate hover:bg-chocolate/85
+                   focus:outline-none focus:ring-2 focus:ring-rose focus:ring-offset-2
                    disabled:opacity-60 disabled:cursor-not-allowed transition-all"
       >
         {lataa ? 'Lisätään...' : 'Lisää palvelu'}

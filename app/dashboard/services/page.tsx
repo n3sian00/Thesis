@@ -22,7 +22,7 @@ export default async function ServicesPage() {
     .single()
 
   if (!business) {
-    return <p className="text-gray-500">Yritystietoja ei löydy.</p>
+    return <p className="text-mocha">Yritystietoja ei löydy.</p>
   }
 
   // Haetaan kaikki palvelut (myös ei-aktiiviset omistajalle)
@@ -40,8 +40,8 @@ export default async function ServicesPage() {
 
       {/* Otsikko */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Palvelut</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="font-serif text-2xl font-semibold text-chocolate">Palvelut</h1>
+        <p className="text-mocha mt-1">
           Hallitse tarjoamiasi palveluita — AI käyttää näitä asiakasohjauksessa.
         </p>
       </div>
@@ -51,8 +51,8 @@ export default async function ServicesPage() {
 
       {/* Palvelulistaus */}
       {(!services || services.length === 0) ? (
-        <div className="bg-white rounded-xl border border-gray-100 p-8 text-center shadow-sm">
-          <p className="text-gray-400 text-sm">
+        <div className="bg-white rounded-xl border border-card-border p-8 text-center shadow-sm">
+          <p className="text-mocha text-sm">
             Ei vielä palveluita. Lisää ensimmäinen palvelu yllä olevalla lomakkeella.
           </p>
         </div>
@@ -93,10 +93,10 @@ function ServiceGroup({
 }) {
   return (
     <div>
-      <h2 className={`text-sm font-medium mb-2 ${dim ? 'text-gray-400' : 'text-gray-600'}`}>
+      <h2 className={`text-sm font-medium mb-2 ${dim ? 'text-mocha/60' : 'text-mocha'}`}>
         {otsikko} ({services.length})
       </h2>
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+      <div className="bg-white rounded-xl border border-card-border shadow-sm divide-y divide-card-border/60">
         {services.map((service) => (
           <ServiceRow key={service.id} service={service} />
         ))}

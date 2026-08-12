@@ -20,14 +20,14 @@ export default async function CalendarPage() {
     .single()
 
   if (!business) {
-    return <p className="text-gray-500">Yritystietoja ei löydy.</p>
+    return <p className="text-mocha">Yritystietoja ei löydy.</p>
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Kalenteri</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="font-serif text-2xl font-semibold text-chocolate">Kalenteri</h1>
+        <p className="text-mocha mt-1">
           Hallitse työpäiviäsi. Lisää aikaikkunat päiville jolloin otat varauksia,
           ja blokkaa yksittäiset ajat esim. tauoille tai muille menoille.
         </p>

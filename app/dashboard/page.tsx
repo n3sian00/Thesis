@@ -18,7 +18,7 @@ export default async function DashboardPage() {
 
   if (!business) {
     return (
-      <p className="text-gray-500">
+      <p className="text-mocha">
         Yritystietoja ei löydy. Ota yhteyttä tukeen.
       </p>
     )
@@ -60,8 +60,8 @@ export default async function DashboardPage() {
 
       {/* Otsikko */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900">Etusivu</h1>
-        <p className="text-gray-500 mt-1">Tervetuloa, {business.name}</p>
+        <h1 className="font-serif text-2xl font-semibold text-chocolate">Etusivu</h1>
+        <p className="text-mocha mt-1">Tervetuloa, {business.name}</p>
       </div>
 
       {/* Tilastokortit */}
@@ -78,41 +78,41 @@ export default async function DashboardPage() {
           linkHref="/dashboard/bookings"
           linkLabel="Katso kaikki"
         />
-        <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
-          <p className="text-sm text-gray-500">Asiakaslinkkisi</p>
+        <div className="bg-white rounded-xl border border-card-border p-5 shadow-sm">
+          <p className="text-sm text-mocha">Asiakaslinkkisi</p>
           <a
             href={`/${business.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-lg font-semibold text-pink-600 hover:underline block mt-1 truncate"
+            className="text-lg font-semibold text-rose-deep hover:underline block mt-1 truncate"
           >
             /{business.slug}
           </a>
-          <p className="text-xs text-gray-400 mt-1">Jaa asiakkaille</p>
+          <p className="text-xs text-mocha/70 mt-1">Jaa asiakkaille</p>
         </div>
       </div>
 
       {/* Seuraavat varaukset */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-medium text-gray-900">Seuraavat varaukset</h2>
+          <h2 className="font-serif text-lg font-medium text-chocolate">Seuraavat varaukset</h2>
           <Link
             href="/dashboard/bookings"
-            className="text-sm text-pink-500 hover:text-violet-500 transition-colors"
+            className="text-sm text-rose-deep hover:text-chocolate transition-colors"
           >
             Kaikki varaukset
           </Link>
         </div>
 
         {!nextBookings || nextBookings.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-100 p-8 text-center shadow-sm">
-            <p className="text-gray-400 text-sm">Ei tulevia varauksia.</p>
-            <p className="text-gray-400 text-xs mt-1">
+          <div className="bg-white rounded-xl border border-card-border p-8 text-center shadow-sm">
+            <p className="text-mocha text-sm">Ei tulevia varauksia.</p>
+            <p className="text-mocha/70 text-xs mt-1">
               Jaa asiakaslinkkisi niin varaukset alkavat kertyä!
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm divide-y divide-gray-50">
+          <div className="bg-white rounded-xl border border-card-border shadow-sm divide-y divide-card-border/60">
             {nextBookings.map((booking) => {
               // Supabase palauttaa join-datan arrayna tai objektina — käsitellään molemmat
               const serviceName = Array.isArray(booking.services)
@@ -125,14 +125,14 @@ export default async function DashboardPage() {
                   className="flex items-center justify-between px-5 py-4"
                 >
                   <div>
-                    <p className="text-sm font-medium text-gray-800">
+                    <p className="text-sm font-medium text-chocolate">
                       {booking.customer_name}
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">
+                    <p className="text-xs text-mocha mt-0.5">
                       {serviceName ?? 'Palvelu'}
                     </p>
                   </div>
-                  <p className="text-sm text-gray-500 tabular-nums">
+                  <p className="text-sm text-mocha tabular-nums">
                     {formatDateTimeHelsinki(booking.starts_at)}
                   </p>
                 </div>
@@ -158,12 +158,12 @@ function StatCard({
   linkLabel: string
 }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="text-3xl font-bold text-gray-900 mt-1">{value}</p>
+    <div className="bg-white rounded-xl border border-card-border p-5 shadow-sm">
+      <p className="text-sm text-mocha">{label}</p>
+      <p className="text-3xl font-bold text-chocolate mt-1">{value}</p>
       <Link
         href={linkHref}
-        className="text-xs text-pink-500 hover:text-violet-500 transition-colors mt-2 inline-block"
+        className="text-xs text-rose-deep hover:text-chocolate transition-colors mt-2 inline-block"
       >
         {linkLabel} →
       </Link>

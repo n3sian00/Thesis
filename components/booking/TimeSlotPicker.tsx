@@ -99,8 +99,8 @@ export default function TimeSlotPicker({
   const noSlots = !isLoading && !virhe && slots.length === 0
 
   return (
-    <div className="bg-violet-50 rounded-xl p-4 border border-violet-100 ml-9">
-      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+    <div className="bg-baby rounded-xl p-4 border border-rose/30 ml-9">
+      <p className="text-xs font-medium text-mocha uppercase tracking-wide mb-3">
         Valitse aika — {serviceName} ({duration} min)
       </p>
 
@@ -111,8 +111,8 @@ export default function TimeSlotPicker({
             onClick={() => setSelectedDay(day)}
             className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               day === selectedDay
-                ? 'bg-violet-500 text-white'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-violet-300'
+                ? 'bg-rose-deep text-warm-white'
+                : 'bg-white text-mocha border border-card-border hover:border-rose'
             }`}
           >
             {formatDayHelsinki(day)}
@@ -121,12 +121,12 @@ export default function TimeSlotPicker({
       </div>
 
       {isLoading ? (
-        <p className="text-xs text-gray-400 text-center py-3">Haetaan vapaita aikoja...</p>
+        <p className="text-xs text-mocha text-center py-3">Haetaan vapaita aikoja...</p>
       ) : virhe ? (
         <p className="text-xs text-red-500 text-center py-3">{virhe}</p>
       ) : noSlots ? (
         <div className="space-y-3">
-          <p className="text-xs text-gray-400 text-center py-1">
+          <p className="text-xs text-mocha text-center py-1">
             Ei vapaita aikoja tänä päivänä. Kokeile toista päivää.
           </p>
 
@@ -142,14 +142,14 @@ export default function TimeSlotPicker({
           ) : !showWaitlist ? (
             <button
               onClick={() => setShowWaitlist(true)}
-              className="w-full py-2 text-xs font-medium text-violet-600 border border-violet-200
-                         rounded-lg hover:bg-violet-100 transition-colors"
+              className="w-full py-2 text-xs font-medium text-rose-deep border border-rose/40
+                         rounded-lg hover:bg-rose/10 transition-colors"
             >
               Liity jonotuslistalle
             </button>
           ) : (
             <form onSubmit={handleWaitlistSubmit} className="space-y-2">
-              <p className="text-xs font-medium text-gray-600">
+              <p className="text-xs font-medium text-mocha">
                 Ilmoitamme kun aika vapautuu.
               </p>
               <input
@@ -158,8 +158,8 @@ export default function TimeSlotPicker({
                 value={waitlistName}
                 onChange={(e) => setWaitlistName(e.target.value)}
                 placeholder="Nimesi"
-                className="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 bg-white text-gray-900
-                           placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-transparent"
+                className="w-full px-3 py-2 text-xs rounded-lg border border-card-border bg-white text-chocolate
+                           placeholder-mocha/50 focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent"
               />
               <input
                 type="email"
@@ -167,8 +167,8 @@ export default function TimeSlotPicker({
                 value={waitlistEmail}
                 onChange={(e) => setWaitlistEmail(e.target.value)}
                 placeholder="Sähköpostiosoitteesi"
-                className="w-full px-3 py-2 text-xs rounded-lg border border-gray-200 bg-white text-gray-900
-                           placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-300 focus:border-transparent"
+                className="w-full px-3 py-2 text-xs rounded-lg border border-card-border bg-white text-chocolate
+                           placeholder-mocha/50 focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent"
               />
               {waitlistError && (
                 <p className="text-xs text-red-600 bg-red-50 rounded-lg px-2 py-1.5">{waitlistError}</p>
@@ -177,9 +177,8 @@ export default function TimeSlotPicker({
                 <button
                   type="submit"
                   disabled={waitlistPending}
-                  className="flex-1 py-2 text-xs font-medium text-white rounded-lg
-                             bg-gradient-to-r from-violet-500 to-pink-500
-                             hover:from-violet-600 hover:to-pink-600
+                  className="flex-1 py-2 text-xs font-medium text-warm-white rounded-lg
+                             bg-chocolate hover:bg-chocolate/85
                              disabled:opacity-60 disabled:cursor-not-allowed transition-all"
                 >
                   {waitlistPending ? 'Lisätään...' : 'Liity jonoon'}
@@ -187,7 +186,7 @@ export default function TimeSlotPicker({
                 <button
                   type="button"
                   onClick={() => setShowWaitlist(false)}
-                  className="px-3 py-2 text-xs text-gray-500 hover:text-gray-700 rounded-lg
+                  className="px-3 py-2 text-xs text-mocha hover:text-chocolate rounded-lg
                              hover:bg-white transition-colors"
                 >
                   Peruuta
@@ -202,8 +201,8 @@ export default function TimeSlotPicker({
             <button
               key={slot}
               onClick={() => handleSlotClick(slot)}
-              className="py-2 rounded-lg text-xs font-medium bg-white border border-gray-200
-                         text-gray-700 hover:bg-violet-500 hover:text-white hover:border-violet-500
+              className="py-2 rounded-lg text-xs font-medium bg-white border border-card-border
+                         text-chocolate hover:bg-rose-deep hover:text-warm-white hover:border-rose-deep
                          transition-colors"
             >
               {formatTimeHelsinki(slot)}
