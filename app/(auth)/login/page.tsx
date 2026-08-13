@@ -8,20 +8,20 @@ export default function LoginPage() {
   const [virhe, toiminto, lataa] = useActionState(loginAction, null)
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-violet-100 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-warm-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
 
         {/* Logo / otsikko */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-            KauneusAI
+          <h1 className="font-serif text-3xl font-semibold text-chocolate">
+            Veloure
           </h1>
-          <p className="text-gray-500 mt-2 text-sm">Tervetuloa takaisin</p>
+          <p className="text-mocha mt-2 text-sm">Tervetuloa takaisin</p>
         </div>
 
         {/* Lomakekortti */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-pink-100 p-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6">
+        <div className="bg-white rounded-2xl border border-card-border shadow-xl shadow-rose/20 p-8">
+          <h2 className="font-serif text-xl font-semibold text-chocolate mb-6">
             Kirjaudu sisään
           </h2>
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-chocolate mb-1"
               >
                 Sähköposti
               </label>
@@ -42,8 +42,8 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 placeholder="sinä@esimerkki.fi"
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-gray-900 placeholder-gray-400
-                           focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent
+                className="w-full px-4 py-2.5 rounded-lg border border-card-border text-chocolate placeholder-mocha/50
+                           focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent
                            transition-shadow"
               />
             </div>
@@ -52,7 +52,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-chocolate mb-1"
               >
                 Salasana
               </label>
@@ -63,8 +63,8 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 required
                 placeholder="••••••••"
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-gray-900 placeholder-gray-400
-                           focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent
+                className="w-full px-4 py-2.5 rounded-lg border border-card-border text-chocolate placeholder-mocha/50
+                           focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent
                            transition-shadow"
               />
             </div>
@@ -80,10 +80,9 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={lataa}
-              className="w-full py-2.5 px-4 rounded-lg font-medium text-white
-                         bg-gradient-to-r from-pink-500 to-violet-500
-                         hover:from-pink-600 hover:to-violet-600
-                         focus:outline-none focus:ring-2 focus:ring-pink-300 focus:ring-offset-2
+              className="w-full py-2.5 px-4 rounded-lg font-medium text-warm-white
+                         bg-chocolate hover:bg-chocolate/85
+                         focus:outline-none focus:ring-2 focus:ring-rose focus:ring-offset-2
                          disabled:opacity-60 disabled:cursor-not-allowed
                          transition-all"
             >
@@ -92,11 +91,11 @@ export default function LoginPage() {
           </form>
 
           {/* Rekisteröintilinkki */}
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-mocha mt-6">
             Ei vielä tiliä?{' '}
             <Link
               href="/register"
-              className="text-pink-500 hover:text-violet-500 font-medium transition-colors"
+              className="text-rose-deep hover:text-chocolate font-medium transition-colors"
             >
               Luo tili
             </Link>
