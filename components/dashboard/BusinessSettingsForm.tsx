@@ -18,6 +18,7 @@ interface Props {
     city: string | null
     cancellation_hours: number
     theme: string
+    general_notes: string | null
   }
 }
 
@@ -90,6 +91,22 @@ export default function BusinessSettingsForm({ business }: Props) {
         <p className="text-xs text-mocha/70 mt-1">
           Asiakas voi peruuttaa varauksen tähän asti etukäteen.
         </p>
+      </div>
+
+      {/* Yleiset huomiot */}
+      <div>
+        <label htmlFor="general_notes" className="block text-sm font-medium text-chocolate mb-1">
+          Yleiset huomiot asiakkaille (valinnainen)
+        </label>
+        <textarea
+          id="general_notes"
+          name="general_notes"
+          rows={3}
+          defaultValue={business.general_notes ?? ''}
+          placeholder="esim. aukioloajat, valmistautumisohjeet, maksutavat"
+          className="w-full px-4 py-2.5 rounded-lg border border-card-border text-chocolate placeholder-mocha/50 resize-none
+                     focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
+        />
       </div>
 
       {/* Teema */}

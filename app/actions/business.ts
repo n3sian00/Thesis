@@ -12,6 +12,7 @@ export async function updateBusinessAction(
   const city = (formData.get('city') as string)?.trim()
   const cancellation_hours = parseInt(formData.get('cancellation_hours') as string, 10)
   const theme = formData.get('theme') as string
+  const general_notes = (formData.get('general_notes') as string)?.trim() || null
 
   if (!name) return 'Salongin nimi on pakollinen.'
   if (isNaN(cancellation_hours) || cancellation_hours < 0)
@@ -26,7 +27,7 @@ export async function updateBusinessAction(
 
   const { error } = await supabase
     .from('businesses')
-    .update({ name, city: city || null, cancellation_hours, theme })
+    .update({ name, city: city || null, cancellation_hours, theme, general_notes })
     .eq('user_id', user.id)
 
   if (error) return 'Tietojen tallentaminen epäonnistui.'

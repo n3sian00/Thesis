@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
   const { data: business, error: bizError } = await supabase
     .from('businesses')
-    .select('id, name')
+    .select('id, name, city, cancellation_hours, general_notes')
     .eq('id', businessId)
     .single()
 
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
   console.log('[chat] Palveluita löytyi:', services?.length ?? 0)
 
-  const systemPrompt = buildSystemPrompt(business.name, services ?? [])
+  const systemPrompt = buildSystemPrompt(business, services ?? [])
 
   // Puhdistetaan viestihistoria: poistetaan tyhjät viestit ja rajoitetaan pituus
   const claudeMessages = messages

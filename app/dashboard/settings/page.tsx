@@ -13,7 +13,7 @@ export default async function SettingsPage() {
 
   const { data: business } = await supabase
     .from('businesses')
-    .select('id, name, slug, city, cancellation_hours, theme')
+    .select('id, name, slug, city, cancellation_hours, theme, general_notes')
     .eq('user_id', user.id)
     .single()
 

@@ -14,6 +14,7 @@ export type Database = {
           city: string | null
           cancellation_hours: number
           theme: string
+          general_notes: string | null
           created_at: string
         }
         Insert: {
@@ -24,6 +25,7 @@ export type Database = {
           city?: string | null
           cancellation_hours?: number
           theme?: string
+          general_notes?: string | null
           created_at?: string
         }
         Update: Partial<Database['public']['Tables']['businesses']['Insert']>

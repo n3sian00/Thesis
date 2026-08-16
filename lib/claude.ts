@@ -15,7 +15,12 @@ export const anthropic = new Anthropic({
 // Rakentaa system promptin yrityksen palveluiden perusteella
 // Käytetään /api/chat-endpointissa
 export function buildSystemPrompt(
-  businessName: string,
+  business: {
+    name: string
+    city?: string | null
+    cancellation_hours?: number
+    general_notes?: string | null
+  },
   services: Array<{
     id: string
     name: string
@@ -33,8 +38,18 @@ export function buildSystemPrompt(
 
   const idLista = services.map((s) => `${s.name}: ${s.id}`).join('\n')
 
-  return `Olet ${businessName}:n asiakaspalveluavustaja. Tehtäväsi on auttaa asiakkaita valitsemaan sopiva palvelu ja ohjata heitä varaamaan aika.
+  const yritysRivit = [
+    business.city ? `Sijainti: ${business.city}` : null,
+    typeof business.cancellation_hours === 'number'
+      ? `Peruutukset viimeistään ${business.cancellation_hours} tuntia ennen varausta.`
+      : null,
+    business.general_notes ? `Huomiot: ${business.general_notes}` : null,
+  ]
+    .filter(Boolean)
+    .join('\n')
 
+  return `Olet ${business.name}:n asiakaspalveluavustaja. Tehtäväsi on auttaa asiakkaita valitsemaan sopiva palvelu ja ohjata heitä varaamaan aika.
+${yritysRivit ? `\nYRITYSTIEDOT:\n${yritysRivit}\n` : ''}
 TARJOTTAVAT PALVELUT:
 ${palveluLista}
 
