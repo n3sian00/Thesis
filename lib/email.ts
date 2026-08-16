@@ -55,6 +55,7 @@ ${businessName}`,
 export async function sendBookingNotificationToOwner(params: {
   customerName: string
   customerPhone?: string | null
+  customerNotes?: string | null
   serviceName: string
   date: string
   time: string
@@ -62,7 +63,7 @@ export async function sendBookingNotificationToOwner(params: {
 }): Promise<boolean> {
   const resend = getResend()
   if (!resend) return false
-  const { customerName, customerPhone, serviceName, date, time, ownerEmail } = params
+  const { customerName, customerPhone, customerNotes, serviceName, date, time, ownerEmail } = params
 
   const { error } = await resend.emails.send({
     from: FROM,
@@ -73,7 +74,7 @@ export async function sendBookingNotificationToOwner(params: {
 Palvelu: ${serviceName}
 Aika: ${date} klo ${time}
 
-Asiakas: ${customerName}${customerPhone ? `\nPuhelin: ${customerPhone}` : ''}`,
+Asiakas: ${customerName}${customerPhone ? `\nPuhelin: ${customerPhone}` : ''}${customerNotes ? `\nLisätiedot: ${customerNotes}` : ''}`,
   })
 
   if (error) {

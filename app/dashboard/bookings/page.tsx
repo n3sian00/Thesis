@@ -207,6 +207,7 @@ type Booking = {
   customer_name: string
   customer_email: string
   customer_phone: string | null
+  customer_notes: string | null
   starts_at: string
   ends_at: string
   status: string
@@ -265,6 +266,11 @@ function BookingSection({
                       {serviceName ?? 'Palvelu'} &middot; {booking.customer_email}
                       {booking.customer_phone && ` · ${booking.customer_phone}`}
                     </p>
+                    {booking.customer_notes && (
+                      <p className="text-xs text-mocha/70 mt-1">
+                        {booking.customer_notes}
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0">

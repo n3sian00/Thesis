@@ -123,6 +123,7 @@ export async function POST(request: Request) {
     customer_name,
     customer_email,
     customer_phone,
+    customer_notes,
     starts_at,
   } = body as {
     business_id: string
@@ -130,6 +131,7 @@ export async function POST(request: Request) {
     customer_name: string
     customer_email: string
     customer_phone?: string
+    customer_notes?: string
     starts_at: string
   }
 
@@ -191,6 +193,7 @@ export async function POST(request: Request) {
       customer_name: customer_name.trim(),
       customer_email: customer_email.toLowerCase().trim(),
       customer_phone: customer_phone?.trim() || null,
+      customer_notes: customer_notes?.trim() || null,
       starts_at: startsAt.toISOString(),
       ends_at: endsAt.toISOString(),
       status: 'confirmed',
@@ -249,6 +252,7 @@ export async function POST(request: Request) {
             sendBookingNotificationToOwner({
               customerName: customer_name.trim(),
               customerPhone: customer_phone?.trim() || null,
+              customerNotes: customer_notes?.trim() || null,
               serviceName,
               date: dateLabel,
               time: timeLabel,

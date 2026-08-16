@@ -34,6 +34,7 @@ export default function BookingForm({
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [notes, setNotes] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [virhe, setVirhe] = useState<string | null>(null)
 
@@ -52,6 +53,7 @@ export default function BookingForm({
           customer_name: name,
           customer_email: email,
           customer_phone: phone || undefined,
+          customer_notes: notes || undefined,
           starts_at: startsAt,
         }),
       })
@@ -129,6 +131,22 @@ export default function BookingForm({
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+358 40 123 4567"
             className="w-full px-3 py-2 text-sm rounded-lg border border-card-border bg-white text-chocolate placeholder-mocha/50
+                       focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent"
+          />
+        </div>
+
+        {/* Lisätiedot */}
+        <div>
+          <label htmlFor="bf-notes" className="block text-xs font-medium text-mocha mb-1">
+            Lisätiedot <span className="text-mocha/60">(valinnainen)</span>
+          </label>
+          <textarea
+            id="bf-notes"
+            rows={2}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="esim. allergiat tai toiveet"
+            className="w-full px-3 py-2 text-sm rounded-lg border border-card-border bg-white text-chocolate placeholder-mocha/50 resize-none
                        focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent"
           />
         </div>
