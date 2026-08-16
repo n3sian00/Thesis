@@ -25,6 +25,9 @@ type Business = {
   name: string
   slug: string
   theme: string
+  city: string | null
+  cancellation_hours: number
+  general_notes: string | null
 }
 
 type BookingTrigger = {
@@ -177,11 +180,20 @@ export default function ChatWidget({ business, services }: Props) {
     setBookingComplete(true)
     setSelectedSlot(null)
     setBookingTrigger(null)
+
+    const lisatiedot = [
+      `Voit peruuttaa varauksen viimeistään ${business.cancellation_hours} tuntia ennen aikaa.`,
+      business.city ? `Sijainti: ${business.city}` : null,
+      business.general_notes,
+    ]
+      .filter(Boolean)
+      .join('\n')
+
     setMessages((prev) => [
       ...prev,
       {
         role: 'assistant',
-        content: 'Varauksesi on vahvistettu! Olet saanut vahvistuksen sähköpostiisi. Nähdään pian!',
+        content: `Varauksesi on vahvistettu! Olet saanut vahvistuksen sähköpostiisi. Nähdään pian!\n\n${lisatiedot}`,
       },
     ])
   }
@@ -267,6 +279,13 @@ export default function ChatWidget({ business, services }: Props) {
                 <p className="text-sm text-mocha mt-1">
                   Vahvistus on lähetetty sähköpostiisi. Nähdään pian!
                 </p>
+              </div>
+              <div className="text-xs text-mocha space-y-1 max-w-xs">
+                <p>
+                  Voit peruuttaa varauksen viimeistään {business.cancellation_hours} tuntia ennen aikaa.
+                </p>
+                {business.city && <p>Sijainti: {business.city}</p>}
+                {business.general_notes && <p>{business.general_notes}</p>}
               </div>
               <button
                 onClick={() => setDirectMode(false)}

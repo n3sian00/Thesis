@@ -15,7 +15,7 @@ export default async function BusinessChatPage({
   // Haetaan yritys slugin perusteella — julkinen haku (public SELECT policy)
   const { data: business } = await supabase
     .from('businesses')
-    .select('id, name, slug, theme')
+    .select('id, name, slug, theme, city, cancellation_hours, general_notes')
     .eq('slug', slug)
     .single()
 
@@ -37,6 +37,9 @@ export default async function BusinessChatPage({
           name: business.name,
           slug: business.slug,
           theme: business.theme,
+          city: business.city,
+          cancellation_hours: business.cancellation_hours,
+          general_notes: business.general_notes,
         }}
         services={(services ?? []).map((s) => ({
           id: s.id,
