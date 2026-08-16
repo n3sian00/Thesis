@@ -74,17 +74,17 @@ export default function EditServiceModal({ service, onClose }: Props) {
             />
           </div>
 
-          {/* Kuvaus */}
+          {/* Huomiot */}
           <div>
             <label htmlFor="edit-description" className="block text-xs font-medium text-mocha mb-1">
-              Kuvaus <span className="text-mocha/60 font-normal">(valinnainen)</span>
+              Huomiot <span className="text-mocha/60 font-normal">(valinnainen)</span>
             </label>
             <textarea
               id="edit-description"
               name="description"
               rows={2}
               defaultValue={service.description ?? ''}
-              placeholder="Lyhyt kuvaus palvelusta asiakkaalle…"
+              placeholder="esim. ei raskaana oleville, sisältää poiston, kesto voi vaihdella"
               className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate placeholder-mocha/50 resize-none
                          focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
             />

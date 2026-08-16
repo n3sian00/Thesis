@@ -19,15 +19,16 @@ export function buildSystemPrompt(
   services: Array<{
     id: string
     name: string
+    description?: string | null
     duration_minutes: number
     price: number
   }>
 ): string {
   const palveluLista = services
-    .map(
-      (s) =>
-        `• ${s.name} — ${s.duration_minutes} min — ${Number(s.price).toFixed(2)} €`
-    )
+    .map((s) => {
+      const rivi = `• ${s.name} — ${s.duration_minutes} min — ${Number(s.price).toFixed(2)} €`
+      return s.description ? `${rivi} — huomiot: ${s.description}` : rivi
+    })
     .join('\n')
 
   const idLista = services.map((s) => `${s.name}: ${s.id}`).join('\n')

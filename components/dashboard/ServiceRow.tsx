@@ -62,6 +62,9 @@ export default function ServiceRow({ service }: { service: Service }) {
           {formatDuration(service.duration_minutes)} &middot;{' '}
           {formatPrice(Number(service.price))}
         </p>
+        {service.description && (
+          <p className="text-xs text-mocha/70 mt-1 truncate">{service.description}</p>
+        )}
       </div>
 
       {/* Toimintopainikkeet */}

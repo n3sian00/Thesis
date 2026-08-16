@@ -77,6 +77,21 @@ export default function AddServiceForm() {
         </div>
       </div>
 
+      {/* Huomiot */}
+      <div className="mt-3">
+        <label htmlFor="description" className="block text-xs font-medium text-mocha mb-1">
+          Huomiot (valinnainen)
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          rows={2}
+          placeholder="esim. ei raskaana oleville, sisältää poiston, kesto voi vaihdella"
+          className="w-full px-3 py-2 text-sm rounded-lg border border-card-border text-chocolate placeholder-mocha/50 resize-none
+                     focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
+        />
+      </div>
+
       {/* Virheilmoitus */}
       {virhe && (
         <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2 mt-3">

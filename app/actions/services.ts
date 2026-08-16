@@ -29,6 +29,7 @@ export async function createServiceAction(
   const name = (formData.get('name') as string)?.trim()
   const durationRaw = formData.get('duration_minutes') as string
   const priceRaw = formData.get('price') as string
+  const description = (formData.get('description') as string)?.trim() || null
 
   if (!name) return 'Palvelun nimi on pakollinen.'
 
@@ -45,6 +46,7 @@ export async function createServiceAction(
   const { error } = await supabase.from('services').insert({
     business_id: businessId,
     name,
+    description,
     duration_minutes,
     price,
   })
