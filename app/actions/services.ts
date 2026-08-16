@@ -94,18 +94,26 @@ export async function updateServiceAction(
 }
 
 // Poista palvelu (business_id-tarkistus RLS:n lisäksi)
-export async function deleteServiceAction(formData: FormData): Promise<void> {
+export async function deleteServiceAction(formData: FormData): Promise<string | null> {
   const id = formData.get('id') as string
   const { supabase, businessId } = await getOwnBusiness()
-  if (!businessId) return
+  if (!businessId) return 'Kirjaudu ensin sisään.'
 
-  await supabase
+  const { error } = await supabase
     .from('services')
     .delete()
     .eq('id', id)
     .eq('business_id', businessId)
 
+  if (error) {
+    if (error.code === '23503') {
+      return 'Palvelua ei voi poistaa, koska siihen liittyy varauksia. Voit piilottaa sen asiakkailta Piilota-painikkeella.'
+    }
+    return 'Palvelun poistaminen epäonnistui. Yritä uudelleen.'
+  }
+
   revalidatePath('/dashboard/services')
+  return null
 }
 
 // Vaihda palvelun aktiivisuustila

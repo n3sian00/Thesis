@@ -27,6 +27,7 @@ export default function ServiceRow({ service }: { service: Service }) {
   const [editOpen, setEditOpen] = useState(false)
   const [togglePending, startToggle] = useTransition()
   const [deletePending, startDelete] = useTransition()
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   const isPending = togglePending || deletePending
 
@@ -39,9 +40,13 @@ export default function ServiceRow({ service }: { service: Service }) {
 
   function handleDelete() {
     if (!window.confirm(`Poistetaanko palvelu "${service.name}"?`)) return
+    setDeleteError(null)
     const fd = new FormData()
     fd.append('id', service.id)
-    startDelete(() => deleteServiceAction(fd))
+    startDelete(async () => {
+      const virhe = await deleteServiceAction(fd)
+      setDeleteError(virhe)
+    })
   }
 
   return (
@@ -120,6 +125,12 @@ export default function ServiceRow({ service }: { service: Service }) {
         </button>
       </div>
     </div>
+
+    {deleteError && (
+      <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2 mx-5 mb-4">
+        {deleteError}
+      </p>
+    )}
     </>
   )
 }
