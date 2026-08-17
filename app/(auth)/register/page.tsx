@@ -48,7 +48,7 @@ export default function RegisterPage() {
               />
               <p className="text-xs text-mocha/70 mt-1">
                 Nimestä luodaan automaattisesti URL-osoitteesi, esim.{' '}
-                <span className="text-rose-deep">kauneusai.fi/studio-lumiere</span>
+                <span className="text-rose-deep">veloure.fi/studio-lumiere</span>
               </p>
             </div>
 

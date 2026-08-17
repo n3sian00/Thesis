@@ -66,7 +66,7 @@ export default function BusinessSettingsForm({ business }: Props) {
           URL-tunniste
         </label>
         <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-card-border bg-cream">
-          <span className="text-mocha text-sm">kauneusai.fi/</span>
+          <span className="text-mocha text-sm">veloure.fi/</span>
           <span className="text-sm font-medium text-chocolate">{business.slug}</span>
         </div>
         <p className="text-xs text-mocha/70 mt-1">URL-tunnistetta ei voi muuttaa rekisteröinnin jälkeen.</p>
