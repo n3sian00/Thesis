@@ -5,6 +5,7 @@ import ChatMessage from './ChatMessage'
 import BreathingOrb from './BreathingOrb'
 import TimeSlotPicker from '../booking/TimeSlotPicker'
 import BookingForm from '../booking/BookingForm'
+import { formatDateTimeHelsinki } from '@/lib/dates'
 
 // --- Tyypit ---
 
@@ -43,6 +44,11 @@ type SelectedSlot = {
   duration_minutes: number
 } | null
 
+type ConfirmedBooking = {
+  serviceName: string
+  startsAt: string
+} | null
+
 type DirectStep = 'services' | 'slots' | 'form'
 
 interface Props {
@@ -71,6 +77,8 @@ export default function ChatWidget({ business, services }: Props) {
   const [bookingTrigger, setBookingTrigger] = useState<BookingTrigger>(null)
   const [selectedSlot, setSelectedSlot] = useState<SelectedSlot>(null)
   const [bookingComplete, setBookingComplete] = useState(false)
+  // Vahvistetun varauksen palvelu ja ajankohta onnistumisnäkymää varten — jaettu molempien flow'jen kesken
+  const [confirmedBooking, setConfirmedBooking] = useState<ConfirmedBooking>(null)
 
   // Suora varausflow
   const [directMode, setDirectMode] = useState(false)
@@ -177,6 +185,14 @@ export default function ChatWidget({ business, services }: Props) {
 
   // Varausvahvistus chat-flowssa
   function handleBookingSuccess() {
+    // Luetaan palvelu ja ajankohta ENNEN setSelectedSlot(null)-kutsua, jotta tieto ei katoa
+    if (selectedSlot) {
+      setConfirmedBooking({
+        serviceName: selectedSlot.service_name,
+        startsAt: selectedSlot.starts_at,
+      })
+    }
+
     setBookingComplete(true)
     setSelectedSlot(null)
     setBookingTrigger(null)
@@ -205,6 +221,7 @@ export default function ChatWidget({ business, services }: Props) {
     setDirectService(null)
     setDirectSlot(null)
     setDirectDone(false)
+    setConfirmedBooking(null)
   }
 
   // Takaisin-logiikka suorassa flowssa
@@ -224,6 +241,12 @@ export default function ChatWidget({ business, services }: Props) {
 
   // Varausvahvistus suorassa flowssa
   function handleDirectBookingSuccess() {
+    if (directService && directSlot) {
+      setConfirmedBooking({
+        serviceName: directService.name,
+        startsAt: directSlot.starts_at,
+      })
+    }
     setDirectDone(true)
   }
 
@@ -280,6 +303,17 @@ export default function ChatWidget({ business, services }: Props) {
                   Vahvistus on lähetetty sähköpostiisi. Nähdään pian!
                 </p>
               </div>
+              {confirmedBooking && (
+                <div className="bg-cream rounded-xl px-4 py-3 w-full max-w-xs text-left border border-card-border">
+                  <p className="text-xs font-medium text-mocha uppercase tracking-wide mb-1">
+                    Varauksen tiedot
+                  </p>
+                  <p className="text-sm font-semibold text-chocolate">{confirmedBooking.serviceName}</p>
+                  <p className="text-xs text-mocha mt-0.5">
+                    {formatDateTimeHelsinki(confirmedBooking.startsAt, 'long')}
+                  </p>
+                </div>
+              )}
               <div className="text-xs text-mocha space-y-1 max-w-xs">
                 <p>
                   Voit peruuttaa varauksen viimeistään {business.cancellation_hours} tuntia ennen aikaa.
@@ -442,6 +476,19 @@ export default function ChatWidget({ business, services }: Props) {
                 endsAt={selectedSlot.ends_at}
                 onSuccess={handleBookingSuccess}
               />
+            )}
+
+            {/* Vahvistetun varauksen tiedot onnistumisen jälkeen */}
+            {bookingComplete && confirmedBooking && (
+              <div className="bg-cream rounded-xl px-4 py-3 ml-9 max-w-[75%] border border-card-border">
+                <p className="text-xs font-medium text-mocha uppercase tracking-wide mb-1">
+                  Varauksen tiedot
+                </p>
+                <p className="text-sm font-semibold text-chocolate">{confirmedBooking.serviceName}</p>
+                <p className="text-xs text-mocha mt-0.5">
+                  {formatDateTimeHelsinki(confirmedBooking.startsAt, 'long')}
+                </p>
+              </div>
             )}
 
             <div ref={bottomRef} />
