@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
   const { data: services } = await supabase
     .from('services')
-    .select('id, name, description, duration_minutes, price')
+    .select('id, name, description, category, duration_minutes, price')
     .eq('business_id', businessId)
     .eq('active', true)
     .order('name')

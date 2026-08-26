@@ -123,6 +123,84 @@ ${businessName}`,
   return true
 }
 
+// Lähettää ilmoituksen asiakkaalle varauksen ajankohdan muuttumisesta.
+// Palauttaa true jos lähetys onnistui, false jos epäonnistui.
+export async function sendBookingRescheduleToCustomer(params: {
+  customerName: string
+  customerEmail: string
+  serviceName: string
+  oldDateTime: string  // esim. formatDateTimeHelsinki(vanhaAika, 'long')
+  newDateTime: string  // esim. formatDateTimeHelsinki(uusiAika, 'long')
+  businessName: string
+}): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
+  const { customerName, customerEmail, serviceName, oldDateTime, newDateTime, businessName } = params
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: customerEmail,
+    subject: `Varauksen ajankohta muuttui — ${serviceName} @ ${businessName}`,
+    text: `Hei ${customerName},
+
+varauksesi ajankohta on muuttunut.
+
+Palvelu: ${serviceName}
+Vanha aika: ${oldDateTime}
+Uusi aika: ${newDateTime}
+Paikka: ${businessName}
+
+Jos sinulla on kysyttävää, ota yhteyttä suoraan ${businessName}:iin.
+
+Nähdään pian!
+${businessName}`,
+  })
+
+  if (error) {
+    console.error('Siirtoilmoituksen lähetys epäonnistui:', error)
+    return false
+  }
+  return true
+}
+
+// Lähettää ilmoituksen asiakkaalle varauksen tietojen päivittymisestä.
+// Palauttaa true jos lähetys onnistui, false jos epäonnistui.
+export async function sendBookingUpdateToCustomer(params: {
+  customerName: string
+  customerEmail: string
+  serviceName: string
+  dateTime: string  // esim. formatDateTimeHelsinki(aika, 'long')
+  businessName: string
+}): Promise<boolean> {
+  const resend = getResend()
+  if (!resend) return false
+  const { customerName, customerEmail, serviceName, dateTime, businessName } = params
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: customerEmail,
+    subject: `Varauksen tietoja päivitetty — ${serviceName} @ ${businessName}`,
+    text: `Hei ${customerName},
+
+varauksesi tietoja on päivitetty.
+
+Palvelu: ${serviceName}
+Aika: ${dateTime}
+Paikka: ${businessName}
+
+Jos sinulla on kysyttävää, ota yhteyttä suoraan ${businessName}:iin.
+
+Nähdään pian!
+${businessName}`,
+  })
+
+  if (error) {
+    console.error('Päivitysilmoituksen lähetys epäonnistui:', error)
+    return false
+  }
+  return true
+}
+
 // Ilmoittaa jonotuslistalla olevalle asiakkaalle että aika on vapautunut.
 // Palauttaa true jos lähetys onnistui, false jos epäonnistui.
 export async function sendWaitlistNotificationToCustomer(params: {

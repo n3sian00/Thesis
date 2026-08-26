@@ -12,6 +12,44 @@ export const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
+type PromptService = {
+  id: string
+  name: string
+  description?: string | null
+  category?: string | null
+  duration_minutes: number
+  price: number
+}
+
+function formatServiceLine(s: PromptService) {
+  const rivi = `• ${s.name} — ${s.duration_minutes} min — ${Number(s.price).toFixed(2)} €`
+  return s.description ? `${rivi} — huomiot: ${s.description}` : rivi
+}
+
+// Ryhmittelee palvelut kategorian mukaan aakkosjärjestykseen — kategoriattomat "Muut"-ryhmään viimeiseksi
+function groupServicesByCategory(
+  services: PromptService[]
+): Array<{ label: string; services: PromptService[] }> {
+  const groups = services.reduce((map, s) => {
+    const list = map.get(s.category ?? null) ?? []
+    list.push(s)
+    map.set(s.category ?? null, list)
+    return map
+  }, new Map<string | null, PromptService[]>())
+
+  const categorized = Array.from(groups.entries())
+    .filter((entry): entry is [string, PromptService[]] => entry[0] !== null)
+    .sort(([a], [b]) => a.localeCompare(b, 'fi'))
+    .map(([label, list]) => ({ label, services: list }))
+
+  const uncategorized = groups.get(null)
+  if (uncategorized) {
+    categorized.push({ label: 'Muut', services: uncategorized })
+  }
+
+  return categorized
+}
+
 // Rakentaa system promptin yrityksen palveluiden perusteella
 // Käytetään /api/chat-endpointissa
 export function buildSystemPrompt(
@@ -21,20 +59,17 @@ export function buildSystemPrompt(
     cancellation_hours?: number
     general_notes?: string | null
   },
-  services: Array<{
-    id: string
-    name: string
-    description?: string | null
-    duration_minutes: number
-    price: number
-  }>
+  services: PromptService[]
 ): string {
-  const palveluLista = services
-    .map((s) => {
-      const rivi = `• ${s.name} — ${s.duration_minutes} min — ${Number(s.price).toFixed(2)} €`
-      return s.description ? `${rivi} — huomiot: ${s.description}` : rivi
-    })
-    .join('\n')
+  const serviceGroups = groupServicesByCategory(services)
+
+  // Jos kategorioita ei ole käytössä (kaikki samassa ryhmässä), näytetään litteä lista kuten ennenkin
+  const palveluLista =
+    serviceGroups.length <= 1
+      ? services.map(formatServiceLine).join('\n')
+      : serviceGroups
+          .map((group) => `${group.label}:\n${group.services.map(formatServiceLine).join('\n')}`)
+          .join('\n\n')
 
   const idLista = services.map((s) => `${s.name}: ${s.id}`).join('\n')
 
@@ -48,13 +83,18 @@ export function buildSystemPrompt(
     .filter(Boolean)
     .join('\n')
 
+  const kategoriaOhje =
+    serviceGroups.length > 1
+      ? ' Palvelut on ryhmitelty kategorioihin — jos asiakas ei tiedä tarkkaa palvelua, voit ensin kysyä mistä kategoriasta hän on kiinnostunut.'
+      : ''
+
   return `Olet ${business.name}:n asiakaspalveluavustaja. Tehtäväsi on auttaa asiakkaita valitsemaan sopiva palvelu ja ohjata heitä varaamaan aika.
 ${yritysRivit ? `\nYRITYSTIEDOT:\n${yritysRivit}\n` : ''}
 TARJOTTAVAT PALVELUT:
 ${palveluLista}
 
 OHJEISTUS:
-1. Tervehdi asiakasta lämpimästi ja kysy suoraan mitä palvelua he ovat ajatelleet.
+1. Tervehdi asiakasta lämpimästi ja kysy suoraan mitä palvelua he ovat ajatelleet.${kategoriaOhje}
 2. Jos asiakas ei tiedä mitä haluaa, suosittele aktiivisesti: kysy hieman asiakkaan tarpeesta ja ehdota sopivaa palvelua sen perusteella. Mainitse lyhyesti mitä palvelu sisältää, kesto ja hinta.
 3. Kun asiakas ilmaisee kiinnostuksen tiettyyn palveluun — myös epäsuorasti kuten "se kuulostaa hyvältä" tai "haluaisin kokeilla" — ohjaa heti varaamaan aika lisäämällä vastauksesi LOPPUUN:
    [VARAUS:{"service_id":"<ID>","service_name":"<NIMI>"}]

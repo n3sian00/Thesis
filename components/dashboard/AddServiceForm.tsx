@@ -2,8 +2,13 @@
 
 import { useActionState, useEffect, useRef } from 'react'
 import { createServiceAction } from '@/app/actions/services'
+import CategorySelect from '@/components/dashboard/CategorySelect'
 
-export default function AddServiceForm() {
+interface Props {
+  existingCategories: string[]
+}
+
+export default function AddServiceForm({ existingCategories }: Props) {
   const [virhe, toiminto, lataa] = useActionState(createServiceAction, null)
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -75,6 +80,11 @@ export default function AddServiceForm() {
                        focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
           />
         </div>
+      </div>
+
+      {/* Kategoria */}
+      <div className="mt-3">
+        <CategorySelect existingCategories={existingCategories} idPrefix="add" />
       </div>
 
       {/* Huomiot */}

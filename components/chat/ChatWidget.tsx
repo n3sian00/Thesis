@@ -19,6 +19,7 @@ type Service = {
   name: string
   duration_minutes: number
   price: number
+  category: string | null
 }
 
 type Business = {
@@ -65,6 +66,30 @@ function formatPrice(price: number) {
     currency: 'EUR',
     minimumFractionDigits: 0,
   }).format(price)
+}
+
+// Ryhmittelee palvelut kategorian mukaan aakkosjärjestykseen — kategoriattomat "Muut"-ryhmään viimeiseksi
+function groupServicesByCategory(
+  services: Service[]
+): Array<{ label: string; services: Service[] }> {
+  const groups = services.reduce((map, s) => {
+    const list = map.get(s.category) ?? []
+    list.push(s)
+    map.set(s.category, list)
+    return map
+  }, new Map<string | null, Service[]>())
+
+  const categorized = Array.from(groups.entries())
+    .filter((entry): entry is [string, Service[]] => entry[0] !== null)
+    .sort(([a], [b]) => a.localeCompare(b, 'fi'))
+    .map(([label, list]) => ({ label, services: list }))
+
+  const uncategorized = groups.get(null)
+  if (uncategorized) {
+    categorized.push({ label: 'Muut', services: uncategorized })
+  }
+
+  return categorized
 }
 
 // --- Komponentti ---
@@ -330,30 +355,39 @@ export default function ChatWidget({ business, services }: Props) {
             </div>
 
           ) : directStep === 'services' ? (
-            /* Vaihe 1: Palvelulista */
+            /* Vaihe 1: Palvelulista — ryhmitelty kategorioittain */
             <>
               <p className="text-sm font-medium text-chocolate">Valitse palvelu</p>
-              <div className="space-y-2">
-                {services.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => {
-                      setDirectService(s)
-                      setDirectStep('slots')
-                    }}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-card-border
-                               hover:border-rose hover:bg-cream transition-colors text-left group"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-chocolate group-hover:text-rose-deep">
-                        {s.name}
-                      </p>
-                      <p className="text-xs text-mocha mt-0.5">{s.duration_minutes} min</p>
+              <div className="space-y-4">
+                {groupServicesByCategory(services).map((group) => (
+                  <div key={group.label}>
+                    <p className="text-xs font-semibold text-mocha uppercase tracking-wide mb-2">
+                      {group.label}
+                    </p>
+                    <div className="space-y-2">
+                      {group.services.map((s) => (
+                        <button
+                          key={s.id}
+                          onClick={() => {
+                            setDirectService(s)
+                            setDirectStep('slots')
+                          }}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-card-border
+                                     hover:border-rose hover:bg-cream transition-colors text-left group"
+                        >
+                          <div>
+                            <p className="text-sm font-medium text-chocolate group-hover:text-rose-deep">
+                              {s.name}
+                            </p>
+                            <p className="text-xs text-mocha mt-0.5">{s.duration_minutes} min</p>
+                          </div>
+                          <span className="text-sm font-semibold text-rose-deep shrink-0 ml-3">
+                            {formatPrice(s.price)}
+                          </span>
+                        </button>
+                      ))}
                     </div>
-                    <span className="text-sm font-semibold text-rose-deep shrink-0 ml-3">
-                      {formatPrice(s.price)}
-                    </span>
-                  </button>
+                  </div>
                 ))}
               </div>
             </>

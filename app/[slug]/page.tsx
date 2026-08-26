@@ -24,7 +24,7 @@ export default async function BusinessChatPage({
   // Haetaan aktiiviset palvelut chatbotia varten
   const { data: services } = await supabase
     .from('services')
-    .select('id, name, duration_minutes, price')
+    .select('id, name, duration_minutes, price, category')
     .eq('business_id', business.id)
     .eq('active', true)
     .order('name', { ascending: true })
@@ -46,6 +46,7 @@ export default async function BusinessChatPage({
           name: s.name,
           duration_minutes: s.duration_minutes,
           price: Number(s.price),
+          category: s.category,
         }))}
       />
     </main>

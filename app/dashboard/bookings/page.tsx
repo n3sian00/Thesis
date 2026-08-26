@@ -4,6 +4,7 @@ import { formatDateTimeHelsinki } from '@/lib/dates'
 import { cancelBookingAction } from '@/app/actions/bookings'
 import { removeWaitlistAction } from '@/app/actions/waitlist'
 import BookingsFilter from '@/components/dashboard/BookingsFilter'
+import BookingActions from '@/components/dashboard/BookingActions'
 import { Suspense } from 'react'
 
 // Värikoodi varauksen tilalle
@@ -107,6 +108,7 @@ export default async function BookingsPage({
         <BookingSection
           otsikko={`Hakutulokset${q ? ` — "${q}"` : ''}${status ? ` (${STATUS_LABELS[status] ?? status})` : ''}`}
           bookings={bookings ?? []}
+          businessId={business.id}
           tyhjaViesti="Ei varauksia hakuehdoilla."
           showCancel
         />
@@ -116,6 +118,7 @@ export default async function BookingsPage({
           <BookingSection
             otsikko="Tulevat varaukset"
             bookings={tulevat}
+            businessId={business.id}
             tyhjaViesti="Ei tulevia varauksia."
             showCancel
           />
@@ -124,6 +127,7 @@ export default async function BookingsPage({
             <BookingSection
               otsikko="Aiemmat varaukset"
               bookings={menneet}
+              businessId={business.id}
               tyhjaViesti=""
               dim
             />
@@ -204,6 +208,7 @@ function WaitlistSection({ waitlist }: { waitlist: WaitlistEntry[] }) {
 
 type Booking = {
   id: string
+  service_id: string
   customer_name: string
   customer_email: string
   customer_phone: string | null
@@ -217,12 +222,14 @@ type Booking = {
 function BookingSection({
   otsikko,
   bookings,
+  businessId,
   tyhjaViesti,
   dim = false,
   showCancel = false,
 }: {
   otsikko: string
   bookings: Booking[]
+  businessId: string
   tyhjaViesti: string
   dim?: boolean
   showCancel?: boolean
@@ -246,6 +253,10 @@ function BookingSection({
 
             const statusStyle = STATUS_STYLES[booking.status] ?? 'bg-cream text-mocha'
             const statusLabel = STATUS_LABELS[booking.status] ?? booking.status
+
+            const durationMinutes = Math.round(
+              (new Date(booking.ends_at).getTime() - new Date(booking.starts_at).getTime()) / 60000
+            )
 
             return (
               <div
@@ -279,17 +290,31 @@ function BookingSection({
                     </p>
 
                     {showCancel && booking.status === 'confirmed' && (
-                      <form action={cancelBookingAction}>
-                        <input type="hidden" name="booking_id" value={booking.id} />
-                        <button
-                          type="submit"
-                          className="text-xs text-red-500 hover:text-red-700 hover:bg-red-50
-                                     px-2.5 py-1 rounded-lg transition-colors border border-red-200
-                                     hover:border-red-300 whitespace-nowrap"
-                        >
-                          Peruuta
-                        </button>
-                      </form>
+                      <>
+                        <BookingActions
+                          bookingId={booking.id}
+                          businessId={businessId}
+                          serviceId={booking.service_id}
+                          serviceName={serviceName ?? 'Palvelu'}
+                          durationMinutes={durationMinutes}
+                          startsAt={booking.starts_at}
+                          customerName={booking.customer_name}
+                          customerEmail={booking.customer_email}
+                          customerPhone={booking.customer_phone}
+                          customerNotes={booking.customer_notes}
+                        />
+                        <form action={cancelBookingAction}>
+                          <input type="hidden" name="booking_id" value={booking.id} />
+                          <button
+                            type="submit"
+                            className="text-xs text-red-500 hover:text-red-700 hover:bg-red-50
+                                       px-2.5 py-1 rounded-lg transition-colors border border-red-200
+                                       hover:border-red-300 whitespace-nowrap"
+                          >
+                            Peruuta
+                          </button>
+                        </form>
+                      </>
                     )}
                   </div>
                 </div>

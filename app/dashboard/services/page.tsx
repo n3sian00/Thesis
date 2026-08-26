@@ -35,6 +35,11 @@ export default async function ServicesPage() {
   const aktiiviset = services?.filter((s) => s.active) ?? []
   const eiAktiiviset = services?.filter((s) => !s.active) ?? []
 
+  // Olemassa olevat kategoriat lomakkeiden pudotusvalikkoa varten (duplikaattien esto)
+  const existingCategories = Array.from(
+    new Set((services ?? []).map((s) => s.category).filter((c): c is string => !!c))
+  ).sort((a, b) => a.localeCompare(b, 'fi'))
+
   return (
     <div className="space-y-8">
 
@@ -47,7 +52,7 @@ export default async function ServicesPage() {
       </div>
 
       {/* Lisää palvelu -lomake */}
-      <AddServiceForm />
+      <AddServiceForm existingCategories={existingCategories} />
 
       {/* Palvelulistaus */}
       {(!services || services.length === 0) ? (
@@ -64,6 +69,7 @@ export default async function ServicesPage() {
             <ServiceGroup
               otsikko="Aktiiviset palvelut"
               services={aktiiviset}
+              existingCategories={existingCategories}
             />
           )}
 
@@ -72,6 +78,7 @@ export default async function ServicesPage() {
             <ServiceGroup
               otsikko="Piilotetut palvelut"
               services={eiAktiiviset}
+              existingCategories={existingCategories}
               dim
             />
           )}
@@ -85,10 +92,12 @@ export default async function ServicesPage() {
 function ServiceGroup({
   otsikko,
   services,
+  existingCategories,
   dim = false,
 }: {
   otsikko: string
   services: Service[]
+  existingCategories: string[]
   dim?: boolean
 }) {
   return (
@@ -98,7 +107,7 @@ function ServiceGroup({
       </h2>
       <div className="bg-white rounded-xl border border-card-border shadow-sm divide-y divide-card-border/60">
         {services.map((service) => (
-          <ServiceRow key={service.id} service={service} />
+          <ServiceRow key={service.id} service={service} existingCategories={existingCategories} />
         ))}
       </div>
     </div>

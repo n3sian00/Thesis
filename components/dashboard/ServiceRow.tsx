@@ -23,7 +23,12 @@ function formatPrice(price: number) {
   }).format(price)
 }
 
-export default function ServiceRow({ service }: { service: Service }) {
+interface Props {
+  service: Service
+  existingCategories: string[]
+}
+
+export default function ServiceRow({ service, existingCategories }: Props) {
   const [editOpen, setEditOpen] = useState(false)
   const [togglePending, startToggle] = useTransition()
   const [deletePending, startDelete] = useTransition()
@@ -52,7 +57,11 @@ export default function ServiceRow({ service }: { service: Service }) {
   return (
     <>
       {editOpen && (
-        <EditServiceModal service={service} onClose={() => setEditOpen(false)} />
+        <EditServiceModal
+          service={service}
+          existingCategories={existingCategories}
+          onClose={() => setEditOpen(false)}
+        />
       )}
 
     <div
@@ -62,7 +71,14 @@ export default function ServiceRow({ service }: { service: Service }) {
     >
       {/* Palvelun tiedot */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-chocolate truncate">{service.name}</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium text-chocolate truncate">{service.name}</p>
+          {service.category && (
+            <span className="shrink-0 px-2 py-0.5 text-[10px] font-medium rounded-full bg-baby text-rose-deep">
+              {service.category}
+            </span>
+          )}
+        </div>
         <p className="text-xs text-mocha mt-0.5">
           {formatDuration(service.duration_minutes)} &middot;{' '}
           {formatPrice(Number(service.price))}

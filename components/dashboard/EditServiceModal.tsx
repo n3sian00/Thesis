@@ -2,16 +2,18 @@
 
 import { useActionState, useEffect, useRef } from 'react'
 import { updateServiceAction } from '@/app/actions/services'
+import CategorySelect from '@/components/dashboard/CategorySelect'
 import type { Database } from '@/types/database'
 
 type Service = Database['public']['Tables']['services']['Row']
 
 interface Props {
   service: Service
+  existingCategories: string[]
   onClose: () => void
 }
 
-export default function EditServiceModal({ service, onClose }: Props) {
+export default function EditServiceModal({ service, existingCategories, onClose }: Props) {
   const [virhe, toiminto, lataa] = useActionState(updateServiceAction, null)
   const prevLataa = useRef(false)
 
@@ -73,6 +75,13 @@ export default function EditServiceModal({ service, onClose }: Props) {
                          focus:outline-none focus:ring-2 focus:ring-rose focus:border-transparent transition-shadow"
             />
           </div>
+
+          {/* Kategoria */}
+          <CategorySelect
+            existingCategories={existingCategories}
+            defaultValue={service.category}
+            idPrefix="edit"
+          />
 
           {/* Huomiot */}
           <div>

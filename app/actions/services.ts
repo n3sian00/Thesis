@@ -30,6 +30,7 @@ export async function createServiceAction(
   const durationRaw = formData.get('duration_minutes') as string
   const priceRaw = formData.get('price') as string
   const description = (formData.get('description') as string)?.trim() || null
+  const category = (formData.get('category') as string)?.trim() || null
 
   if (!name) return 'Palvelun nimi on pakollinen.'
 
@@ -47,6 +48,7 @@ export async function createServiceAction(
     business_id: businessId,
     name,
     description,
+    category,
     duration_minutes,
     price,
   })
@@ -67,6 +69,7 @@ export async function updateServiceAction(
   const durationRaw = formData.get('duration_minutes') as string
   const priceRaw = formData.get('price') as string
   const description = (formData.get('description') as string)?.trim() || null
+  const category = (formData.get('category') as string)?.trim() || null
 
   if (!id) return 'Palvelun ID puuttuu.'
   if (!name) return 'Palvelun nimi on pakollinen.'
@@ -83,7 +86,7 @@ export async function updateServiceAction(
 
   const { error } = await supabase
     .from('services')
-    .update({ name, description, duration_minutes, price })
+    .update({ name, description, category, duration_minutes, price })
     .eq('id', id)
     .eq('business_id', businessId)
 
