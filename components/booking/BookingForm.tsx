@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { formatDateTimeHelsinki } from '@/lib/dates'
 
 interface Props {
   businessId: string
@@ -9,18 +10,6 @@ interface Props {
   startsAt: string  // ISO-string
   endsAt: string    // ISO-string
   onSuccess: () => void
-}
-
-// Muotoilee ISO-aikaleiman luettavaan suomalaiseen muotoon
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleString('fi-FI', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'Europe/Helsinki',
-  })
 }
 
 export default function BookingForm({
@@ -81,7 +70,7 @@ export default function BookingForm({
           Varauksen tiedot
         </p>
         <p className="text-sm font-semibold text-chocolate">{serviceName}</p>
-        <p className="text-xs text-mocha mt-0.5">{formatTime(startsAt)}</p>
+        <p className="text-xs text-mocha mt-0.5">{formatDateTimeHelsinki(startsAt, 'long')}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
