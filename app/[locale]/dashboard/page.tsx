@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { formatDateTimeHelsinki } from '@/lib/dates'
 
 export default async function DashboardPage() {

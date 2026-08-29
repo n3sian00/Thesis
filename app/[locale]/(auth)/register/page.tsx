@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { registerAction } from '@/app/actions/auth'
 
 export default function RegisterPage() {

@@ -3,6 +3,8 @@ import { createAdminClient } from '@/lib/supabase/server'
 import { sendBookingConfirmationToCustomer, sendBookingNotificationToOwner } from '@/lib/email'
 import { helsinkiToUTC } from '@/lib/dates'
 import { generateCancelToken } from '@/lib/tokens'
+import { hasLocale } from 'next-intl'
+import { routing } from '@/i18n/routing'
 
 // Vapaiden aikaslottien väli minuuteissa
 const SLOT_INTERVAL = 30
@@ -125,6 +127,7 @@ export async function POST(request: Request) {
     customer_phone,
     customer_notes,
     starts_at,
+    locale,
   } = body as {
     business_id: string
     service_id: string
@@ -133,11 +136,14 @@ export async function POST(request: Request) {
     customer_phone?: string
     customer_notes?: string
     starts_at: string
+    locale?: string
   }
 
   if (!business_id || !service_id || !customer_name || !customer_email || !starts_at) {
     return Response.json({ error: 'Puutteelliset tiedot.' }, { status: 400 })
   }
+
+  const bookingLocale = hasLocale(routing.locales, locale) ? locale : routing.defaultLocale
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer_email)) {
     return Response.json({ error: 'Virheellinen sähköpostiosoite.' }, { status: 400 })
@@ -197,6 +203,7 @@ export async function POST(request: Request) {
       starts_at: startsAt.toISOString(),
       ends_at: endsAt.toISOString(),
       status: 'confirmed',
+      locale: bookingLocale,
     })
     .select('id, starts_at, ends_at, customer_name, customer_email')
     .single()

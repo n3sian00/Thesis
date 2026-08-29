@@ -1,4 +1,5 @@
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import CalendarView from '@/components/dashboard/CalendarView'
 
@@ -11,7 +12,10 @@ export default async function CalendarPage() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) redirect('/login')
+  if (!user) {
+    redirect({ href: '/login', locale: await getLocale() })
+    return null
+  }
 
   const { data: business } = await supabase
     .from('businesses')

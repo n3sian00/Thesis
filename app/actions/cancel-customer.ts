@@ -1,6 +1,7 @@
 'use server'
 
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { verifyCancelToken } from '@/lib/tokens'
 import {
@@ -11,11 +12,18 @@ import {
 export async function cancelCustomerBookingAction(formData: FormData): Promise<void> {
   const bookingId = formData.get('booking_id') as string
   const token     = formData.get('token')      as string
+  const locale    = await getLocale()
 
-  if (!bookingId || !token) redirect('/')
+  if (!bookingId || !token) {
+    redirect({ href: '/', locale })
+    return
+  }
 
   const valid = await verifyCancelToken(bookingId, token)
-  if (!valid) redirect('/')
+  if (!valid) {
+    redirect({ href: '/', locale })
+    return
+  }
 
   const supabase = createAdminClient()
 
@@ -31,7 +39,10 @@ export async function cancelCustomerBookingAction(formData: FormData): Promise<v
     .single()
 
   // Ei löydy tai jo peruutettu — näytetään sivu joka kertoo tilanteen
-  if (!booking) redirect(`/cancel?id=${bookingId}&token=${token}`)
+  if (!booking) {
+    redirect({ href: `/cancel?id=${bookingId}&token=${token}`, locale })
+    return
+  }
 
   const businessInfo = Array.isArray(booking.businesses)
     ? booking.businesses[0]
@@ -40,14 +51,20 @@ export async function cancelCustomerBookingAction(formData: FormData): Promise<v
   const cancellationHours = businessInfo?.cancellation_hours ?? 24
   const hoursUntil = (new Date(booking.starts_at).getTime() - Date.now()) / 3_600_000
 
-  if (hoursUntil < cancellationHours) redirect(`/cancel?id=${bookingId}&token=${token}`)
+  if (hoursUntil < cancellationHours) {
+    redirect({ href: `/cancel?id=${bookingId}&token=${token}`, locale })
+    return
+  }
 
   const { error } = await supabase
     .from('bookings')
     .update({ status: 'cancelled' })
     .eq('id', bookingId)
 
-  if (error) redirect(`/cancel?id=${bookingId}&token=${token}`)
+  if (error) {
+    redirect({ href: `/cancel?id=${bookingId}&token=${token}`, locale })
+    return
+  }
 
   const serviceName = Array.isArray(booking.services)
     ? (booking.services[0]?.name ?? 'Palvelu')
@@ -99,5 +116,5 @@ export async function cancelCustomerBookingAction(formData: FormData): Promise<v
     console.error('Sähköpostilähetys epäonnistui (asiakkaan peruutus):', err)
   })
 
-  redirect(`/cancel?id=${bookingId}&token=${token}&cancelled=1`)
+  redirect({ href: `/cancel?id=${bookingId}&token=${token}&cancelled=1`, locale })
 }

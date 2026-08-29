@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 
 export default function Hero() {
   return (
@@ -30,12 +30,13 @@ export default function Hero() {
           >
             Aloita ilmaiseksi
           </Link>
-          <Link
+          {/* Sivunsisäinen ankkurilinkki — ei reititystä, ei locale-etuliitettä */}
+          <a
             href="#miten-toimii"
             className="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-chocolate border border-chocolate/20 rounded-full hover:border-chocolate/40 hover:bg-chocolate/5 transition-colors"
           >
             Katso miten toimii
-          </Link>
+          </a>
         </div>
       </div>
     </section>

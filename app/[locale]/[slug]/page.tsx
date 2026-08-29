@@ -1,4 +1,8 @@
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { hasLocale } from 'next-intl'
+import { redirect } from '@/i18n/navigation'
+import { routing } from '@/i18n/routing'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import ChatWidget from '@/components/chat/ChatWidget'
 
@@ -6,20 +10,33 @@ import ChatWidget from '@/components/chat/ChatWidget'
 export default async function BusinessChatPage({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: string; slug: string }>
 }) {
-  const { slug } = await params
+  const { locale, slug } = await params
 
   const supabase = await createSupabaseServerClient()
 
   // Haetaan yritys slugin perusteella — julkinen haku (public SELECT policy)
   const { data: business } = await supabase
     .from('businesses')
-    .select('id, name, slug, theme, city, cancellation_hours, general_notes')
+    .select('id, name, slug, theme, city, cancellation_hours, general_notes, locale')
     .eq('slug', slug)
     .single()
 
   if (!business) notFound()
+
+  // Ensikertalaisen asiakkaan ohjaus yrityksen omalle kielelle: jos asiakas
+  // saapuu etuliitteettömään osoitteeseen (oletuskieli 'fi') eikä hänellä ole
+  // vielä tallennettua kielivalintaa (NEXT_LOCALE-eväste), ja yrityksen oma
+  // kieli on jokin muu, ohjataan yrityksen kielen mukaiseen osoitteeseen.
+  // Kun asiakas myöhemmin vaihtaa kieltä valitsimesta, eväste asettuu eikä
+  // tätä ohjausta enää tehdä — valinta säilyy.
+  if (locale === routing.defaultLocale && business.locale !== routing.defaultLocale) {
+    const cookieStore = await cookies()
+    if (!cookieStore.has('NEXT_LOCALE') && hasLocale(routing.locales, business.locale)) {
+      redirect({ href: `/${slug}`, locale: business.locale })
+    }
+  }
 
   // Haetaan aktiiviset palvelut chatbotia varten
   const { data: services } = await supabase

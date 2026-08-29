@@ -1,9 +1,10 @@
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import SidebarNav from '@/components/dashboard/SidebarNav'
 
 // Hallintapaneelin pohja — tarkistaa kirjautumisen ja hakee yritystiedot
-// Middleware hoitaa uudelleenohjauksen, mutta tarkistetaan varmuuden vuoksi myös täällä
+// Proxy hoitaa uudelleenohjauksen, mutta tarkistetaan varmuuden vuoksi myös täällä
 export default async function DashboardLayout({
   children,
 }: {
@@ -15,7 +16,10 @@ export default async function DashboardLayout({
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) redirect('/login')
+  if (!user) {
+    redirect({ href: '/login', locale: await getLocale() })
+    return null
+  }
 
   // Haetaan yrityksen nimi ja slug sivupalkkia varten
   const { data: business } = await supabase

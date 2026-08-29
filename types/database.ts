@@ -15,6 +15,7 @@ export type Database = {
           cancellation_hours: number
           theme: string
           general_notes: string | null
+          locale: string
           created_at: string
         }
         Insert: {
@@ -26,6 +27,7 @@ export type Database = {
           cancellation_hours?: number
           theme?: string
           general_notes?: string | null
+          locale?: string
           created_at?: string
         }
         Update: Partial<Database['public']['Tables']['businesses']['Insert']>
@@ -78,6 +80,7 @@ export type Database = {
           ends_at: string
           status: string
           reminder_sent: boolean
+          locale: string
           created_at: string
         }
         Insert: {
@@ -92,6 +95,7 @@ export type Database = {
           ends_at: string
           status?: string
           reminder_sent?: boolean
+          locale?: string
           created_at?: string
         }
         Update: Partial<Database['public']['Tables']['bookings']['Insert']>

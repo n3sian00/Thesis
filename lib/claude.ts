@@ -12,6 +12,12 @@ export const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
+// Kielikoodi → kielen nimi system promptin ohjeistukseen
+const LOCALE_NAMES: Record<string, string> = {
+  fi: 'suomi',
+  en: 'englanti',
+}
+
 type PromptService = {
   id: string
   name: string
@@ -59,8 +65,10 @@ export function buildSystemPrompt(
     cancellation_hours?: number
     general_notes?: string | null
   },
-  services: PromptService[]
+  services: PromptService[],
+  locale: string
 ): string {
+  const kieli = LOCALE_NAMES[locale] ?? LOCALE_NAMES.fi
   const serviceGroups = groupServicesByCategory(services)
 
   // Jos kategorioita ei ole käytössä (kaikki samassa ryhmässä), näytetään litteä lista kuten ennenkin
@@ -99,7 +107,7 @@ OHJEISTUS:
 3. Kun asiakas ilmaisee kiinnostuksen tiettyyn palveluun — myös epäsuorasti kuten "se kuulostaa hyvältä" tai "haluaisin kokeilla" — ohjaa heti varaamaan aika lisäämällä vastauksesi LOPPUUN:
    [VARAUS:{"service_id":"<ID>","service_name":"<NIMI>"}]
    Korvaa <ID> oikealla palvelun ID:llä ja <NIMI> palvelun nimellä.
-4. Vastaa AINA suomeksi. Ole ytimekäs, lämmin ja kannustava. Pidä viestit lyhyinä — maksimissaan 2–3 lausetta.
+4. Palvele asiakasta kielellä: ${kieli}. Jos asiakas vaihtaa kieltä kesken keskustelun, seuraa asiakkaan kieltä. Ole ytimekäs, lämmin ja kannustava. Pidä viestit lyhyinä — maksimissaan 2–3 lausetta.
 5. Älä mainitse teknisiä yksityiskohtia kuten ID-numeroita asiakkaalle.
 6. Jos asiakas kysyy aiheesta joka ei liity palveluihin tai varaukseen, vastaa lyhyesti ja palauta keskustelu takaisin palveluihin.
 7. Muista: tavoitteesi on saada asiakas varaamaan aika, ei vain jutella. Ohjaa aina konkreettisesti eteenpäin.

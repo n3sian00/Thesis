@@ -6,6 +6,8 @@ import BreathingOrb from './BreathingOrb'
 import TimeSlotPicker from '../booking/TimeSlotPicker'
 import BookingForm from '../booking/BookingForm'
 import { formatDateTimeHelsinki } from '@/lib/dates'
+import { useTranslations, useLocale } from 'next-intl'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 // --- Tyypit ---
 
@@ -95,6 +97,9 @@ function groupServicesByCategory(
 // --- Komponentti ---
 
 export default function ChatWidget({ business, services }: Props) {
+  const t = useTranslations('ChatWidget')
+  const locale = useLocale()
+
   // Chat-tila
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -141,7 +146,7 @@ export default function ChatWidget({ business, services }: Props) {
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: newMessages, businessId: business.id }),
+          body: JSON.stringify({ messages: newMessages, businessId: business.id, locale }),
           signal: abortController.signal,
         })
 
@@ -198,7 +203,7 @@ export default function ChatWidget({ business, services }: Props) {
 
       return () => abortController.abort()
     },
-    [messages, isStreaming, business.id, services]
+    [messages, isStreaming, business.id, services, locale]
   )
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -287,26 +292,30 @@ export default function ChatWidget({ business, services }: Props) {
             <BreathingOrb className="w-9 h-9 shrink-0" />
             <div className="min-w-0">
               <h1 className="font-serif font-semibold leading-tight truncate">{business.name}</h1>
-              <p className="text-xs text-warm-white/70 mt-0.5">Tekoälyavustaja — varaa aika helposti</p>
+              <p className="text-xs text-warm-white/70 mt-0.5">{t('tagline')}</p>
             </div>
           </div>
 
-          {/* "Varaa aika suoraan" / "← Chat" -nappi */}
-          {!directMode ? (
-            <button
-              onClick={openDirectMode}
-              className="shrink-0 text-xs font-medium bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
-            >
-              Varaa aika suoraan →
-            </button>
-          ) : (
-            <button
-              onClick={handleDirectBack}
-              className="shrink-0 text-xs font-medium bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
-            >
-              ← {directDone ? 'Sulje' : directStep === 'services' ? 'Chat' : 'Takaisin'}
-            </button>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            <LanguageSwitcher variant="dark" />
+
+            {/* "Varaa aika suoraan" / "← Chat" -nappi */}
+            {!directMode ? (
+              <button
+                onClick={openDirectMode}
+                className="shrink-0 text-xs font-medium bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+              >
+                {t('bookDirectly')}
+              </button>
+            ) : (
+              <button
+                onClick={handleDirectBack}
+                className="shrink-0 text-xs font-medium bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+              >
+                ← {directDone ? 'Sulje' : directStep === 'services' ? 'Chat' : 'Takaisin'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

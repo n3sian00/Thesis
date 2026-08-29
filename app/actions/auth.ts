@@ -1,7 +1,11 @@
 'use server'
 
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
+import { routing } from '@/i18n/routing'
+import { getLocale } from 'next-intl/server'
+import { hasLocale } from 'next-intl'
+import { isReservedSlug } from '@/lib/reserved-slugs'
 
 // Muuntaa salongin nimen URL-turvalliseksi slugiksi
 // Esim. "Studio Lumière & Co." → "studio-lumiere-co"
@@ -29,7 +33,7 @@ export async function loginAction(
 
   const supabase = await createSupabaseServerClient()
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
     // Suomenkieliset virheilmoitukset yleisimmille tilanteille
@@ -42,7 +46,20 @@ export async function loginAction(
     return 'Kirjautuminen epäonnistui. Yritä uudelleen.'
   }
 
-  redirect('/dashboard')
+  // Ohjataan yrittäjän oman businesses.locale-kielen mukaiseen dashboardiin
+  // (esim. englantilainen yrittäjä → /en/dashboard), riippumatta siitä
+  // millä kielen sivulla kirjautumislomake täytettiin.
+  const { data: business } = await supabase
+    .from('businesses')
+    .select('locale')
+    .eq('user_id', data.user.id)
+    .single()
+
+  const currentLocale = await getLocale()
+  const targetLocale = hasLocale(routing.locales, business?.locale) ? business.locale : currentLocale
+
+  redirect({ href: '/dashboard', locale: targetLocale })
+  return null
 }
 
 // Server Action: rekisteröityminen
@@ -69,6 +86,12 @@ export async function registerAction(
     return 'Salongin nimestä ei voitu luoda URL-tunnistetta. Käytä kirjaimia tai numeroita.'
   }
 
+  // Reititykseen varatut sanat (esim. "dashboard", "en") eivät kelpaa slugiksi,
+  // koska ne törmäisivät sovelluksen omiin reitteihin [locale]-segmentin sisällä.
+  if (isReservedSlug(slug)) {
+    return `URL-tunniste "${slug}" on varattu järjestelmän käyttöön. Kokeile eri salongin nimeä.`
+  }
+
   const supabase = await createSupabaseServerClient()
 
   // Luodaan Auth-käyttäjä
@@ -88,11 +111,16 @@ export async function registerAction(
     return 'Tilin luominen epäonnistui. Yritä uudelleen.'
   }
 
+  // Yrityksen kieli tallennetaan rekisteröintihetken aktiivisesta localesta
+  // (esim. /en/register-sivulla rekisteröitynyt yrittäjä → 'en')
+  const locale = await getLocale()
+
   // Luodaan yritysprofiili businesses-tauluun
   const { error: businessError } = await supabase.from('businesses').insert({
     user_id: authData.user.id,
     name: businessName,
     slug,
+    locale,
   })
 
   if (businessError) {
@@ -103,5 +131,6 @@ export async function registerAction(
     return 'Yritystietojen tallentaminen epäonnistui. Yritä uudelleen.'
   }
 
-  redirect('/dashboard')
+  redirect({ href: '/dashboard', locale })
+  return null
 }

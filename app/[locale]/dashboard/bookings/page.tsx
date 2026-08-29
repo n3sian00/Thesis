@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 import { formatDateTimeHelsinki } from '@/lib/dates'
 import { cancelBookingAction } from '@/app/actions/bookings'
 import { removeWaitlistAction } from '@/app/actions/waitlist'
@@ -34,7 +35,10 @@ export default async function BookingsPage({
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!user) redirect('/login')
+  if (!user) {
+    redirect({ href: '/login', locale: await getLocale() })
+    return null
+  }
 
   const { data: business } = await supabase
     .from('businesses')

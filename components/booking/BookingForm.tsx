@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useLocale } from 'next-intl'
 import { formatDateTimeHelsinki } from '@/lib/dates'
 
 interface Props {
@@ -20,6 +21,7 @@ export default function BookingForm({
   endsAt,
   onSuccess,
 }: Props) {
+  const locale = useLocale()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -44,6 +46,7 @@ export default function BookingForm({
           customer_phone: phone || undefined,
           customer_notes: notes || undefined,
           starts_at: startsAt,
+          locale,
         }),
       })
 

@@ -1,0 +1,15 @@
+{
+  "Navbar": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "cta": "Get started"
+  },
+  "LanguageSwitcher": {
+    "label": "Choose language"
+  },
+  "ChatWidget": {
+    "tagline": "AI assistant — book an appointment easily",
+    "bookDirectly": "Book directly →"
+  }
+}

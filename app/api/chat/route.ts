@@ -1,5 +1,7 @@
 import { anthropic, CLAUDE_MODEL, buildSystemPrompt } from '@/lib/claude'
 import { createAdminClient } from '@/lib/supabase/server'
+import { hasLocale } from 'next-intl'
+import { routing } from '@/i18n/routing'
 
 // Viestityyppi — sama rakenne kuin Anthropicin API odottaa
 type Message = {
@@ -10,7 +12,7 @@ type Message = {
 export async function POST(request: Request) {
   console.log('[chat] POST alkaa')
 
-  let body: { messages: Message[]; businessId: string }
+  let body: { messages: Message[]; businessId: string; locale?: string }
   try {
     body = await request.json()
   } catch (err) {
@@ -19,6 +21,7 @@ export async function POST(request: Request) {
   }
 
   const { messages, businessId } = body
+  const locale = hasLocale(routing.locales, body.locale) ? body.locale : routing.defaultLocale
 
   if (!messages?.length || !businessId) {
     console.error('[chat] Puutteelliset parametrit', { messages: messages?.length, businessId })
@@ -54,7 +57,7 @@ export async function POST(request: Request) {
 
   console.log('[chat] Palveluita löytyi:', services?.length ?? 0)
 
-  const systemPrompt = buildSystemPrompt(business, services ?? [])
+  const systemPrompt = buildSystemPrompt(business, services ?? [], locale)
 
   // Puhdistetaan viestihistoria: poistetaan tyhjät viestit ja rajoitetaan pituus
   const claudeMessages = messages

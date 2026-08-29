@@ -1,0 +1,15 @@
+{
+  "Navbar": {
+    "features": "Ominaisuudet",
+    "pricing": "Hinnoittelu",
+    "contact": "Yhteystiedot",
+    "cta": "Aloita nyt"
+  },
+  "LanguageSwitcher": {
+    "label": "Valitse kieli"
+  },
+  "ChatWidget": {
+    "tagline": "Tekoälyavustaja — varaa aika helposti",
+    "bookDirectly": "Varaa aika suoraan →"
+  }
+}

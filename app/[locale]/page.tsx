@@ -1,4 +1,5 @@
-import { redirect } from 'next/navigation'
+import { redirect } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import Navbar from '@/components/landing/Navbar'
 import Hero from '@/components/landing/Hero'
@@ -14,7 +15,7 @@ export default async function HomePage() {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (user) redirect('/dashboard')
+  if (user) redirect({ href: '/dashboard', locale: await getLocale() })
 
   return (
     <div

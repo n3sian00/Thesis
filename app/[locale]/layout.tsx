@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Geist_Mono, Fraunces } from "next/font/google";
-import "./globals.css";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import "../globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,17 +28,30 @@ export const metadata: Metadata = {
     "Automatisoi asiakaskyselyt, ohjaa asiakkaat oikeisiin palveluihin ja tee ajanvarauksesta selkeää — kauneusalan yrittäjille.",
 };
 
-export default function RootLayout({
+export default async function LocaleLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+
+  // [locale]-segmentti toimii käytännössä catch-all-tyyppisesti — jos arvo
+  // ei ole tuettu kieli, palautetaan 404 sen sijaan että renderöitäisiin
+  // väärällä kielellä.
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   return (
     <html
-      lang="fi"
+      lang={locale}
       className={`${inter.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
     </html>
   );
 }
