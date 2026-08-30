@@ -1,34 +1,23 @@
-const steps = [
-  {
-    number: '01',
-    title: 'Lisää palvelusi ja ohjeet kerran',
-    description:
-      'Syötä tarjoamasi palvelut, hinnat ja mahdolliset erityisohjeet. Tekoäly oppii ne heti.',
-  },
-  {
-    number: '02',
-    title: 'Jaa oma Veloure-linkkisi asiakkaillesi',
-    description:
-      'Kopioi linkkisi ja jaa se Instagramissa, WhatsAppissa tai verkkosivuillasi. Ei asennuksia.',
-  },
-  {
-    number: '03',
-    title: 'Tekoäly ohjaa, vastaa ja varaa puolestasi',
-    description:
-      'Asiakkaasi chataavat, saavat vastaukset ja tekevät varauksen — sinulle jää enemmän aikaa itse työhön.',
-  },
-]
+import { getTranslations } from 'next-intl/server'
 
-export default function HowItWorks() {
+const steps = [
+  { number: '01', id: 'setup' },
+  { number: '02', id: 'share' },
+  { number: '03', id: 'aiHandles' },
+] as const
+
+export default async function HowItWorks() {
+  const t = await getTranslations('HowItWorks')
+
   return (
     <section id="miten-toimii" className="py-24 md:py-32 px-6 bg-transparent">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-chocolate mb-4">
-            Miten se toimii?
+            {t('title')}
           </h2>
           <p className="text-mocha max-w-md mx-auto">
-            Käyttöönotto vie minuutteja, ei päiviä.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -44,9 +33,9 @@ export default function HowItWorks() {
                 </span>
               </div>
               <h3 className="font-serif text-xl font-semibold text-chocolate mb-3">
-                {step.title}
+                {t(`steps.${step.id}.title`)}
               </h3>
-              <p className="text-sm text-mocha leading-relaxed">{step.description}</p>
+              <p className="text-sm text-mocha leading-relaxed">{t(`steps.${step.id}.description`)}</p>
             </div>
           ))}
         </div>

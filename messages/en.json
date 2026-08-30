@@ -11,5 +11,95 @@
   "ChatWidget": {
     "tagline": "AI assistant — book an appointment easily",
     "bookDirectly": "Book directly →"
+  },
+  "Hero": {
+    "badge": "Designed for beauty entrepreneurs",
+    "title": "Smart client guidance.",
+    "titleAccent": "Effortlessly.",
+    "subtitle": "Automate client questions, guide them to the right service, and make booking simple — no complicated systems required.",
+    "ctaPrimary": "Start for free",
+    "ctaSecondary": "See how it works"
+  },
+  "Benefits": {
+    "title": "What Veloure does for you",
+    "subtitle": "Everything you need for effortless client management — all in one place.",
+    "items": {
+      "automate": {
+        "title": "Automate client questions",
+        "description": "Answers the most common questions and guides clients forward — without you replying to every message yourself."
+      },
+      "guidance": {
+        "title": "Guides clients to the right service",
+        "description": "The AI asks the right questions and helps clients choose the right service before booking."
+      },
+      "noWebsite": {
+        "title": "Works without a website",
+        "description": "Share your link on Instagram, in DMs, or in your bio — your clients can book in seconds."
+      },
+      "fewerMistakes": {
+        "title": "Fewer unclear bookings",
+        "description": "Collect the details you need before the appointment, so clients always know exactly what they've booked."
+      },
+      "saveTime": {
+        "title": "Save time every day",
+        "description": "Let Veloure handle the repetitive questions, so you can focus on your clients and growing your business."
+      },
+      "builtForBeauty": {
+        "title": "Built for the beauty industry",
+        "description": "Not just another chatbot — client guidance made specifically for beauty services."
+      }
+    }
+  },
+  "HowItWorks": {
+    "title": "How it works",
+    "subtitle": "Set up in minutes, not days.",
+    "steps": {
+      "setup": {
+        "title": "Add your services once",
+        "description": "Enter your services, prices, and any special instructions. The AI learns them instantly."
+      },
+      "share": {
+        "title": "Share your Veloure link",
+        "description": "Copy your link and share it on Instagram, WhatsApp, or your website. No installation needed."
+      },
+      "aiHandles": {
+        "title": "The AI guides, replies, and books for you",
+        "description": "Your clients chat, get answers, and book their appointment — leaving you more time for the work you love."
+      }
+    }
+  },
+  "ConsultationShowcase": {
+    "badge": "Consultation",
+    "title": "A conversation that ends in a booking",
+    "subtitle": "The Veloure assistant has the same conversation you would — and always guides it all the way to a confirmed booking.",
+    "bullets": {
+      "language": "Understands natural, everyday language and industry terms",
+      "questions": "Asks the right questions and suggests the right service",
+      "share": "Share your link on Instagram, WhatsApp, or your website"
+    },
+    "chatAssistantName": "Veloure Assistant",
+    "chatResponseTime": "Usually replies in seconds",
+    "chatMessage1Prefix": "Hi! Tell me a bit about what you're looking for, and we'll find",
+    "chatMessage1Emphasis": "the perfect time",
+    "chatMessage2": "I'd like a gel manicure next week.",
+    "chatMessage3Prefix": "Great — how about",
+    "chatMessage3Emphasis": "a gel manicure, 90 min, €75",
+    "chatMessage3Suffix": "Open times: Tue 2pm or Wed 10am.",
+    "quickReplies": {
+      "timeWorks": "Tue 2pm works",
+      "showOtherTimes": "Show other times",
+      "priceQuestion": "What's included in the price?"
+    },
+    "chatInputPlaceholder": "Type a message…"
+  },
+  "CTABanner": {
+    "title": "Start your journey today",
+    "subtitle": "Try it free for 14 days. No credit card required.",
+    "cta": "Sign up now"
+  },
+  "Footer": {
+    "copyright": "© 2026 Veloure. All rights reserved.",
+    "login": "Log in",
+    "register": "Sign up"
   }
 }

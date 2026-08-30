@@ -1,6 +1,9 @@
+import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 
-export default function Hero() {
+export default async function Hero() {
+  const t = await getTranslations('Hero')
+
   return (
     <section className="relative py-28 md:py-36 px-6 text-center overflow-hidden bg-transparent">
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
@@ -9,18 +12,17 @@ export default function Hero() {
 
       <div className="relative max-w-3xl mx-auto">
         <div className="inline-flex items-center px-4 py-1.5 mb-10 rounded-full border border-rose-deep/40 bg-baby/30 text-rose-deep text-xs font-medium tracking-widest uppercase">
-          Suunniteltu kauneusalan yrittäjille
+          {t('badge')}
         </div>
 
         <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-semibold text-chocolate leading-[1.1] tracking-tight mb-8">
-          Älykäs asiakasohjaus.{' '}
+          {t('title')}{' '}
           <br className="hidden sm:block" />
-          <em className="italic text-rose-deep">Vaivatta.</em>
+          <em className="italic text-rose-deep">{t('titleAccent')}</em>
         </h1>
 
         <p className="text-lg md:text-xl text-mocha leading-relaxed max-w-2xl mx-auto mb-12">
-          Automatisoi asiakaskyselyt, ohjaa asiakkaat oikeisiin palveluihin ja
-          tee ajanvarauksesta selkeää — ilman monimutkaisia järjestelmiä.
+          {t('subtitle')}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -28,14 +30,14 @@ export default function Hero() {
             href="/register"
             className="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-warm-white bg-chocolate rounded-full hover:bg-chocolate/85 transition-colors shadow-sm"
           >
-            Aloita ilmaiseksi
+            {t('ctaPrimary')}
           </Link>
           {/* Sivunsisäinen ankkurilinkki — ei reititystä, ei locale-etuliitettä */}
           <a
             href="#miten-toimii"
             className="w-full sm:w-auto px-8 py-3.5 text-sm font-medium text-chocolate border border-chocolate/20 rounded-full hover:border-chocolate/40 hover:bg-chocolate/5 transition-colors"
           >
-            Katso miten toimii
+            {t('ctaSecondary')}
           </a>
         </div>
       </div>

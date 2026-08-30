@@ -11,5 +11,95 @@
   "ChatWidget": {
     "tagline": "Tekoälyavustaja — varaa aika helposti",
     "bookDirectly": "Varaa aika suoraan →"
+  },
+  "Hero": {
+    "badge": "Suunniteltu kauneusalan yrittäjille",
+    "title": "Älykäs asiakasohjaus.",
+    "titleAccent": "Vaivatta.",
+    "subtitle": "Automatisoi asiakaskyselyt, ohjaa asiakkaat oikeisiin palveluihin ja tee ajanvarauksesta selkeää — ilman monimutkaisia järjestelmiä.",
+    "ctaPrimary": "Aloita ilmaiseksi",
+    "ctaSecondary": "Katso miten toimii"
+  },
+  "Benefits": {
+    "title": "Mitä Veloure tekee puolestasi",
+    "subtitle": "Kaikki mitä tarvitset sujuvaan asiakashallintaan — yhdessä paikassa.",
+    "items": {
+      "automate": {
+        "title": "Automatisoi asiakaskyselyt",
+        "description": "Vastaa yleisimpiin kysymyksiin ja ohjaa asiakas eteenpäin ilman jatkuvaa manuaalista viestittelyä."
+      },
+      "guidance": {
+        "title": "Ohjaa asiakas oikeaan palveluun",
+        "description": "Tekoäly kysyy oikeat kysymykset ja auttaa asiakasta valitsemaan sopivan palvelun ennen varausta."
+      },
+      "noWebsite": {
+        "title": "Toimii ilman verkkosivuja",
+        "description": "Jaa oma linkkisi Instagramissa, viesteissä tai profiilissa. Asiakkaasi pääsevät varaamaan helposti."
+      },
+      "fewerMistakes": {
+        "title": "Vähennä epäselviä varauksia",
+        "description": "Kerää tarvittavat tiedot ennen ajanvarausta ja varmista, että asiakas tietää mitä varaa."
+      },
+      "saveTime": {
+        "title": "Säästä aikaa arjessa",
+        "description": "Anna palvelun hoitaa toistuvat kysymykset, jotta voit keskittyä asiakkaisiin ja kasvuun."
+      },
+      "builtForBeauty": {
+        "title": "Rakennettu kauneusalalle",
+        "description": "Ei yleinen chatbot, vaan asiakasohjaus juuri kauneuspalveluille."
+      }
+    }
+  },
+  "HowItWorks": {
+    "title": "Miten se toimii?",
+    "subtitle": "Käyttöönotto vie minuutteja, ei päiviä.",
+    "steps": {
+      "setup": {
+        "title": "Lisää palvelusi ja ohjeet kerran",
+        "description": "Syötä tarjoamasi palvelut, hinnat ja mahdolliset erityisohjeet. Tekoäly oppii ne heti."
+      },
+      "share": {
+        "title": "Jaa oma Veloure-linkkisi asiakkaillesi",
+        "description": "Kopioi linkkisi ja jaa se Instagramissa, WhatsAppissa tai verkkosivuillasi. Ei asennuksia."
+      },
+      "aiHandles": {
+        "title": "Tekoäly ohjaa, vastaa ja varaa puolestasi",
+        "description": "Asiakkaasi chataavat, saavat vastaukset ja tekevät varauksen — sinulle jää enemmän aikaa itse työhön."
+      }
+    }
+  },
+  "ConsultationShowcase": {
+    "badge": "Konsultaatio",
+    "title": "Keskustelu, joka päättyy varaukseen",
+    "subtitle": "Veloure-avustaja käy asiakkaasi kanssa saman keskustelun kuin sinä tekisit itse — ja vie sen aina konkreettiseen ajanvaraukseen asti.",
+    "bullets": {
+      "language": "Ymmärtää suomen puhekieltä ja alan sanastoa",
+      "questions": "Kysyy oikeat kysymykset ja ehdottaa sopivaa palvelua",
+      "share": "Jaa linkkisi Instagramissa, WhatsAppissa tai verkkosivullasi"
+    },
+    "chatAssistantName": "Veloure-avustaja",
+    "chatResponseTime": "Vastaa yleensä sekunneissa",
+    "chatMessage1Prefix": "Hei! Kerro lyhyesti mitä toivoisit, niin katsotaan",
+    "chatMessage1Emphasis": "sopiva aika",
+    "chatMessage2": "Haluaisin geelilakkaukset ensi viikolle.",
+    "chatMessage3Prefix": "Selvä. Ehdotan",
+    "chatMessage3Emphasis": "geelilakkaus, 90 min, 75 €",
+    "chatMessage3Suffix": "Vapaat ajat: ti klo 14 tai ke klo 10.",
+    "quickReplies": {
+      "timeWorks": "Ti klo 14 sopii",
+      "showOtherTimes": "Näytä muita aikoja",
+      "priceQuestion": "Mitä hinta sisältää?"
+    },
+    "chatInputPlaceholder": "Kirjoita viesti…"
+  },
+  "CTABanner": {
+    "title": "Aloita matkasi tänään",
+    "subtitle": "Kokeile 14 päivää ilmaiseksi. Ei luottokorttia.",
+    "cta": "Rekisteröidy nyt"
+  },
+  "Footer": {
+    "copyright": "© 2026 Veloure. Kaikki oikeudet pidätetään.",
+    "login": "Kirjaudu",
+    "register": "Rekisteröidy"
   }
 }
