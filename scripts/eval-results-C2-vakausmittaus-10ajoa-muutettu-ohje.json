@@ -1,0 +1,278 @@
+{
+  "ajettu": "2026-08-31T12:14:04.445Z",
+  "malli": "claude-sonnet-4-6",
+  "kategoriatKaytossa": false,
+  "ajokerrat": 10,
+  "ajot": [
+    {
+      "skenaario": "C2",
+      "ajokerta": 1,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Mukava kuulla, että olet yhteydessä!\n\nEnnen kuin ohjaan sinut varaamaan, varmistetaan yhdessä että tyviväri on juuri sinulle sopiva palvelu. Onko tarkoitus peittää harmaat hiukset vai ylläpitää ruskeaa sävyä?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiitos tiedoista! 😊 Kuulostat oikeastaan täydelliseltä ehdokkaalta **tyvivaalennukselle ja sävytykselle** — ei niinkään tyvivärille, joka on tarkoitettu esimerkiksi harmaiden peittoon tai ruskean värin ylläpitoon.\n\nTyvivaalennus sopii juuri sinulle: tyvikasvua on noin 2 cm ja hiukset on aiemmin vaalennettu kokonaan. Palvelu sisältää tyvivaalennuksen, sävytyksen, suojaavan tehohoidon, pesun ja föönauksen — kesto 3 tuntia ja hinta 189 €. \n\nHaluaisitko varata ajan? 🌟"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 2,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otit yhteyttä!\n\nEnnen kuin käynnistetään varaus, varmistetaan yhdessä, että tyviväri on juuri oikea palvelu sinulle. Onko sinulla tummaa tai harmaata tyvikasvua, jonka haluaisit värjätä — eli tarkoituksena on peittää harmaat tai ylläpitää ruskeaa sävyä ilman vaalennusta?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiitos tiedoista! 😊 Kuulostaa siltä, että sinulle sopisi **tyvivaalennus ja sävytys** — se on juuri sitä varten, kun kokonaan vaalennettu blondi kaipaa tyvikasvun vaalennusta. 2 cm:n tyvikasvuun se sopii täydellisesti!\n\nPalvelu sisältää tyvivaalennuksen lisäksi sävytyksen, suojaavan tehohoidon, pesun ja föönauksen. Kesto on noin 3 tuntia ja hinta 189 €. Haluaisitko varata ajan? 🌟"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 3,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Mukava kuulla, että olet löytänyt meille!\n\nEnnen kuin käynnistetään varaus, haluaisin varmistaa, että valitaan sinulle juuri oikea palvelu. Onko tarkoituksena peittää harmaita tai ylläpitää ruskeaa sävyä ilman vaalennusta?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Ahaa, kiitos tarkennuksesta! 😊 Kuulostaisi siltä, että sinulle sopisi paremmin **tyvivaalennus ja sävytys** — se on juuri tarkoitettu tilanteeseen, jossa kokonaan vaalennettu blondi tarvitsee tyvikasvun vaalennuksen. 2 cm:n tyvikasvuun se sopii täydellisesti!\n\nPalvelu sisältää vaalennuksen lisäksi sävytyksen, suojaavan tehohoidon, pesun ja föönauksen — kesto noin 3 tuntia ja hinta 189 €. Haluaisitko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 4,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Kiva kuulla, että olet yhteydessä 😊\n\nEnnen kuin käynnistetään varaus, halusin varmistaa — tyviväri meillä tarkoittaa tyvikasvun värjäämistä ilman vaalennusta, eli se sopii esimerkiksi harmaiden peittoon tai ruskean sävyn ylläpitoon. Onko tämä juuri se mitä haet, vai liittyykö toiveesi vaaleaan tyvikasvuun?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiitos tiedoista! Kuulostat siis täydelliseltä asiakkaalta tyvivaalennukseen — 2 cm:n tyvikasvuun se sopii mainiosti 😊 Tyvivaalennus ja sävytys -palvelu sisältää myös sävytyksen, suojaavan tehohoidon, pesun ja föönauksen, ja hinta on 189 € (kesto n. 3h).\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 5,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva kuulla, että olet yhteydessä!\n\nEnnen kuin käynnistetään varaus, haluaisin varmistaa, että valitaan sinulle juuri oikea palvelu. Onko kyseessä harmaiden peitto tai ruskean sävyn ylläpito, vai onko tavoitteena jokin muu?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että sinulle sopisi paremmin **tyvivaalennus ja sävytys** kuin tyviväri — olet jo valmiiksi platinablondi, joten tyvi kannattaa vaalentaa eikä värjätä tummaksi! 😊 Palvelu sisältää sävytyksen, suojaavan tehohoidon, pesun ja föönauksen, kesto on 3 tuntia ja hinta 189 €.\n\nHaluaisitko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 6,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Mukava kuulla, että olet ajatellut tyviväriä!\n\nEnnen kuin jatketaan, haluaisin varmistaa, että valitaan juuri sinulle sopiva palvelu. Onko tarkoituksena peittää harmaita tai ylläpitää ruskeaa sävyä — vai liittyykö tavoite jotenkin vaalentamiseen?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiitos tiedoista! 😊 Kuulostaa siltä, että sinulle sopisi **Tyvivaalennus ja sävytys** — se on juuri tarkoitettu tilanteeseen, jossa blondi on vaalennettu kokonaan ja tyvikasvua on noin 2,5 cm tai alle. Palvelu sisältää vaalennuksen lisäksi sävytyksen, tehohoidon, pesun ja föönauksen, kesto on 3 tuntia ja hinta 189 €.\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 7,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otat yhteyttä!\n\nEnnen kuin laitetaan varaus käyntiin, varmistetaan että tyviväri on juuri oikea palvelu sinulle — onko tarkoitus peittää harmaita tai ylläpitää ruskeaa sävyä?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiitos tiedoista! 😊 Kuulostaa siltä, että sinulle sopisi **tyvivaalennus ja sävytys** — se on juuri oikea palvelu, kun hiukset on aiemmin vaalennettu ja tyvikasvua on noin 2,5 cm tai alle. Palvelu sisältää tyvivaalennuksen, sävytyksen, suojaavan tehohoidon, pesun ja föönauksen, ja hinta on 189 € (kesto n. 3h).\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 8,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otat yhteyttä!\n\nEnnen kuin käynnistetään varaus, varmistetaan että palvelu on juuri sopiva sinulle — tyviväriä käytetään harmaiden peittoon tai ruskean värin ylläpitoon ilman vaalennusta. Onko tämä se tilanne, vai haluatko kenties vaalentaa tyveä?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että sinulle sopisi paremmin **tyvivaalennus ja sävytys** — se on juuri tarkoitettu kokonaan vaalennetun blondin tyvikasvun vaalentamiseen, ja 2 cm tyvikasvuun se sopii täydellisesti! 🌟 Hinta on 189 € ja kesto noin 3 tuntia.\n\nVarataan sinulle aika?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 9,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otit yhteyttä!\n\nEnnen kuin laitetaan varaus käyntiin, haluaisin varmistaa, että valitaan sinulle juuri oikea palvelu. Onko kyseessä harmaiden peittäminen tai ruskean sävyn ylläpito, vai onko sinulla mahdollisesti vaaleampi pohja johon kaipaat tyvikäsittelyä?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että tyvivaalennus ja sävytys olisi sinulle täydellinen valinta! 😊 Se sopii juuri tähän tilanteeseen, kun pohja on valmiiksi vaalennettu ja tyveä on kasvanut noin 2 cm. Hinta on 189 € ja aikaa menee noin 3 tuntia.\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 10,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Mukavaa, että otat yhteyttä!\n\nEnnen kuin edetään varaukseen, haluaisin varmistaa, että valitaan sinulle juuri sopiva palvelu. Onko tarkoitus peittää harmaita tai ylläpitää ruskeaa sävyä — vai oletko ehkä miettinyt tyvivaalennusta blondiin?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiitos tiedoista! 😊 Sinulle sopii parhaiten **Tyvivaalennus ja sävytys** — se on juuri oikea palvelu kokonaan vaalennetulle blondille, kun tyvikasvua on noin 2 cm. Hinta on 189 € ja aikaa menee noin 3 tuntia, ja sävytys sekä tehohoito sisältyvät hintaan.\n\nHaluatko varata ajan?"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "ajettu": "2026-08-31T12:00:58.440Z",
+  "malli": "claude-sonnet-4-6",
+  "kategoriatKaytossa": false,
+  "ajokerrat": 10,
+  "ajot": [
+    {
+      "skenaario": "C2",
+      "ajokerta": 1,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon — 120 min ja hinta 129 €.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 2,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon.\n\nHaluatko varata ajan? Palvelu kestää noin 2 tuntia ja hinta on 129 €.\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 3,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon — palvelu kestää noin 2 tuntia ja hinta on 129 €.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 4,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon — kesto noin 2 tuntia ja hinta 129 €.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 5,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otit yhteyttä!\n\nTyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon — käynti kestää noin 2 tuntia ja hinta on 129 €.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 6,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otat yhteyttä!\n\nTyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon — käynti kestää noin 2 tuntia ja hinta on 129 €. Varataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 7,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon. Haluatko varata ajan?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 8,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon — kesto 120 min ja hinta 129 €.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 9,
+      "lopputulos": "vaara_palvelu",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon.\n\nHaluatko varata ajan? Palvelu kestää noin 2 tuntia ja hinta on 129 €.\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 10,
+      "lopputulos": "oikein",
+      "saatuId": "srv-005",
+      "muoto": "oikea",
+      "vuoro": 2,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otit yhteyttä!\n\nEnnen kuin varataan aika, varmistetaan vielä että löydetään sinulle täsmälleen oikea palvelu — tyviväriä käytämme harmaiden peittoon tai ruskean sävyn ylläpitoon. Onko tämä sinulle sopiva, vai onko hiuksesi aiemmin vaalennettu ja haluaisit vaalentaa myös tyven?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että sinulle sopisi **tyvivaalennus ja sävytys** — se on juuri tälle tilanteelle tehty, kun vaalennettu pohja on kunnossa ja tyveä on kasvanut noin 2 cm! 🌟 Hinta on 189 € ja aikaa menee noin 3 tuntia.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-005\",\"service_name\":\"Tyvivaalennus ja sävytys\"}]"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,642 @@
+{
+  "ajettu": "2026-08-31T12:30:01.628Z",
+  "malli": "claude-sonnet-4-6",
+  "kategoriatKaytossa": false,
+  "ajokerrat": 3,
+  "ajot": [
+    {
+      "skenaario": "A1",
+      "ajokerta": 1,
+      "lopputulos": "oikein",
+      "saatuId": "srv-002",
+      "muoto": "oikea",
+      "vuoro": 2,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "moikka haluisin koko pään vaaleemmaks ja raitoja myös niskaan"
+        },
+        {
+          "role": "assistant",
+          "content": "Moikka! 😊 Kuulostaa siltä, että **koko pään raidat** sopisi sinulle täydellisesti — se kattaa juuri koko pään niskat myöten. Palveluun sisältyy sävytys, suojaava tehohoito, pesu ja föönaus, ja se kestää noin 4 tuntia. Hinta on 249 €.\n\nHaluatko varata ajan?"
+        },
+        {
+          "role": "user",
+          "content": "omaa tyveä on joku 5 cm ja ens viikon pe kävis"
+        },
+        {
+          "role": "assistant",
+          "content": "Kiva, 5 cm:n tyvikasvulla koko pään raidat on juuri oikea valinta! 😊 Laitetaan sinut varauksen pariin!\n\n[VARAUS:{\"service_id\":\"srv-002\",\"service_name\":\"Koko pään raidat\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A1",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": "srv-002",
+      "muoto": "oikea",
+      "vuoro": 2,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "moikka haluisin koko pään vaaleemmaks ja raitoja myös niskaan"
+        },
+        {
+          "role": "assistant",
+          "content": "Moikka! 😊 Kuulostaa siltä, että **koko pään raidat** sopii sinulle täydellisesti — se kattaa juuri koko pään, myös takaosan ja niskan. Palvelu sisältää myös sävytyksen, suojaavan tehohoidon, pesun ja föönauksen, ja se kestää noin 4 tuntia (249 €).\n\nHaluatko varata ajan?"
+        },
+        {
+          "role": "user",
+          "content": "omaa tyveä on joku 5 cm ja ens viikon pe kävis"
+        },
+        {
+          "role": "assistant",
+          "content": "Koko pään raidat sopii sinulle erinomaisesti, sillä 5 cm tyvikasvulla se on juuri oikea valinta! 😊 Varataan siis ensi viikon perjantaille — laitetaan varaus käyntiin!\n\n[VARAUS:{\"service_id\":\"srv-002\",\"service_name\":\"Koko pään raidat\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A1",
+      "ajokerta": 3,
+      "lopputulos": "oikein",
+      "saatuId": "srv-002",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "moikka haluisin koko pään vaaleemmaks ja raitoja myös niskaan"
+        },
+        {
+          "role": "assistant",
+          "content": "Moikka! 😊 Kuulostaa siltä, että **koko pään raidat** sopisi sinulle täydellisesti — se kattaa nimenomaan myös takaosan ja niskan. Palvelu sisältää sävytyksen, suojaavan tehohoidon, pesun ja föönauksen, kestää noin 4 tuntia ja hinta on 249 €.\n\nVarataan sinulle aika?\n\n[VARAUS:{\"service_id\":\"srv-002\",\"service_name\":\"Koko pään raidat\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A2",
+      "ajokerta": 1,
+      "lopputulos": "oikein",
+      "saatuId": "srv-003",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii kaipaisin vaan päälliosaan ja naaman ympärille lisää vaaleeta, pituus on muuten hyvä. oisko torstaina aikaa"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kuulostaa kuin osapään raidat olisivat juuri sinulle sopiva vaihtoehto — ne tehdään päälliosaan ja kasvojen ympärille, ja hinta on 189 € (kesto n. 3 h).\n\nHaluatko varata ajan torstaille?\n\n[VARAUS:{\"service_id\":\"srv-003\",\"service_name\":\"Osapään raidat\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A2",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": "srv-003",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii kaipaisin vaan päälliosaan ja naaman ympärille lisää vaaleeta, pituus on muuten hyvä. oisko torstaina aikaa"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Kuulostaa siltä, että **osapään raidat** sopisi sinulle täydellisesti — se on juuri sitä, päälliosaan ja kasvojen ympärille vaaleutta ilman, että pituuksiin kosketaan. 🌟\n\nHaluatko varata ajan torstaille?\n\n[VARAUS:{\"service_id\":\"srv-003\",\"service_name\":\"Osapään raidat\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A2",
+      "ajokerta": 3,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii kaipaisin vaan päälliosaan ja naaman ympärille lisää vaaleeta, pituus on muuten hyvä. oisko torstaina aikaa"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kuulostaa siltä, että osapään raidat sopisivat sinulle täydellisesti — juuri päälliosaan ja kasvojen ympärille, ilman että pituuksiin kosketaan.\n\nHaluatko, että katson sinulle aikaa torstaiksi? Palvelu kestää noin 3 tuntia ja hinta on 189 €."
+        }
+      ]
+    },
+    {
+      "skenaario": "A3",
+      "ajokerta": 1,
+      "lopputulos": "oikein",
+      "saatuId": "srv-004",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "haluisin pehmeen balayagen niin ettei tyvikasvu näkyis heti, pääsiskö ens kuun 12 päivä"
+        },
+        {
+          "role": "assistant",
+          "content": "Balayage sopii sinulle täydellisesti — se on juuri suunniteltu pehmeään, luonnolliseen tulokseen jossa tyvi kasvaa huomaamattomasti! 🌿\n\nAjan varaaminen onnistuu tästä, ja näet heti saatavilla olevat ajat ensi kuun 12. päivälle!\n\n[VARAUS:{\"service_id\":\"srv-004\",\"service_name\":\"Balayage\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A3",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": "srv-004",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "haluisin pehmeen balayagen niin ettei tyvikasvu näkyis heti, pääsiskö ens kuun 12 päivä"
+        },
+        {
+          "role": "assistant",
+          "content": "Balayage sopii sinulle täydellisesti — se on juuri suunniteltu pehmeään tyvikasvuun ja luonnolliseen lopputulokseen! 🌿\n\nVarataan sinulle aika, niin pääset valitsemaan sopivan ajan!\n\n[VARAUS:{\"service_id\":\"srv-004\",\"service_name\":\"Balayage\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A3",
+      "ajokerta": 3,
+      "lopputulos": "oikein",
+      "saatuId": "srv-004",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "haluisin pehmeen balayagen niin ettei tyvikasvu näkyis heti, pääsiskö ens kuun 12 päivä"
+        },
+        {
+          "role": "assistant",
+          "content": "Balayage on siihen täydellinen valinta — pehmeä tyvi ja luonnollinen uloskasvu ovat juuri sen idea! 🌟\n\nAjan varaaminen onnistuu helposti, klikkaa alta niin pääset valitsemaan sopivan kellonajan ensi kuun 12. päivälle.\n\n[VARAUS:{\"service_id\":\"srv-004\",\"service_name\":\"Balayage\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "A4",
+      "ajokerta": 1,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "oon kokonaan vaalennettu blondi ja omaa tummaa tyveä on noin 2 cm, edellisestä kerrasta 7 viikkoo. saisko tyven taas vaaleeks"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Kuulostaa siltä, että **tyvivaalennus ja sävytys** sopii sinulle täydellisesti — se on juuri tarkoitettu kokonaan vaalennetun blondin tyvikasvun vaalentamiseen, kun kasvua on enintään noin 2,5 cm. Hinta on 189 € ja aikaa menee noin 3 tuntia, ja palveluun sisältyy sävytys, suojaava tehohoito, pesu ja föönaus. 😊\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "A4",
+      "ajokerta": 2,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "oon kokonaan vaalennettu blondi ja omaa tummaa tyveä on noin 2 cm, edellisestä kerrasta 7 viikkoo. saisko tyven taas vaaleeks"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että **tyvivaalennus ja sävytys** sopii sinulle täydellisesti! 🌟 Se on juuri oikea valinta kokonaan vaalennetulle blondille, kun tyvikasvua on noin 2 cm. Palvelu sisältää sävytyksen, suojaavan tehohoidon, pesun ja föönauksen — kesto 3 tuntia ja hinta 189 €.\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "A4",
+      "ajokerta": 3,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "oon kokonaan vaalennettu blondi ja omaa tummaa tyveä on noin 2 cm, edellisestä kerrasta 7 viikkoo. saisko tyven taas vaaleeks"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että **tyvivaalennus ja sävytys** sopii sinulle täydellisesti! 🌟 Se on suunniteltu juuri tähän tilanteeseen — kokonaan vaalennetun blondin tyvikasvun vaalentamiseen, ja 2 cm tyvi on täysin sopiva. Hinta on 189 € ja kesto noin 3 tuntia, ja sävytys sekä tehohoito sisältyvät hintaan.\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "A5",
+      "ajokerta": 1,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "tarvisin harmaiden peiton tyveen, sama keskiruskee ku pituudessa. onks maanantaina aikaa"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Sinulle sopisi **tyviväri** (120 min, 129 €), joka on juuri harmaiden peittoon ja ruskean sävyn ylläpitoon. 😊\n\nHaluatko, että katson sinulle ajan maanantaille?"
+        }
+      ]
+    },
+    {
+      "skenaario": "A5",
+      "ajokerta": 2,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "tarvisin harmaiden peiton tyveen, sama keskiruskee ku pituudessa. onks maanantaina aikaa"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Tähän sopii meillä **tyviväri** (120 min, 129 €), jolla saadaan harmaat peitettyä ja sävy yhtenäiseksi pituuksien kanssa. 😊\n\nHaluatko, että avaan ajanvarauksen maanantaille?"
+        }
+      ]
+    },
+    {
+      "skenaario": "A5",
+      "ajokerta": 3,
+      "lopputulos": "oikein",
+      "saatuId": "srv-007",
+      "muoto": "oikea",
+      "vuoro": 1,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "tarvisin harmaiden peiton tyveen, sama keskiruskee ku pituudessa. onks maanantaina aikaa"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kuulostaa siltä, että **tyviväri** sopii sinulle täydellisesti — se on juuri oikea palvelu harmaiden peittoon ja ruskean sävyn ylläpitoon.\n\nHaluatko varata ajan maanantaille? Käynnistetään varaus niin näet heti vapaat ajat!\n\n[VARAUS:{\"service_id\":\"srv-007\",\"service_name\":\"Tyviväri\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "B1",
+      "ajokerta": 1,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "paljon koko pään raidat maksaa pitkään tukkaan"
+        },
+        {
+          "role": "assistant",
+          "content": "Koko pään raidat maksavat **249 €** ja kestävät noin 4 tuntia — hintaan sisältyy sävytys, suojaava tehohoito, pesu ja föönaus. Haluaisitko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "B1",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "paljon koko pään raidat maksaa pitkään tukkaan"
+        },
+        {
+          "role": "assistant",
+          "content": "Koko pään raidat maksavat **249 €** ja sisältävät sävytyksen, suojaavan tehohoidon, pesun ja föönauksen — kesto on noin 4 tuntia. Hiustenleikkaus ei sisälly hintaan.\n\nHaluaisitko varata ajan? 😊"
+        }
+      ]
+    },
+    {
+      "skenaario": "B1",
+      "ajokerta": 3,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "paljon koko pään raidat maksaa pitkään tukkaan"
+        },
+        {
+          "role": "assistant",
+          "content": "Koko pään raidat maksavat **249 €** ja niihin sisältyy sävytys, suojaava tehohoito, pesu ja föönaus — varaa noin 4 tuntia aikaa. Hinta on sama riippumatta hiusten pituudesta.\n\nHaluaisitko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "B2",
+      "ajokerta": 1,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "haluisin olla blondimpi mut en yhtään tiiä pitäskö ottaa raidat vai balayage"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei, kiva kun otit yhteyttä! 😊 Molemmat sopivat blondaukseen, mutta ero on lopputuloksessa:\n\n**Raidat** antavat terävämmän ja tasaisemman blondin efektin, kun taas **balayage** on pehmeämpi ja luonnollisempi — tyvi jää tummemmaksi ja uloskasvu sulautuu huomaamattomasti.\n\nJotta osaan suositella paremmin — onko hiuksissasi jo vaalennusta ennestään, vai ovatko ne luonnolliset/tummemmat?"
+        }
+      ]
+    },
+    {
+      "skenaario": "B2",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "haluisin olla blondimpi mut en yhtään tiiä pitäskö ottaa raidat vai balayage"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei, tervetuloa Atelier Blondeen! 😊\n\nMolemmat sopivat blondaukseen, mutta eri tarpeisiin — kerro vähän lisää, niin osaan suositella paremmin:\n\nOnko sinulla jo valmiiksi vaaleutta hiuksissa, vai oletko lähtötilanteeltasi tummempi/luonnollinen? Ja haluatko vaalennuksen näkyvän selvästi myös takaosaan ja niskaan asti, vai enemmän kasvojen ympärille ja pintaan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "B2",
+      "ajokerta": 3,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "haluisin olla blondimpi mut en yhtään tiiä pitäskö ottaa raidat vai balayage"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Kiva, että olet löytänyt meille! 😊\n\nKerro vähän lisää tilanteestasi, niin osaan suositella parempaa vaihtoehtoa:\n\n**Ovatko hiuksesi nyt luonnostaan tummemmat vai onko sinulla jo jotain vaaleutta?** Ja haluatko enemmän selkeän kontrastin vai pehmeämmän, luonnollisen lopputuloksen?"
+        }
+      ]
+    },
+    {
+      "skenaario": "B3",
+      "ajokerta": 1,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "oon värjänny kotona mustalla pari vuotta mut haluisin nyt tosi kylmän vaaleen, onnistuuks se yhellä kerralla"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Tosi hieno tavoite, mutta rehellisesti sanottuna — mustasta kotivärjäyksestä kylmään vaaleaan on iso matka, eikä sitä voi tehdä turvallisesti yhdellä kerralla. 😊\n\nTällaisessa tilanteessa tarvitaan ensin **värikonsultaatio** (25 €, 20 min), jossa käydään läpi lähtötilanne ja suunnitellaan realistinen polku kohti haluamaasi lopputulosta — ilman, että hiukset kärsivät.\n\nHaluaisitko varata ensin konsultaatioajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "B3",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "oon värjänny kotona mustalla pari vuotta mut haluisin nyt tosi kylmän vaaleen, onnistuuks se yhellä kerralla"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Se on iso muutos, ja ymmärrän että vaalea houkuttelee!\n\nValitettavasti kotivärin musta ei poistu turvallisesti yhdellä kerralla — liian aggressiivinen vaalennus voisi vahingoittaa hiuksia pahasti. Ennen varsinaista värinkorjausta tarvitaan **värikonsultaatio**, jossa käydään läpi lähtötilanne ja suunnitellaan sopiva etenemistapa juuri sinun hiuksillesi.\n\nHaluaisitko varata ajan värikonsultaatioon? Se kestää 20 minuuttia ja maksaa 25 €. 🌟"
+        }
+      ]
+    },
+    {
+      "skenaario": "B3",
+      "ajokerta": 3,
+      "lopputulos": "oikein",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "oon värjänny kotona mustalla pari vuotta mut haluisin nyt tosi kylmän vaaleen, onnistuuks se yhellä kerralla"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Kiitos kun otit yhteyttä 😊\n\nValitettavasti mustasta kotivärjäyksestä kylmään vaaleaan ei päästä turvallisesti yhdellä kerralla — se vaatii huolellisen värinkorjausprosessin, jotta hiukset pysyvät kunnossa. Ennen kuin voimme suunnitella mitään, tarvitaan ensin **värikonsultaatio** (25 €, 20 min), jossa käymme läpi lähtötilanteesi ja teemme realistisen suunnitelman tavoitteeseen pääsemiseksi.\n\nHaluaisitko varata ajan konsultaatioon? 🌟"
+        }
+      ]
+    },
+    {
+      "skenaario": "C1",
+      "ajokerta": 1,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "voisko varaa sävytyksen ku mun tyvi on ihan tumma"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Sävytys kirkastaa tai muuttaa olemassa olevan blondin sävyä, mutta se ei valitettavasti vaalenna tummaa tyvikasvua.\n\nVoisitko kertoa vähän lisää — onko hiuksesi aiemmin vaalennettu, vai oletko ajatellut muuttaa niitä vaaleammaksi?"
+        },
+        {
+          "role": "user",
+          "content": "pituus on hyvä, haluun vaan jakauksen ja etuosan vaaleeks. tyveä on joku 4 cm ja perjantai kävis"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa siltä, että osapään raidat sopisi sinulle hyvin! 😊 Se käy juuri tähän — raidat tehdään päälliosaan, jakauksen alueelle ja kasvojen ympärille. Hinta on 189 € ja aikaa menee noin 3 tuntia.\n\nHaluatko varata ajan perjantaille?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C1",
+      "ajokerta": 2,
+      "lopputulos": "oikein",
+      "saatuId": "srv-003",
+      "muoto": "oikea",
+      "vuoro": 2,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "voisko varaa sävytyksen ku mun tyvi on ihan tumma"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiitos, että otit yhteyttä!\n\nSävytys ei valitettavasti vaalenna tummaa tyveä — se muuttaa vain olemassa olevan blondin sävyä. Jotta saisit tyveen vaaleutta, tarvitset vaalennuskäsittelyn.\n\nVoisitko kertoa vähän lisää tilanteestasi? Onko hiuksesi aiemmin vaalennettu kokonaan tyvestä asti, vai oletko esimerkiksi raidoittanut hiuksesi? Ja kuinka pitkä tyvikasvusi on suunnilleen?"
+        },
+        {
+          "role": "user",
+          "content": "pituus on hyvä, haluun vaan jakauksen ja etuosan vaaleeks. tyveä on joku 4 cm ja perjantai kävis"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa hyvältä! Sinulle sopisi **osapään raidat** — se käsittelee juuri jakauksen alueen ja kasvoja ympäröivän alueen. Hinta on 189 € ja kesto noin 3 tuntia.\n\nHaluatko varata ajan perjantaille? 😊\n\n[VARAUS:{\"service_id\":\"srv-003\",\"service_name\":\"Osapään raidat\"}]"
+        }
+      ]
+    },
+    {
+      "skenaario": "C1",
+      "ajokerta": 3,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "voisko varaa sävytyksen ku mun tyvi on ihan tumma"
+        },
+        {
+          "role": "assistant",
+          "content": "Heippa! 😊 Sävytys ei valitettavasti vaalenna tummaa tyveä — se vain muuttaa tai kirkastaa olemassa olevaa blondia.\n\nVoisitko kertoa vähän lisää? Haluatko vaaleutta kaikkialle vai esimerkiksi pehmeämpää balayage-tyylistä lopputulosta?"
+        },
+        {
+          "role": "user",
+          "content": "pituus on hyvä, haluun vaan jakauksen ja etuosan vaaleeks. tyveä on joku 4 cm ja perjantai kävis"
+        },
+        {
+          "role": "assistant",
+          "content": "Kuulostaa hyvältä! Sinulle sopisi **osapään raidat** — se käsittelee juuri jakauksen alueen ja kasvojen ympäryksen. Hinta on 189 € ja aikaa menee noin 3 tuntia. Haluatko varata ajan perjantaille?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 1,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Tyviväri sopii mainiosti harmaiden peittoon tai ruskean sävyn ylläpitoon. Haluatko varata ajan?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Ah, tässä tapauksessa sinulle sopii paremmin **tyvivaalennus ja sävytys**, koska hiuksesi on vaalennettu kokonaan ja tyvikasvua on noin 2 cm! 😊 Se kestää 180 min ja maksaa 189 €. Haluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 2,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! Kiva, että otat yhteyttä! 😊\n\nHaluatko tyvivärin harmaiden peittoon vai ruskean sävyn ylläpitoon?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Ahaa, kiitos tiedoista! 😊 Kuulostat siis enemmän tyvivaalennuksen tarpeessa kuin tyvivärin — tyviväri ei vaalenna tummaa tyveä, mutta tyvivaalennus ja sävytys sopisi sinulle täydellisesti! Se sisältää tyvialueen vaalennuksen, sävytyksen, suojaavan tehohoidon, pesun ja föönauksen. Hinta on 189 € ja kesto noin 3 tuntia.\n\nHaluatko varata ajan?"
+        }
+      ]
+    },
+    {
+      "skenaario": "C2",
+      "ajokerta": 3,
+      "lopputulos": "puuttuva_varaus",
+      "saatuId": null,
+      "muoto": null,
+      "vuoro": null,
+      "idVuoto": false,
+      "keskustelu": [
+        {
+          "role": "user",
+          "content": "heii tarvisin tyvivärin"
+        },
+        {
+          "role": "assistant",
+          "content": "Hei! 😊 Kiva, että otat yhteyttä!\n\nVarmistetaan vielä, että löydät juuri sinulle sopivan palvelun — tyviväriä käytetään yleensä harmaiden peittoon tai ruskean sävyn ylläpitoon. Onko tämä sinun tilanteesi, vai onko kenties kyse vaaleampien hiusten tyvikasvun vaalentamisesta?"
+        },
+        {
+          "role": "user",
+          "content": "oon siis kokonaan platinablondi ja omaa tummaa tyveä on 2 cm, edellisestä vaalennuksesta noin 7 viikkoo"
+        },
+        {
+          "role": "assistant",
+          "content": "Sulla sopii siis **tyvivaalennus ja sävytys** — se on juuri tähän tilanteeseen, kun koko pää on vaalennettu ja tyveä on kasvanut pieni määrä! 🌟 Palvelu sisältää tyvivaalennuksen, sävytyksen, suojaavan tehohoidon sekä pesun ja föönauksen, ja se kestää noin 3 tuntia hintaan 189 €.\n\nHaluatko varata ajan? 😊"
+        }
+      ]
+    }
+  ]
+}
