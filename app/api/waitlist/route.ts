@@ -1,30 +1,25 @@
 import { createAdminClient } from '@/lib/supabase/server'
+import { supabaseErr } from '@/lib/log-error'
+import { waitlistRequestSchema, zodFieldList } from '@/lib/validation'
 
 // POST /api/waitlist
 // Lisää asiakkaan jonotuslistalle palvelulle.
 export async function POST(request: Request) {
-  let body: {
-    business_id: string
-    service_id: string
-    customer_name: string
-    customer_email: string
-  }
-
+  let rawBody: unknown
   try {
-    body = await request.json()
+    rawBody = await request.json()
   } catch {
+    console.error('[waitlist] Virheellinen JSON-body')
     return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
   }
 
-  const { business_id, service_id, customer_name, customer_email } = body
-
-  if (!business_id || !service_id || !customer_name || !customer_email) {
-    return Response.json({ error: 'Puutteelliset tiedot.' }, { status: 400 })
+  const parsed = waitlistRequestSchema.safeParse(rawBody)
+  if (!parsed.success) {
+    console.error('[waitlist] Virheellinen syöte, kentät:', zodFieldList(parsed.error))
+    return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer_email)) {
-    return Response.json({ error: 'Virheellinen sähköpostiosoite.' }, { status: 400 })
-  }
+  const { business_id, service_id, customer_name, customer_email } = parsed.data
 
   const supabase = createAdminClient()
 
@@ -62,7 +57,7 @@ export async function POST(request: Request) {
   })
 
   if (error) {
-    console.error('Jonotuslistalle lisääminen epäonnistui:', error)
+    console.error('Jonotuslistalle lisääminen epäonnistui:', supabaseErr(error))
     return Response.json({ error: 'Jonotuslistalle liittyminen epäonnistui.' }, { status: 500 })
   }
 

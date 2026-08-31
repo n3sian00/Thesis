@@ -2,37 +2,31 @@ import { anthropic, CLAUDE_MODEL, buildSystemPrompt } from '@/lib/claude'
 import { createAdminClient } from '@/lib/supabase/server'
 import { hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing'
-
-// Viestityyppi — sama rakenne kuin Anthropicin API odottaa
-type Message = {
-  role: 'user' | 'assistant'
-  content: string
-}
+import { supabaseErr, anthropicErr } from '@/lib/log-error'
+import { chatRequestSchema, zodFieldList, type ChatMessage } from '@/lib/validation'
 
 export async function POST(request: Request) {
-  console.log('[chat] POST alkaa')
-
-  let body: { messages: Message[]; businessId: string; locale?: string }
+  let rawBody: unknown
   try {
-    body = await request.json()
-  } catch (err) {
-    console.error('[chat] request.json() epäonnistui:', err)
+    rawBody = await request.json()
+  } catch {
+    console.error('[chat] Virheellinen JSON-body')
     return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
   }
 
-  const { messages, businessId } = body
-  const locale = hasLocale(routing.locales, body.locale) ? body.locale : routing.defaultLocale
-
-  if (!messages?.length || !businessId) {
-    console.error('[chat] Puutteelliset parametrit', { messages: messages?.length, businessId })
-    return Response.json({ error: 'Puutteelliset parametrit.' }, { status: 400 })
+  const parsed = chatRequestSchema.safeParse(rawBody)
+  if (!parsed.success) {
+    console.error('[chat] Virheellinen syöte, kentät:', zodFieldList(parsed.error))
+    return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
   }
 
-  console.log('[chat] ANTHROPIC_API_KEY asetettu:', !!process.env.ANTHROPIC_API_KEY)
+  const { messages, businessId } = parsed.data
+  const locale = hasLocale(routing.locales, parsed.data.locale)
+    ? parsed.data.locale
+    : routing.defaultLocale
 
   // Haetaan yrityksen tiedot ja palvelut palvelinpuolella (admin client ohittaa RLS)
   const supabase = createAdminClient()
-  console.log('[chat] Supabase admin client luotu')
 
   const { data: business, error: bizError } = await supabase
     .from('businesses')
@@ -40,13 +34,11 @@ export async function POST(request: Request) {
     .eq('id', businessId)
     .single()
 
-  if (bizError) console.error('[chat] Yrityksen haku epäonnistui:', bizError)
+  if (bizError) console.error('[chat] Yrityksen haku epäonnistui:', supabaseErr(bizError))
 
   if (!business) {
     return Response.json({ error: 'Yritystä ei löydy.' }, { status: 404 })
   }
-
-  console.log('[chat] Yritys löytyi:', business.name)
 
   const { data: services } = await supabase
     .from('services')
@@ -55,22 +47,17 @@ export async function POST(request: Request) {
     .eq('active', true)
     .order('name')
 
-  console.log('[chat] Palveluita löytyi:', services?.length ?? 0)
-
   const systemPrompt = buildSystemPrompt(business, services ?? [], locale)
 
   // Puhdistetaan viestihistoria: poistetaan tyhjät viestit ja rajoitetaan pituus
-  const claudeMessages = messages
+  const claudeMessages: ChatMessage[] = messages
     .filter((m) => m.content.trim().length > 0)
     .slice(-20)
-
-  console.log('[chat] Lähetetään Claudelle', claudeMessages.length, 'viestiä, malli:', CLAUDE_MODEL)
 
   const encoder = new TextEncoder()
 
   // Async generaattori tuottaa tekstipalat Anthropic-streamista.
   async function* textChunks() {
-    console.log('[chat] textChunks: aloitetaan Anthropic-stream')
     try {
       const anthropicStream = anthropic.messages.stream({
         model: CLAUDE_MODEL,
@@ -87,9 +74,8 @@ export async function POST(request: Request) {
           yield encoder.encode(event.delta.text)
         }
       }
-      console.log('[chat] textChunks: stream valmis')
     } catch (err) {
-      console.error('[chat] textChunks: Anthropic-virhe:', err)
+      console.error('[chat] textChunks: Anthropic-virhe:', anthropicErr(err))
       throw err
     }
   }
@@ -105,14 +91,12 @@ export async function POST(request: Request) {
             controller.enqueue(value)
           }
         } catch (err) {
-          console.error('[chat] iteratorToStream pull-virhe:', err)
+          console.error('[chat] iteratorToStream pull-virhe:', anthropicErr(err))
           controller.error(err)
         }
       },
     })
   }
-
-  console.log('[chat] Palautetaan streaming-vastaus')
 
   const stream = iteratorToStream(textChunks())
 

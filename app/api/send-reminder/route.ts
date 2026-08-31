@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/server'
 import { sendBookingReminderToCustomer } from '@/lib/email'
+import { supabaseErr } from '@/lib/log-error'
 
 // GET /api/send-reminder  ← Vercel Cron käyttää GET-pyyntöä
 // POST /api/send-reminder ← yhteensopivuus manuaalikutsuille
@@ -43,7 +44,7 @@ async function handleReminder(request: Request): Promise<Response> {
     .lte('starts_at', windowEnd.toISOString())
 
   if (fetchError) {
-    console.error('Varausten haku epäonnistui:', fetchError)
+    console.error('Varausten haku epäonnistui:', supabaseErr(fetchError))
     return Response.json({ error: 'Varausten haku epäonnistui.' }, { status: 500 })
   }
 
@@ -90,7 +91,7 @@ async function handleReminder(request: Request): Promise<Response> {
         .eq('id', booking.id)
 
       if (updateError) {
-        console.error(`reminder_sent-päivitys epäonnistui (id: ${booking.id}):`, updateError)
+        console.error(`reminder_sent-päivitys epäonnistui (id: ${booking.id}):`, supabaseErr(updateError))
       }
 
       sent++

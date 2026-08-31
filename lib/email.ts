@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+import { resendErr } from '@/lib/log-error'
 
 const FROM = process.env.EMAIL_FROM ?? 'noreply@kauneusai.fi'
 
@@ -44,7 +45,7 @@ ${businessName}`,
   })
 
   if (error) {
-    console.error('Varausvahvistuksen lähetys epäonnistui:', error)
+    console.error('Varausvahvistuksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true
@@ -78,7 +79,7 @@ Asiakas: ${customerName}${customerPhone ? `\nPuhelin: ${customerPhone}` : ''}${c
   })
 
   if (error) {
-    console.error('Yrittäjän ilmoituksen lähetys epäonnistui:', error)
+    console.error('Yrittäjän ilmoituksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true
@@ -117,7 +118,7 @@ ${businessName}`,
   })
 
   if (error) {
-    console.error('Peruutusilmoituksen lähetys epäonnistui:', error)
+    console.error('Peruutusilmoituksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true
@@ -157,7 +158,7 @@ ${businessName}`,
   })
 
   if (error) {
-    console.error('Siirtoilmoituksen lähetys epäonnistui:', error)
+    console.error('Siirtoilmoituksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true
@@ -195,7 +196,7 @@ ${businessName}`,
   })
 
   if (error) {
-    console.error('Päivitysilmoituksen lähetys epäonnistui:', error)
+    console.error('Päivitysilmoituksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true
@@ -233,7 +234,7 @@ ${businessName}`,
   })
 
   if (error) {
-    console.error('Jonotuslistailmoituksen lähetys epäonnistui:', error)
+    console.error('Jonotuslistailmoituksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true
@@ -272,7 +273,7 @@ ${businessName}`,
   })
 
   if (error) {
-    console.error('Muistutuksen lähetys epäonnistui:', error)
+    console.error('Muistutuksen lähetys epäonnistui:', resendErr(error))
     return false
   }
   return true

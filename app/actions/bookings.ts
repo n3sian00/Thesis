@@ -9,6 +9,7 @@ import {
   sendBookingUpdateToCustomer,
 } from '@/lib/email'
 import { formatDateTimeHelsinki } from '@/lib/dates'
+import { supabaseErr, resendErr } from '@/lib/log-error'
 import { revalidatePath } from 'next/cache'
 
 // Peruuttaa varauksen ja lähettää asiakkaalle ilmoituksen.
@@ -49,7 +50,7 @@ export async function cancelBookingAction(formData: FormData): Promise<void> {
     .eq('business_id', business.id)
 
   if (error) {
-    console.error('Varauksen peruutus epäonnistui:', error)
+    console.error('Varauksen peruutus epäonnistui:', supabaseErr(error))
     return
   }
 
@@ -101,7 +102,7 @@ export async function cancelBookingAction(formData: FormData): Promise<void> {
         )
       }),
   ]).catch((err) => {
-    console.error('Sähköpostilähetys epäonnistui (varaus peruutettu):', err)
+    console.error('Sähköpostilähetys epäonnistui (varaus peruutettu):', resendErr(err))
   })
 }
 
@@ -180,7 +181,7 @@ export async function rescheduleBookingAction(
     .eq('business_id', business.id)
 
   if (error) {
-    console.error('Varauksen siirto epäonnistui:', error)
+    console.error('Varauksen siirto epäonnistui:', supabaseErr(error))
     return 'Varauksen siirto epäonnistui. Yritä uudelleen.'
   }
 
@@ -197,7 +198,7 @@ export async function rescheduleBookingAction(
       businessName: business.name,
     }),
   ]).catch((err) => {
-    console.error('Sähköpostilähetys epäonnistui (varaus siirretty):', err)
+    console.error('Sähköpostilähetys epäonnistui (varaus siirretty):', resendErr(err))
   })
 
   return null
@@ -256,7 +257,7 @@ export async function updateBookingDetailsAction(
     .eq('business_id', business.id)
 
   if (error) {
-    console.error('Varauksen tietojen tallennus epäonnistui:', error)
+    console.error('Varauksen tietojen tallennus epäonnistui:', supabaseErr(error))
     return 'Varauksen tietojen tallennus epäonnistui. Yritä uudelleen.'
   }
 
@@ -272,7 +273,7 @@ export async function updateBookingDetailsAction(
       businessName: business.name,
     }),
   ]).catch((err) => {
-    console.error('Sähköpostilähetys epäonnistui (varaus päivitetty):', err)
+    console.error('Sähköpostilähetys epäonnistui (varaus päivitetty):', resendErr(err))
   })
 
   return null

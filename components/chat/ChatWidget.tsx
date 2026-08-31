@@ -191,7 +191,9 @@ export default function ChatWidget({ business, services }: Props) {
         if (err instanceof DOMException && err.name === 'AbortError') {
           return
         }
-        console.error('[ChatWidget] Streaming error:', err)
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('[ChatWidget] Streaming error:', err)
+        }
         setMessages((prev) => [
           ...prev.slice(0, -1),
           { role: 'assistant', content: 'Pahoittelen, jokin meni pieleen. Yritä uudelleen.' },

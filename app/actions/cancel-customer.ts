@@ -4,6 +4,7 @@ import { redirect } from '@/i18n/navigation'
 import { getLocale } from 'next-intl/server'
 import { createAdminClient } from '@/lib/supabase/server'
 import { verifyCancelToken } from '@/lib/tokens'
+import { resendErr } from '@/lib/log-error'
 import {
   sendBookingCancellationToCustomer,
   sendWaitlistNotificationToCustomer,
@@ -113,7 +114,7 @@ export async function cancelCustomerBookingAction(formData: FormData): Promise<v
         )
       }),
   ]).catch((err) => {
-    console.error('Sähköpostilähetys epäonnistui (asiakkaan peruutus):', err)
+    console.error('Sähköpostilähetys epäonnistui (asiakkaan peruutus):', resendErr(err))
   })
 
   redirect({ href: `/cancel?id=${bookingId}&token=${token}&cancelled=1`, locale })

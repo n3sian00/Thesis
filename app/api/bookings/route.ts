@@ -5,6 +5,8 @@ import { helsinkiToUTC } from '@/lib/dates'
 import { generateCancelToken } from '@/lib/tokens'
 import { hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing'
+import { supabaseErr, resendErr } from '@/lib/log-error'
+import { bookingRequestSchema, zodFieldList } from '@/lib/validation'
 
 // Vapaiden aikaslottien väli minuuteissa
 const SLOT_INTERVAL = 30
@@ -118,7 +120,20 @@ export async function GET(request: Request) {
 // --- POST /api/bookings ---
 // Luo uuden varauksen Supabaseen
 export async function POST(request: Request) {
-  const body = await request.json()
+  let rawBody: unknown
+  try {
+    rawBody = await request.json()
+  } catch {
+    console.error('[bookings] Virheellinen JSON-body')
+    return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
+  }
+
+  const parsed = bookingRequestSchema.safeParse(rawBody)
+  if (!parsed.success) {
+    console.error('[bookings] Virheellinen syöte, kentät:', zodFieldList(parsed.error))
+    return Response.json({ error: 'Virheellinen pyyntö.' }, { status: 400 })
+  }
+
   const {
     business_id,
     service_id,
@@ -127,27 +142,11 @@ export async function POST(request: Request) {
     customer_phone,
     customer_notes,
     starts_at,
-    locale,
-  } = body as {
-    business_id: string
-    service_id: string
-    customer_name: string
-    customer_email: string
-    customer_phone?: string
-    customer_notes?: string
-    starts_at: string
-    locale?: string
-  }
+  } = parsed.data
 
-  if (!business_id || !service_id || !customer_name || !customer_email || !starts_at) {
-    return Response.json({ error: 'Puutteelliset tiedot.' }, { status: 400 })
-  }
-
-  const bookingLocale = hasLocale(routing.locales, locale) ? locale : routing.defaultLocale
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer_email)) {
-    return Response.json({ error: 'Virheellinen sähköpostiosoite.' }, { status: 400 })
-  }
+  const bookingLocale = hasLocale(routing.locales, parsed.data.locale)
+    ? parsed.data.locale
+    : routing.defaultLocale
 
   const supabase = createAdminClient()
 
@@ -209,7 +208,7 @@ export async function POST(request: Request) {
     .single()
 
   if (error) {
-    console.error('Varauksen luonti epäonnistui:', error)
+    console.error('Varauksen luonti epäonnistui:', supabaseErr(error))
     return Response.json({ error: 'Varauksen luonti epäonnistui.' }, { status: 500 })
   }
 
@@ -268,7 +267,7 @@ export async function POST(request: Request) {
           ]
         : []),
     ]).catch((emailError) => {
-      console.error('Sähköpostilähetys epäonnistui (varaus tallennettu):', emailError)
+      console.error('Sähköpostilähetys epäonnistui (varaus tallennettu):', resendErr(emailError))
     })
   )
 
